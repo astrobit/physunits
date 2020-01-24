@@ -24,16 +24,16 @@ clean:
 	-rm *.sty
 
 localinstall: all
-	mkdir -p /usr/share/local/texlive/texmf-local/tex/latex/$(pkgname)
-	mkdir -p /usr/share/local/texlive/texmf-local/doc/latex/$(pkgname)
-	cp $(pkgname).sty /usr/share/local/texlive/texmf-local/tex/latex/$(pkgname)/.
-	cp $(pkgname).pdf /usr/share/local/texlive/texmf-local/doc/latex/$(pkgname)/.
+	mkdir -p /usr/share/texlive/texmf-local/tex/latex/$(pkgname)
+	mkdir -p /usr/share/texlive/texmf-local/doc/latex/$(pkgname)
+	cp $(pkgname).sty /usr/share/texlive/texmf-local/tex/latex/$(pkgname)/.
+	cp $(pkgname).pdf /usr/share/texlive/texmf-local/doc/latex/$(pkgname)/.
 	texhash
 
 distinstall: all
-	mkdir -p /usr/share/local/texlive/texmf-dist/tex/latex/$(pkgname)
-	mkdir -p /usr/share/local/texlive/texmf-dist/doc/latex/$(pkgname)
-	cp $(pkgname).sty /usr/share/local/texlive/texmf-dist/tex/latex/$(pkgname)/.
-	cp $(pkgname).pdf /usr/share/local/texlive/texmf-dist/doc/latex/$(pkgname)/.
+	mkdir -p /usr/share/texlive/texmf-dist/tex/latex/$(pkgname)
+	mkdir -p /usr/share/texlive/texmf-dist/doc/latex/$(pkgname)
+	cp $(pkgname).sty /usr/share/texlive/texmf-dist/tex/latex/$(pkgname)/.
+	cp $(pkgname).pdf /usr/share/texlive/texmf-dist/doc/latex/$(pkgname)/.
 	texhash
 
