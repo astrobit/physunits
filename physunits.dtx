@@ -116,7 +116,7 @@
 % |\micro| is a special macro that can be used for the prefix $\mathrm{\mu}$
 % (micro-). Internally it just uses \textbackslash mu. 
 %
-% \section{Electricity \& Magnetism}
+% \subsection{Electricity \& Magnetism}
 %
 % \DescribeMacro{\V}
 % |\V| is a macro for Volts (V).
@@ -130,6 +130,11 @@
 %
 % \DescribeMacro{\Coulomb}
 % |\Coulomb| is a macro for Coulombs (C).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Ohm}
+% |\Ohm| is a macro for Ohms ($\Omega$).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
@@ -158,7 +163,7 @@
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
-% \section{Electricity \& Magnetism}
+% \subsection{Energy}
 %
 % \DescribeMacro{\eV}
 % |\eV| is a macro for electron Volts (eV).
@@ -201,7 +206,7 @@
 % \DescribeMacro{\tnt}
 % |\tnt| is a macro for tons of TNT).
 %
-% \section{Power}
+% \subsection{Power}
 %
 % \DescribeMacro{\Watt}
 % |\Watt| is a macro for Watts (W).
@@ -217,7 +222,7 @@
 % \DescribeMacro{\hp}
 % |\hp| is a macro for Horsepower (hp).
 %
-% \section{Distance}
+% \subsection{Distance}
 %
 % \DescribeMacro{\meter}
 % |\meter| is a macro for meters (m).
@@ -260,7 +265,7 @@
 % \DescribeMacro{\mi}
 % |\mi| is a macro for miles (mi).
 %
-% \section{Time}
+% \subsection{Time}
 %
 % \DescribeMacro{\s}
 % |\s| is a macro for seconds (s).
@@ -286,7 +291,7 @@
 % \DescribeMacro{\Day}
 % |\Day| is a macro for days (d).
 %
-% \section{Mass}
+% \subsection{Mass}
 %
 % \DescribeMacro{\gm}
 % |\gm| is a macro for grams (g).
@@ -302,7 +307,7 @@
 % \DescribeMacro{\amu}
 % |\amu| is a macro for atomic mass units (amu).
 %
-% \section{Force}
+% \subsection{Force}
 %
 % \DescribeMacro{\N}
 % |\N| is a macro for Newtons (N).
@@ -322,7 +327,7 @@
 % \DescribeMacro{\lbf}
 % |\lbf| is a macro for pounds of force (lbf).
 %
-% \section{Velocity}
+% \subsection{Velocity}
 %
 % \DescribeMacro{\kmps}
 % |\kmps| is a macro for kilometers per second ($\kmps$).
@@ -341,7 +346,7 @@
 % \DescribeMacro{\kts}
 % |\kts| is a macro for knots ($\kts$).
 %
-% \section{Acceleration}
+% \subsection{Acceleration}
 %
 % \DescribeMacro{\mpss}
 % |\mpss| is a macro for acceleration in meters per second squared ($\mpss$).
@@ -355,7 +360,7 @@
 % |\ftpss| is a macro for acceleration in feet per second squared ($\ftpss$).
 %
 %
-% \section{Temperature}
+% \subsection{Temperature}
 %
 % \DescribeMacro{\K}
 % |\K| is a macro for Kelvin (K).
@@ -376,12 +381,12 @@
 % \DescribeMacro{\Fahrenheit}
 % |\Fahrenheit| is a macro for degrees Fahrenheit $(\Fahrenheit)$.
 %
-% \section{Angular Velocity}
+% \subsection{Angular Velocity}
 %
 % \DescribeMacro{\rpm}
 % |\rpm| is a macro for revolutions per minute $(\rpm)$.
 %
-% \section{Frequency}
+% \subsection{Frequency}
 %
 % \DescribeMacro{\Hz}
 % |\Hz| is a macro for Hertz (Hz).
@@ -389,7 +394,7 @@
 % supplied, no prefix will be prepended.
 %
 %
-% \section{Pressure}
+% \subsection{Pressure}
 %
 % \DescribeMacro{\barP}
 % |\barP| is a macro for bar (bar). (The use of barP instead of just bar is due
@@ -428,7 +433,7 @@
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
-% \section{Other}
+% \subsection{Other}
 %
 % \DescribeMacro{\mol}
 % |\mol| is a macro for moles (mol).
@@ -440,7 +445,7 @@
 \makeatletter
 % \section{Implementation}
 %
-% \section{Special}
+% \subsection{Special}
 %
 % \begin{macro}{\units@separator}
 % |\units@separator| is a special macro used to set the spacing between a
@@ -462,7 +467,7 @@
 % \end{macro}
 %
 %
-% \section{Electricity \& Magnetism}
+% \subsection{Electricity \& Magnetism}
 %
 % \begin{macro}{\V}
 % |\V| is a macro for Volts (V).
@@ -494,6 +499,17 @@
 %    \begin{macrocode}
 \DeclareRobustCommand{\Coulomb}[1][ ]{\ensuremath{%
 \expandafter\units@separator\mathrm{#1C}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Ohm}
+% |\Ohm| is a macro for Ohms ($\Omega$).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Ohm}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1\Omega}}}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -552,8 +568,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-%
-% \section{Electricity \& Magnetism}
+% \subsection{Energy}
 %
 % \begin{macro}{\eV}
 % |\eV| is a macro for electron Volts (eV).
@@ -666,7 +681,7 @@
 % \end{macro}
 %
 %
-% \section{Power}
+% \subsection{Power}
 %
 % \begin{macro}{\Watt}
 % |\Watt| is a macro for Watts (W).
@@ -707,7 +722,7 @@
 % \end{macro}
 %
 %
-% \section{Distance}
+% \subsection{Distance}
 %
 % \begin{macro}{\meter}
 % |\meter| is a macro for meters (m).
@@ -817,7 +832,7 @@
 % \end{macro}
 %
 %
-% \section{Time}
+% \subsection{Time}
 %
 % \begin{macro}{\s}
 % |\s| is a macro for seconds (s).
@@ -880,7 +895,7 @@
 % \end{macro}
 %
 %
-% \section{Mass}
+% \subsection{Mass}
 %
 % \begin{macro}{\gm}
 % |\gm| is a macro for grams (g).
@@ -922,7 +937,7 @@
 % \end{macro}
 %
 %
-% \section{Force}
+% \subsection{Force}
 %
 % \begin{macro}{\N}
 % |\N| is a macro for Newtons (N).
@@ -967,13 +982,12 @@
 % \end{macro}
 %
 %
-% \section{Velocity}
+% \subsection{Velocity}
 %
 % \begin{macro}{\kmps}
 % |\kmps| is a macro for kilometers per second ($\kmps$).
 %
 %    \begin{macrocode}
-
 \DeclareRobustCommand{\kmps}{\ensuremath{%
 \expandafter\units@separator\mathrm{km}%
 \expandafter\units@separator\mathrm{s}^{-1}}}
@@ -1022,7 +1036,7 @@
 % \end{macro}
 %
 %
-% \section{Acceleration}
+% \subsection{Acceleration}
 %
 % \begin{macro}{\mpss}
 % |\mpss| is a macro for acceleration in meters per second squared ($\mpss$).
@@ -1057,7 +1071,7 @@
 % \end{macro}
 %
 %
-% \section{Temperature}
+% \subsection{Temperature}
 %
 % \begin{macro}{\K}
 % |\K| is a macro for Kelvin (K).
@@ -1109,7 +1123,7 @@
 % \end{macro}
 %
 %
-% \section{Angular Velocity}
+% \subsection{Angular Velocity}
 %
 % \begin{macro}{\rpm}
 % |\rpm| is a macro for revolutions per minute $(\rpm)$.
@@ -1122,7 +1136,7 @@
 %    \end{macrocode}
 % \end{macro}
 %
-% \section{Frequency}
+% \subsection{Frequency}
 %
 % \begin{macro}{\Hz}
 % |\Hz| is a macro for Hertz (Hz).
@@ -1137,7 +1151,7 @@
 % \end{macro}
 %
 %
-% \section{Pressure}
+% \subsection{Pressure}
 %
 % \begin{macro}{\barP}
 % |\barP| is a macro for bar (bar). (The use of barP instead of just bar is due
@@ -1146,7 +1160,6 @@
 % supplied, no prefix will be prepended.
 %
 %    \begin{macrocode}
-
 \DeclareRobustCommand{\barP}[1][ ]{\ensuremath{%
 \expandafter\units@separator\mathrm{#1bar}}}
 %    \end{macrocode}
@@ -1232,7 +1245,7 @@
 % \end{macro}
 %
 %
-% \section{Other}
+% \subsection{Other}
 %
 % \begin{macro}{\mol}
 % |\mol| is a macro for moles (mol).
