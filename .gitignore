@@ -1,0 +1,12 @@
+*.aux
+*.pdf
+*.log
+*.idx
+*.glo
+*.dvi
+*.sty
+*.gls
+*.ind
+*.glo
+*.ilg
+

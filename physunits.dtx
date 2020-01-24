@@ -1,0 +1,1250 @@
+%	\iffalse meta-comment
+%
+%	Copyright (C) 2020 by Brian W. Mulligan <bwmulligan@astronaos.com>
+% -----------------------------------------------------------
+%
+% This file may be distributed and/or modified under the conditions of
+% the LaTeX Project Public License, either version 1.3c of this license
+% or (at your option) any later version. The latest version of this
+% license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2006/05/20 or later.
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{physunits.dtx}
+%</driver>
+%<package>\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+%<package> \ProvidesPackage{physunits}
+%<*package>
+    [2020/01/22 v1.0 Physical units package]
+%</package>
+%<package>\ProcessOptions\relax
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage{physunits}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\OnlyDescription
+\begin{document}
+\DocInput{physunits.dtx}
+\PrintChanges
+\PrintIndex
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+% \changes{v1.0}{2020/01/23}{Initial version}
+%
+% \GetFileInfo{physunits.dtx}
+% \def\fileversion{v1.0}
+% \def\filedate{2020/01/23}
+%
+% \DoNotIndex{\DeclareRobustCommand,\newenvironment,\DeclareRobustCommand,\left,\right,\textbf,\mathrm}
+%
+% \title{The \textsf{physunits} package\thanks{This document corresponds to \textsf{physunits}~\fileversion, dated \filedate.}}
+% \author{Brian W. Mulligan \\ \texttt{bwmulligan@astronaos.com}}
+%
+% \maketitle
+%
+% \section{Introduction}
+%
+%
+% This package consists of several macros that are shorthand for a variety of
+% physical units that are commonly used in introductory level physics and 
+% astronomy classes. 
+%
+% \section{Naming Convention}
+%
+% most macros consist of just the commonly used letter or unit, e.g. 
+% \textbackslash m for 
+% meters. In cases where the simple form of the unit conflicts with an existing
+% \LaTeX~macro, then the full word is used, starting with a upper-case letter,
+% e.g. \textbackslash Coulomb.
+%
+% One notable exception to the above naming convention is the use of 
+% \textbackslash gm for
+% grams, instead of \textbackslash g or \textbackslash Gram.
+%
+% \section{Base and Prefixes}
+%
+% Most units are in the base unit only, but some very commonly used prefixes
+% are available as part of the macro, e.g. \textbackslash kg for kilogram, 
+% \textbackslash cm for centimeter.
+% For base units, each macro accepts one option that can be used to specify
+% the prefix, for example \textbackslash m[n] will result in nm. The macros 
+% enforce math
+% mode, so \textbackslash m[\textbackslash micro] will result in 
+% $\mathrm{\mu m}$.
+%
+%
+% \section{Macro Usage}
+%
+%
+% \subsection{Special Macros}
+%
+%
+% \DescribeMacro{\units@separator}
+% |\units@separator| is a special macro used to set the spacing between a
+% quantity and the associated units.
+%
+% \DescribeMacro{\micro}
+% |\micro| is a special macro that can be used for the prefix $\mathrm{\mu}$
+% (micro-). Internally it just uses \textbackslash mu. 
+%
+% \section{Electricity \& Magnetism}
+%
+% \DescribeMacro{\V}
+% |\V| is a macro for Volts (V).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Volt}
+% |\Volt| is a macro for Volts (V).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Coulomb}
+% |\Coulomb| is a macro for Coulombs (C).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Amp}
+% |\Amp| is a macro for Amperes (A).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Farad}
+% |\Farad| is a macro for Farads (F).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Tesla}
+% |\Tesla| is a macro for Teslas (T).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Gauss}
+% |\Gauss| is a macro for Gauss (G).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Henry}
+% |\Henry| is a macro for Henrys (H).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \section{Electricity \& Magnetism}
+%
+% \DescribeMacro{\eV}
+% |\eV| is a macro for electron Volts (eV).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\keV}
+% |\keV| is a macro for kilo-electron Volts (keV).
+%
+% \DescribeMacro{\MeV}
+% |\MeV| is a macro for mega-electron Volts (MeV).
+%
+% \DescribeMacro{\J}
+% |\J| is a macro for Joules (J).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Joule}
+% |\Joule| is a macro for Joules (J).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\erg}
+% |\erg| is a macro for ergs (erg).
+%
+% \DescribeMacro{\kcal}
+% |\kcal| is a macro for kilo-calories (kcal).
+%
+% \DescribeMacro{\Cal}
+% |\Cal| is a macro for kilo=calories (Cal).
+%
+% \DescribeMacro{\calorie}
+% |\calorie| is a macro for calories (cal).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\BTU}
+% |\BTU| is a macro for British Thermal Units (BTU).
+%
+% \DescribeMacro{\tnt}
+% |\tnt| is a macro for tons of TNT).
+%
+% \section{Power}
+%
+% \DescribeMacro{\Watt}
+% |\Watt| is a macro for Watts (W).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\hpi}
+% |\hpi| is a macro for Imperial Horsepower (hp(I)).
+%
+% \DescribeMacro{\hpi}
+% |\hpi| is a macro for Metric Horsepower (hp(M)).
+%
+% \DescribeMacro{\hp}
+% |\hp| is a macro for Horsepower (hp).
+%
+% \section{Distance}
+%
+% \DescribeMacro{\meter}
+% |\meter| is a macro for meters (m).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\m}
+% |\m| is a macro for meters (m).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\km}
+% |\km| is a macro for kilometers (km).
+%
+% \DescribeMacro{\au}
+% |\au| is a macro for astronmical units (au).
+%
+% \DescribeMacro{\pc}
+% |\pc| is a macro for parsecs (pc).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\ly}
+% |\ly| is a macro for light-years (ly).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\cm}
+% |\cm| is a macro for centimeters (cm).
+%
+% \DescribeMacro{\nm}
+% |\nm| is a macro for nanometers (nm).
+%
+% \DescribeMacro{\ft}
+% |\ft| is a macro for feet (ft).
+%
+% \DescribeMacro{\inch}
+% |\inch| is a macro for inches (in).
+%
+% \DescribeMacro{\mi}
+% |\mi| is a macro for miles (mi).
+%
+% \section{Time}
+%
+% \DescribeMacro{\s}
+% |\s| is a macro for seconds (s).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Sec}
+% |\Sec| is a macro for seconds (s).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Min}
+% |\Min| is a macro for minutes (m).
+%
+% \DescribeMacro{\h}
+% |\h| is a macro for hours (h).
+%
+% \DescribeMacro{\y}
+% |\y| is a macro for years (y).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Day}
+% |\Day| is a macro for days (d).
+%
+% \section{Mass}
+%
+% \DescribeMacro{\gm}
+% |\gm| is a macro for grams (g).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\kg}
+% |\kg| is a macro for kilograms (kg).
+%
+% \DescribeMacro{\lb}
+% |\lb| is a macro for pounds (weight) (lb).
+%
+% \DescribeMacro{\amu}
+% |\amu| is a macro for atomic mass units (amu).
+%
+% \section{Force}
+%
+% \DescribeMacro{\N}
+% |\N| is a macro for Newtons (N).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Newton}
+% |\Newton| is a macro for Newtons (N).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\dyne}
+% |\dyne| is a macro for dynes (dyn).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\lbf}
+% |\lbf| is a macro for pounds of force (lbf).
+%
+% \section{Velocity}
+%
+% \DescribeMacro{\kmps}
+% |\kmps| is a macro for kilometers per second ($\kmps$).
+%
+% \DescribeMacro{\kmph}
+% |\kmph| is a macro for kilometers per hour ($\kmph$).
+%
+% \DescribeMacro{\mps}
+% |\mps| is a macro for meters per second ($\mps$).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\miph}
+% |\miph| is a macro for miles per hour ($\miph$).
+%
+% \DescribeMacro{\kts}
+% |\kts| is a macro for knots ($\kts$).
+%
+% \section{Acceleration}
+%
+% \DescribeMacro{\mpss}
+% |\mpss| is a macro for acceleration in meters per second squared ($\mpss$).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\gacc}
+% |\gacc| is a macro for acceleration due to gravity ($\gacc$).
+%
+% \DescribeMacro{\ftpss}
+% |\ftpss| is a macro for acceleration in feet per second squared ($\ftpss$).
+%
+%
+% \section{Temperature}
+%
+% \DescribeMacro{\K}
+% |\K| is a macro for Kelvin (K).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Kelvin}
+% |\Kelvin| is a macro for Kelvin (K).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Celcius}
+% |\Celcius| is a macro for degrees Celcius $(\Celcius)$.
+%
+% \DescribeMacro{\Rankine}
+% |\Rankine| is a macro for degrees Rankine $(\Rankine)$.
+%
+% \DescribeMacro{\Fahrenheit}
+% |\Fahrenheit| is a macro for degrees Fahrenheit $(\Fahrenheit)$.
+%
+% \section{Angular Velocity}
+%
+% \DescribeMacro{\rpm}
+% |\rpm| is a macro for revolutions per minute $(\rpm)$.
+%
+% \section{Frequency}
+%
+% \DescribeMacro{\Hz}
+% |\Hz| is a macro for Hertz (Hz).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%
+% \section{Pressure}
+%
+% \DescribeMacro{\barP}
+% |\barP| is a macro for bar (bar). (The use of barP instead of just bar is due
+% the \LaTeX~command \textbackslash bar.)
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\atm}
+% |\atm| is a macro for atmosphere (atm).
+%
+% \DescribeMacro{\Pa}
+% |\Pa| is a macro for Pascals (Pa).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\mmHg}
+% |\mmHg| is a macro for millimeters of mercury (mmHg).
+%
+% \DescribeMacro{\inHg}
+% |\inHg| is a macro for inches of mercury (inHg).
+%
+% \DescribeMacro{\lbsi}
+% |\lbsi| is a macro for pounds per square inch (psi). (Note that \textbackslash
+% psi is a latex command for the greek letter $\psi$).
+%
+% \DescribeMacro{\lbsf}
+% |\lbsf| is a macro for pounds per square foot (psf).
+%
+% \DescribeMacro{\Ba}
+% |\Ba| is a macro for Barre (Ba).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\Torr}
+% |\Torr| is a macro for Torr (Torr).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \section{Other}
+%
+% \DescribeMacro{\mol}
+% |\mol| is a macro for moles (mol).
+%
+
+% \StopEventually{}
+%
+
+\makeatletter
+% \section{Implementation}
+%
+% \section{Special}
+%
+% \begin{macro}{\units@separator}
+% |\units@separator| is a special macro used to set the spacing between a
+% quantity and the associated units.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\units@separator}{\,}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\units@separator}
+% |\units@separator| is a special macro used to set the spacing between a
+% quantity and the associated units.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\micro}{\ensuremath{%
+\mu}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Electricity \& Magnetism}
+%
+% \begin{macro}{\V}
+% |\V| is a macro for Volts (V).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\V}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1V}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Volt}
+% |\Volt| is a macro for Volts (V).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Volt}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1V}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Coulomb}
+% |\Coulomb| is a macro for Coulombs (C).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Coulomb}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1C}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Amp}
+% |\Amp| is a macro for Amperes (A).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Amp}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1A}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Farad}
+% |\Farad| is a macro for Farads (F).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Farad}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1F}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Tesla}
+% |\Tesla| is a macro for Teslas (T).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Tesla}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1T}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Gauss}
+% |\Gauss| is a macro for Gauss (G).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Gauss}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1G}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Henry}
+% |\Henry| is a macro for Henrys (H).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Henry}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1H}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Electricity \& Magnetism}
+%
+% \begin{macro}{\eV}
+% |\eV| is a macro for electron Volts (eV).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\eV}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1eV}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\keV}
+% |\keV| is a macro for kilo-electron Volts (keV).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\keV}{\ensuremath{%
+\expandafter\units@separator\mathrm{keV}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\MeV}
+% |\MeV| is a macro for mega-electron Volts (MeV).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\MeV}{\ensuremath{%
+\expandafter\units@separator\mathrm{MeV}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\J}
+% |\J| is a macro for Joules (J).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\J}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1J}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Joule}
+% |\Joule| is a macro for Joules (J).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Joule}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1J}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\erg}
+% |\erg| is a macro for ergs (erg).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\erg}{\ensuremath{%
+\expandafter\units@separator\mathrm{erg}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\kcal}
+% |\kcal| is a macro for kilo-calories (kcal).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\kcal}[1]{\ensuremath{%
+\expandafter\units@separator\mathrm{kcal}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Cal}
+% |\Cal| is a macro for kilo=calories (Cal).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Cal}{\ensuremath{%
+\expandafter\units@separator\mathrm{Cal}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\calorie}
+% |\calorie| is a macro for calories (cal).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\calorie}[1][ ]{%
+\ensuremath{%
+\expandafter\units@separator\mathrm{#1cal}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\BTU}
+% |\BTU| is a macro for British Thermal Units (BTU).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\BTU}{\ensuremath{%
+\expandafter\units@separator\mathrm{BTU}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\tnt}
+% |\tnt| is a macro for tons of TNT).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\tnt}{\ensuremath{%
+\expandafter\units@separator\mathrm{ton%
+\expandafter\units@separator of%
+\expandafter\units@separator TNT}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Power}
+%
+% \begin{macro}{\Watt}
+% |\Watt| is a macro for Watts (W).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Watt}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1W}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\hpi}
+% |\hpi| is a macro for Imperial Horsepower (hp(I)).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\hpi}{\ensuremath{%
+\expandafter\units@separator\mathrm{hp(I)}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\hpi}
+% |\hpi| is a macro for Metric Horsepower (hp(M)).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\hpm}{\ensuremath{%
+\expandafter\units@separator\mathrm{hp(M)}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\hp}
+% |\hp| is a macro for Horsepower (hp).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\hp}{\ensuremath{%
+\expandafter\units@separator\mathrm{hp}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Distance}
+%
+% \begin{macro}{\meter}
+% |\meter| is a macro for meters (m).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\meter}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1m}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\m}
+% |\m| is a macro for meters (m).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\m}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1m}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\km}
+% |\km| is a macro for kilometers (km).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\km}{\ensuremath{%
+\expandafter\units@separator\mathrm{km}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\au}
+% |\au| is a macro for astronmical units (au).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\au}{\ensuremath{%
+\expandafter\units@separator\mathrm{au}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\pc}
+% |\pc| is a macro for parsecs (pc).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\pc}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1pc}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\ly}
+% |\ly| is a macro for light-years (ly).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\ly}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1ly}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\cm}
+% |\cm| is a macro for centimeters (cm).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\cm}{\ensuremath{%
+\expandafter\units@separator\mathrm{cm}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\nm}
+% |\nm| is a macro for nanometers (nm).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\nm}{\ensuremath{%
+\expandafter\units@separator\mathrm{nm}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\ft}
+% |\ft| is a macro for feet (ft).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\ft}{\ensuremath{%
+\expandafter\units@separator\mathrm{ft}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\inch}
+% |\inch| is a macro for inches (in).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\inch}{\ensuremath{%
+\expandafter\units@separator\mathrm{in}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\mi}
+% |\mi| is a macro for miles (mi).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\mi}{\ensuremath{%
+\expandafter\units@separator\mathrm{mi}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Time}
+%
+% \begin{macro}{\s}
+% |\s| is a macro for seconds (s).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\s}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1s}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Sec}
+% |\Sec| is a macro for seconds (s).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Sec}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1s}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Min}
+% |\Min| is a macro for minutes (m).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Min}{\ensuremath{%
+\expandafter\units@separator\mathrm{min}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\h}
+% |\h| is a macro for hours (h).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\h}{\ensuremath{%
+\expandafter\units@separator\mathrm{h}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\y}
+% |\y| is a macro for years (y).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\y}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1y}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Day}
+% |\Day| is a macro for days (d).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Day}{\ensuremath{%
+\expandafter\units@separator\mathrm{d}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Mass}
+%
+% \begin{macro}{\gm}
+% |\gm| is a macro for grams (g).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+
+\DeclareRobustCommand{\gm}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1g}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\kg}
+% |\kg| is a macro for kilograms (kg).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\kg}{\ensuremath{%
+\expandafter\units@separator\mathrm{kg}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\lb}
+% |\lb| is a macro for pounds (weight) (lb).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\lb}{\ensuremath{%
+\expandafter\units@separator\mathrm{lb}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\amu}
+% |\amu| is a macro for atomic mass units (amu).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\amu}{\ensuremath{%
+\expandafter\units@separator\mathrm{amu}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Force}
+%
+% \begin{macro}{\N}
+% |\N| is a macro for Newtons (N).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\N}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1N}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Newton}
+% |\Newton| is a macro for Newtons (N).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Newton}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1N}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\dyne}
+% |\dyne| is a macro for dynes (dyn).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\dyne}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1dyn}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\lbf}
+% |\lbf| is a macro for pounds of force (lbf).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\lbf}{\ensuremath{%
+\expandafter\units@separator\mathrm{lbf}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Velocity}
+%
+% \begin{macro}{\kmps}
+% |\kmps| is a macro for kilometers per second ($\kmps$).
+%
+%    \begin{macrocode}
+
+\DeclareRobustCommand{\kmps}{\ensuremath{%
+\expandafter\units@separator\mathrm{km}%
+\expandafter\units@separator\mathrm{s}^{-1}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\kmph}
+% |\kmph| is a macro for kilometers per hour ($\kmph$).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\kmph}{\ensuremath{%
+\expandafter\units@separator\mathrm{km}%
+\expandafter\units@separator\mathrm{h}^{-1}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\mps}
+% |\mps| is a macro for meters per second ($\mps$).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\mps}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1m}%
+\expandafter\units@separator\mathrm{s}^{-1}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\miph}
+% |\miph| is a macro for miles per hour ($\miph$).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\miph}{\ensuremath{%
+\expandafter\units@separator\mathrm{mi}%
+\expandafter\units@separator\mathrm{h}^{-1}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\kts}
+% |\kts| is a macro for knots ($\kts$).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\kts}{\ensuremath{%
+\expandafter\units@separator\mathrm{kts}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Acceleration}
+%
+% \begin{macro}{\mpss}
+% |\mpss| is a macro for acceleration in meters per second squared ($\mpss$).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+
+\DeclareRobustCommand{\mpss}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1m}%
+\expandafter\units@separator\mathrm{s}^{-2}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\gacc}
+% |\gacc| is a macro for acceleration due to gravity ($\gacc$).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\gacc}{\ensuremath{%
+\expandafter\units@separator\mathrm{g}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\ftpss}
+% |\ftpss| is a macro for acceleration in feet per second squared ($\ftpss$).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\ftpss}{\ensuremath{%
+\expandafter\units@separator\mathrm{ft}%
+\expandafter\units@separator\mathrm{s}^{-2}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Temperature}
+%
+% \begin{macro}{\K}
+% |\K| is a macro for Kelvin (K).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\K}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1K}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Kelvin}
+% |\Kelvin| is a macro for Kelvin (K).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Kelvin}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1K}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Celcius}
+% |\Celcius| is a macro for degrees Celcius $(\Celcius)$.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Celcius}{^\circ\ensuremath{%
+\expandafter\units@separator\mathrm{C}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Rankine}
+% |\Rankine| is a macro for degrees Rankine $(\Rankine)$.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Rankine}{^\circ\ensuremath{%
+\expandafter\units@separator\mathrm{R}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Fahrenheit}
+% |\Fahrenheit| is a macro for degrees Fahrenheit $(\Fahrenheit)$.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Fahrenheit}{^\circ\ensuremath{%
+\expandafter\units@separator\mathrm{F}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Angular Velocity}
+%
+% \begin{macro}{\rpm}
+% |\rpm| is a macro for revolutions per minute $(\rpm)$.
+%
+%    \begin{macrocode}
+
+\DeclareRobustCommand{\rpm}{\ensuremath{%
+\expandafter\units@separator\mathrm{rev}%
+\expandafter\units@separator\Min^{-1}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \section{Frequency}
+%
+% \begin{macro}{\Hz}
+% |\Hz| is a macro for Hertz (Hz).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+
+\DeclareRobustCommand{\Hz}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1Hz}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Pressure}
+%
+% \begin{macro}{\barP}
+% |\barP| is a macro for bar (bar). (The use of barP instead of just bar is due
+% the \LaTeX~command \textbackslash bar.)
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+
+\DeclareRobustCommand{\barP}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1bar}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\atm}
+% |\atm| is a macro for atmosphere (atm).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\atm}{\ensuremath{%
+\expandafter\units@separator\mathrm{atm}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Pa}
+% |\Pa| is a macro for Pascals (Pa).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Pa}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1Pa}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\mmHg}
+% |\mmHg| is a macro for millimeters of mercury (mmHg).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\mmHg}{\ensuremath{%
+\expandafter\units@separator\mathrm{mmHg}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\inHg}
+% |\inHg| is a macro for inches of mercury (inHg).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\inHg}{\ensuremath{%
+\expandafter\units@separator\mathrm{inHg}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\lbsi}
+% |\lbsi| is a macro for pounds per square inch (psi). (Note that \textbackslash
+% psi is a latex command for the greek letter $\psi$).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\lbsi}{\ensuremath{%
+\expandafter\units@separator\mathrm{psi}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\lbsf}
+% |\lbsf| is a macro for pounds per square foot (psf).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\lbsf}{\ensuremath{%
+\expandafter\units@separator\mathrm{psf}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Ba}
+% |\Ba| is a macro for Barre (Ba).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Ba}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1Ba}}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\Torr}
+% |\Torr| is a macro for Torr (Torr).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\Torr}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1Torr}}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \section{Other}
+%
+% \begin{macro}{\mol}
+% |\mol| is a macro for moles (mol).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\mol}{\ensuremath{%
+\expandafter\units@separator\mathrm{mol}}}
+%    \end{macrocode}
+% \end{macro}
+%
+\makeatother
+
+%
+% \Finale
+%
