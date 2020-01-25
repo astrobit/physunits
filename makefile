@@ -22,6 +22,12 @@ clean:
 	-rm *.nav
 	-rm *.idx
 	-rm *.sty
+	-rm *.gls
+	-rm *.ing
+	-rm *.tmp*
+	-rm *.glo
+	-rm *.ind
+	-rm *.ilg
 
 localinstall: all
 	mkdir -p /usr/share/texlive/texmf-local/tex/latex/$(pkgname)
