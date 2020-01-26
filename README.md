@@ -55,47 +55,47 @@ Each distributable file contains the following:
 
 ### Linux / max
 To create a disribution on linux (or mac?)
-1 `make` to generate the package
-1 `make dist` to generate the distributable tarball and zip file
+1. `make` to generate the package
+1. `make dist` to generate the distributable tarball and zip file
 
 ### Windows
-1 Build the package.
-1 Create a directory named `physunits`
-1 Copy `physunits.ins`, `physunits.dtx`, `physunits.pdf`, and `CHANGELOG.md` into the directory
-1 Copy `README.dist.md` into the directory as `README.md`
-1 Copy `makefile.dist` into the directory as `makefile`
-1 Create a `.zip` file from the directory.
+1. Build the package.
+1. Create a directory named `physunits`
+1. Copy `physunits.ins`, `physunits.dtx`, `physunits.pdf`, and `CHANGELOG.md` into the directory
+1. Copy `README.dist.md` into the directory as `README.md`
+1. Copy `makefile.dist` into the directory as `makefile`
+1. Create a `.zip` file from the directory.
 
 # Installation
 ## Linux (and mac?)
 ### For a single project
-1 Build the package as described above.
-1 Copy the `physunits.sty` into your project where your `.tex` files are located.
+1. Build the package as described above.
+1. Copy the `physunits.sty` into your project where your `.tex` files are located.
 ### for all users and projects
-1 Build the package as described above.
-1 `make localinstall` to generate the package.
+1. Build the package as described above.
+1. `make localinstall` to generate the package.
 
 
 ## Windows or if the above doesn't work for linux/max
-1 Build the package as described above.
-1 Instructions that might help can be for windows can be found at [this post on StackExchange](https://tex.stackexchange.com/questions/369921/loading-packages-with-ins-and-dtx-files).
-1 Figure out where your LaTeX local packages are installed.
-1 Create a directory named `physunits` in that location.
-1 Copy `physunits.sty` into the new directory.
-1 Figure out where your LaTeX local package documentation is installed.
-1 Create a directory named `physunits` in that location.
-1 Copy `physunits.pdf` into the new directory.
-1 Run `texhash` or the equivalent to let latex know the package is there.
+1. Build the package as described above.
+1. Instructions that might help can be for windows can be found at [this post on StackExchange](https://tex.stackexchange.com/questions/369921/loading-packages-with-ins-and-dtx-files).
+1. Figure out where your LaTeX local packages are installed.
+1. Create a directory named `physunits` in that location.
+1. Copy `physunits.sty` into the new directory.
+1. Figure out where your LaTeX local package documentation is installed.
+1. Create a directory named `physunits` in that location.
+1. Copy `physunits.pdf` into the new directory.
+1. Run `texhash` or the equivalent to let latex know the package is there.
 
 # Uninstallation
 
 ## Linux (and mac?)
-1 `sudo make localuninstall`
+1. `sudo make localuninstall`
 
 ## Windows or if the above doesn't work for linux/max
-1 Figure out where your LaTeX local packages are installed.
-1 Delete the directory named `physunits` in that location.
-1 Figure out where your LaTeX local package documentation is installed.
-1 Delete the directory named `physunits` in that location.
-1 Run `texhash` or the equivalent to let LaTeX know the package is gone.
+1. Figure out where your LaTeX local packages are installed.
+1. Delete the directory named `physunits` in that location.
+1. Figure out where your LaTeX local package documentation is installed.
+1. Delete the directory named `physunits` in that location.
+1. Run `texhash` or the equivalent to let LaTeX know the package is gone.
 
