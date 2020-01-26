@@ -15,5 +15,7 @@
 - Added a newline in the middle of the title declaration (in .cpp)
 - Added a newline in the middle of the \DoNotIndex declaration (in .cpp)
 - fixed makefile install options to correctly find TEXMF path
+### Changed
+- Switch compression of tarball to gzip to match requirement for CTAN
 
 
