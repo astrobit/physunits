@@ -35,30 +35,51 @@ None.
 # Distributable Files
 The following distributable files can be created as described below.
 ```
-	physunits.sty           The actual package
+    physunits.sty           The actual package
     physunits.pdf           Usage documentation
-    physunits.tar.bz2       Tarball containing package, documentation, and 
+    physunits.tar.gz        Tarball containing package, documentation, and 
                             this README
     physunits.zip           Zip file containing package, documentation, and 
                             this README
 ```
+## Linux / max
 To create a disribution on linux (or mac?)
-- `make dist`
+- `make` to generate the package
+- `make dist` to generate the distributable tarball and zip file
+- `make distcheck` (make sure that the files were created)
+## Windows
+- create a zip file containing `physunits.dtx`, `physunits.pdf`, `CHANGELOG.md`, and `README.md`
 
 # Installation
-For linux, run `make` to generate the package (.sty file) and documentation.
-If you are using texlive (most modern linux distributions use texlive), you may 
-then run `sudo make localinstall` to install the package to your latex 
-distribution. If you are not using texlive, you will need to manually
-copy the .sty file into either the folder where your .tex files reside that
-require the package, or manually install the package in your latex distribution.
+## Linux (and mac?)
+### For a single project
+- `make` to generate the package
+- copy the `physunits.sty` into your project where your `.tex` files are located
+### for all users and projects
+- `make` to generate the package
+- `make localinstall` to generate the package
 
-For mac, the instructions above for linux might work. Otherwise you're sort of 
-on your own. Most likely your latex disrubution is somewhere in /usr/share.
-You will need to figure out the name and where the package files are stored, 
-then run `texhash` so that latex knows that they are there.
 
-For windows, you're kind of on your own. Instructions that might help can be
-found at [this post on StackExchange](https://tex.stackexchange.com/questions/369921/loading-packages-with-ins-and-dtx-files).
+## Windows or if the above doesn't work for linux/max
+- Create the `.sty` and `.pdf` files
+- Instructions that might help can be for windows can be found at [this post on StackExchange](https://tex.stackexchange.com/questions/369921/loading-packages-with-ins-and-dtx-files).
+- figure out where your LaTeX local packages are installed
+- create a directory named `physunits` in that location
+- copy `physunits.sty` into the new directory
+- figure out where your LaTeX local package documentation is installed
+- create a directory named `physunits` in that location
+- copy `physunits.pdf` into the new directory
+- run `texhash` or the equivalent to let latex know the package is there
 
+# Uninstallation
+
+## Linux (and mac?)
+- `sudo make localuninstall`
+
+## Windows or if the above doesn't work for linux/max
+- figure out where your LaTeX local packages are installed
+- delete the directory named `physunits` in that location
+- figure out where your LaTeX local package documentation is installed
+- delete the directory named `physunits` in that location
+- run `texhash` or the equivalent to let LaTeX know the package is gone
 

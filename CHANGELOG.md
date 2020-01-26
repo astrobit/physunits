@@ -18,5 +18,14 @@
 ## [1.0.2] - 2020/01/25
 ### Changed
 - Switch compression of tarball to gzip to match requirement for CTAN
+## [1.0.3] - 2020/01/26
+### Added
+- uninstall instructions in README.md
+- installcheck in makefile
+- force makefile to be run serial
+### Changed
+- Switch tarball/zip to include .dtx instead of .sty per CTAN requirement
+- Clean up installation instructions in README.md
+- Made some changes in the makefile to take better advantage of make
 
 
