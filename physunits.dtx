@@ -22,12 +22,13 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[1994/06/01]
 %<package> \ProvidesPackage{physunits}
 %<*package>
-    [2020/01/22 v1.0 Physical units package]
+    [2020/01/25 v1.0.1 Physical units package]
 %</package>
 %<package>\ProcessOptions\relax
 %<*driver>
 \documentclass{ltxdoc}
 \usepackage{physunits}
+\usepackage[backref]{hyperref}
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
@@ -59,17 +60,22 @@
 %   Right brace   \}     Tilde         \~}
 %
 % \changes{v1.0}{2020/01/23}{Initial version}
+% \changes{v1.0}{2020/01/25}{Clean up formatting, fix index}
 %
 % \GetFileInfo{physunits.dtx}
-% \def\fileversion{v1.0}
-% \def\filedate{2020/01/23}
+% \DeclareRobustCommand{\fileversion}{v1.0}
+% \DeclareRobustCommand{\filedate}{2020/01/23}
 %
-% \DoNotIndex{\DeclareRobustCommand,\newenvironment,\DeclareRobustCommand,\left,\right,\textbf,\mathrm}
+% \DoNotIndex{\DeclareRobustCommand,\newenvironment,\DeclareRobustCommand,
+%  \left,\right,\textbf,\mathrm,\ensuremath,\units@separator,\expandafter,\,}
 %
-% \title{The \textsf{physunits} package\thanks{This document corresponds to \textsf{physunits}~\fileversion, dated \filedate.}}
+% \title{The \textsf{physunits} package\thanks{This document corresponds to%
+%  \textsf{physunits}~\fileversion, dated \filedate.}}
 % \author{Brian W. Mulligan \\ \texttt{bwmulligan@astronaos.com}}
 %
 % \maketitle
+% \setlength{\parindent}{0em}
+% \setlength{\parskip}{1em}
 %
 % \section{Introduction}
 %
@@ -117,330 +123,467 @@
 % (micro-). Internally it just uses \textbackslash mu. 
 %
 % \subsection{Electricity \& Magnetism}
+% \index{Electricity \& Magnetism|usage(}
 %
 % \DescribeMacro{\V}
+% \index{Electricity \& Magnetism>Volts|usage}
 % |\V| is a macro for Volts (V).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Volt}
+% \index{Electricity \& Magnetism>Volts|usage}
 % |\Volt| is a macro for Volts (V).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Coulomb}
+% \index{Electricity \& Magnetism>Coulomb|usage}
 % |\Coulomb| is a macro for Coulombs (C).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\esu}
-% |\esu| is a macro for electrostatic units (esu).
+% \index{Electricity \& Magnetism>esu|usage}
+% |\esu| is a macro for electrostatic units (esu), the units of charge in
+% Gaussian cgs.
 %
 % \DescribeMacro{\Ohm}
+% \index{Electricity \& Magnetism>Ohm|usage}
 % |\Ohm| is a macro for Ohms ($\Omega$).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Amp}
+% \index{Electricity \& Magnetism>Amperes|usage}
 % |\Amp| is a macro for Amperes (A).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Farad}
+% \index{Electricity \& Magnetism>Farad|usage}
 % |\Farad| is a macro for Farads (F).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Tesla}
+% \index{Electricity \& Magnetism>Tesla|usage}
 % |\Tesla| is a macro for Teslas (T).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Gauss}
-% |\Gauss| is a macro for Gauss (G).
+% \index{Electricity \& Magnetism>Gauss|usage}
+% |\Gauss| is a macro for Gauss (G), the units for magnetic field strength in
+% Gaussian cgs.
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Henry}
+% \index{Electricity \& Magnetism>Henry|usage}
 % |\Henry| is a macro for Henrys (H).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
+% \index{Electricity \& Magnetism|usage)}
 %
 % \subsection{Energy}
+% \index{Energy|usage(}
 %
 % \DescribeMacro{\eV}
+% \index{Energy>eV|usage}
 % |\eV| is a macro for electron Volts (eV).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\keV}
+% \index{Energy>eV|usage}
 % |\keV| is a macro for kilo-electron Volts (keV).
 %
 % \DescribeMacro{\MeV}
+% \index{Energy>eV|usage}
 % |\MeV| is a macro for mega-electron Volts (MeV).
 %
 % \DescribeMacro{\J}
+% \index{Energy>Joules|usage}
 % |\J| is a macro for Joules (J).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Joule}
+% \index{Energy>Joules|usage}
 % |\Joule| is a macro for Joules (J).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\erg}
-% |\erg| is a macro for ergs (erg).
+% \index{Energy>erg|usage}
+% |\erg| is a macro for ergs (erg), the unit of energy in cgs.
 %
 % \DescribeMacro{\kcal}
+% \index{Energy>kcal|usage}
+% \index{Energy>Calories|usage}
+% \index{Energy>calories|usage}
 % |\kcal| is a macro for kilo-calories (kcal).
 %
 % \DescribeMacro{\Cal}
+% \index{Energy>kcal|usage}
+% \index{Energy>Calories|usage}
+% \index{Energy>calories|usage}
 % |\Cal| is a macro for kilo=calories (Cal).
 %
 % \DescribeMacro{\calorie}
+% \index{Energy>kcal|usage}
+% \index{Energy>Calories|usage}
+% \index{Energy>calories|usage}
 % |\calorie| is a macro for calories (cal).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\BTU}
+% \index{Energy>BTU|usage}
 % |\BTU| is a macro for British Thermal Units (BTU).
 %
 % \DescribeMacro{\tnt}
-% |\tnt| is a macro for tons of TNT).
+% \index{Energy>TNT|usage}
+% |\tnt| is a macro for tons of TNT.
+% \index{Energy|usage)}
 %
 % \subsection{Power}
+% \index{Power|usage(}
 %
 % \DescribeMacro{\Watt}
+% \index{Power>Watts|usage}
 % |\Watt| is a macro for Watts (W).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\hpi}
+% \index{Power>Horsepower|usage}
+% \index{Power>Horsepower>Imperial|usage}
 % |\hpi| is a macro for Imperial Horsepower (hp(I)).
 %
 % \DescribeMacro{\hpi}
+% \index{Power>Horsepower|usage}
+% \index{Power>Horsepower>Metric|usage}
 % |\hpi| is a macro for Metric Horsepower (hp(M)).
 %
 % \DescribeMacro{\hp}
+% \index{Power>Horsepower|usage}
 % |\hp| is a macro for Horsepower (hp).
+% \index{Power|usage)}
 %
 % \subsection{Distance}
+% \index{Distance|usage)}
 %
 % \DescribeMacro{\meter}
+% \index{Distance>Meter|usage}
 % |\meter| is a macro for meters (m).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\m}
+% \index{Distance>Meter|usage}
 % |\m| is a macro for meters (m).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\km}
+% \index{Distance>Meter>Kilometer|usage}
 % |\km| is a macro for kilometers (km).
 %
 % \DescribeMacro{\au}
+% \index{Distance>Astronomical Unit|usage}
 % |\au| is a macro for astronmical units (au).
 %
 % \DescribeMacro{\pc}
+% \index{Distance>Parsec|usage}
 % |\pc| is a macro for parsecs (pc).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\ly}
+% \index{Distance>Light Years|usage}
 % |\ly| is a macro for light-years (ly).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\cm}
+% \index{Distance>Meter>Centimeter|usage}
 % |\cm| is a macro for centimeters (cm).
 %
 % \DescribeMacro{\nm}
+% \index{Distance>Meter>Nanometer|usage}
 % |\nm| is a macro for nanometers (nm).
 %
 % \DescribeMacro{\ft}
+% \index{Distance>Imperial>Feet|usage}
 % |\ft| is a macro for feet (ft).
 %
 % \DescribeMacro{\inch}
+% \index{Distance>Imperial>Inch|usage}
 % |\inch| is a macro for inches (in).
 %
 % \DescribeMacro{\mi}
+% \index{Distance>Imperial>Mile|usage}
 % |\mi| is a macro for miles (mi).
 %
+% \index{Distance|usage)}
+%
 % \subsection{Time}
+% \index{Time|usage(}
 %
 % \DescribeMacro{\s}
+% \index{Time>Seconds|usage}
 % |\s| is a macro for seconds (s).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Sec}
+% \index{Time>Seconds|usage}
 % |\Sec| is a macro for seconds (s).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Min}
+% \index{Time>Minutes|usage}
 % |\Min| is a macro for minutes (m).
 %
 % \DescribeMacro{\h}
+% \index{Time>Hours|usage}
 % |\h| is a macro for hours (h).
 %
 % \DescribeMacro{\y}
+% \index{Time>Years|usage}
 % |\y| is a macro for years (y).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Day}
+% \index{Time>Days|usage}
 % |\Day| is a macro for days (d).
+%
+% \index{Time|usage)}
 %
 % \subsection{Mass}
 %
+% \index{Mass|usage(}
+%
 % \DescribeMacro{\gm}
+% \index{Mass>Grams|usage}
 % |\gm| is a macro for grams (g).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\kg}
+% \index{Mass>Gram>Kilograms|usage}
 % |\kg| is a macro for kilograms (kg).
 %
 % \DescribeMacro{\lb}
+% \index{Mass>Pounds|usage}
 % |\lb| is a macro for pounds (weight) (lb).
 %
 % \DescribeMacro{\amu}
+% \index{Mass>AMU|usage}
+% \index{Mass>Dalton|usage}
 % |\amu| is a macro for atomic mass units (amu).
+%
+% \index{Mass|usage)}
 %
 % \subsection{Force}
 %
+% \index{Force|usage(}
+%
 % \DescribeMacro{\N}
+% \index{Force>Newton|usage}
 % |\N| is a macro for Newtons (N).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Newton}
+% \index{Force>Newton|usage}
 % |\Newton| is a macro for Newtons (N).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\dyne}
+% \index{Force>Dyne|usage}
 % |\dyne| is a macro for dynes (dyn).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\lbf}
+% \index{Force>Pounds|usage}
 % |\lbf| is a macro for pounds of force (lbf).
+%
+% \index{Force|usage)}
 %
 % \subsection{Velocity}
 %
+% \index{Velocity|usage(}
+%
 % \DescribeMacro{\kmps}
+% \index{Velocity>Kilometers per Second|usage}
 % |\kmps| is a macro for kilometers per second ($\kmps$).
 %
 % \DescribeMacro{\kmph}
+% \index{Velocity>Kilometers per Hour|usage}
 % |\kmph| is a macro for kilometers per hour ($\kmph$).
 %
 % \DescribeMacro{\mps}
+% \index{Velocity>Meters per Second|usage}
 % |\mps| is a macro for meters per second ($\mps$).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\miph}
+% \index{Velocity>Miles per Hour|usage}
 % |\miph| is a macro for miles per hour ($\miph$).
 %
 % \DescribeMacro{\kts}
-% |\kts| is a macro for knots ($\kts$).
+% \index{Velocity>Knots|usage}
+% \index{Velocity>Nautical Miles per Hour|usage}
+% |\kts| is a macro for knots ($\kts$)., i.e. nautical miles per hour
+%
+% \index{Velocity|usage)}
 %
 % \subsection{Acceleration}
 %
+% \index{Acceleration|usage(}
+%
 % \DescribeMacro{\mpss}
+% \index{Acceleration>Meters per Second squared|usage}
 % |\mpss| is a macro for acceleration in meters per second squared ($\mpss$).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\gacc}
+% \index{Acceleration>Gravity|usage}
 % |\gacc| is a macro for acceleration due to gravity ($\gacc$).
 %
 % \DescribeMacro{\ftpss}
+% \index{Acceleration>Feet per Second squared|usage}
 % |\ftpss| is a macro for acceleration in feet per second squared ($\ftpss$).
+%
+% \index{Velocity|usage)}
 %
 %
 % \subsection{Temperature}
 %
+% \index{Temperature|usage(}
+%
 % \DescribeMacro{\K}
+% \index{Temperature>Kelvin|usage}
 % |\K| is a macro for Kelvin (K).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Kelvin}
+% \index{Temperature>Kelvin|usage}
 % |\Kelvin| is a macro for Kelvin (K).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Celcius}
+% \index{Temperature>Celcius|usage}
 % |\Celcius| is a macro for degrees Celcius $(\Celcius)$.
 %
 % \DescribeMacro{\Rankine}
+% \index{Temperature>Rankine|usage}
 % |\Rankine| is a macro for degrees Rankine $(\Rankine)$.
 %
 % \DescribeMacro{\Fahrenheit}
+% \index{Temperature>Fahrenheit|usage}
 % |\Fahrenheit| is a macro for degrees Fahrenheit $(\Fahrenheit)$.
+%
+% \index{Temperature|usage)}
 %
 % \subsection{Angular Velocity}
 %
+% \index{Angular Velocity|usage(}
+%
 % \DescribeMacro{\rpm}
+% \index{Angular Velocity>RPM|usage}
 % |\rpm| is a macro for revolutions per minute $(\rpm)$.
+%
+% \index{Angular Velocity|usage)}
 %
 % \subsection{Frequency}
 %
+% \index{Frequency|usage(}
+%
 % \DescribeMacro{\Hz}
+% \index{Frequency>Hertz|usage}
 % |\Hz| is a macro for Hertz (Hz).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
+% \index{Frequency|usage)}
+%
 %
 % \subsection{Pressure}
 %
+% \index{Pressure|usage(}
+%
 % \DescribeMacro{\barP}
+% \index{Pressure>bar|usage}
 % |\barP| is a macro for bar (bar). (The use of barP instead of just bar is due
 % the \LaTeX~command \textbackslash bar.)
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\atm}
+% \index{Pressure>atmosphere|usage}
 % |\atm| is a macro for atmosphere (atm).
 %
 % \DescribeMacro{\Pa}
+% \index{Pressure>Pascal|usage}
 % |\Pa| is a macro for Pascals (Pa).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\mmHg}
+% \index{Pressure>mm Hg|usage}
 % |\mmHg| is a macro for millimeters of mercury (mmHg).
 %
 % \DescribeMacro{\inHg}
+% \index{Pressure>in Hg|usage}
 % |\inHg| is a macro for inches of mercury (inHg).
 %
 % \DescribeMacro{\lbsi}
+% \index{Pressure>psi|usage}
+% \index{Pressure>Pound per square inch|usage}
 % |\lbsi| is a macro for pounds per square inch (psi). (Note that \textbackslash
 % psi is a latex command for the greek letter $\psi$).
 %
 % \DescribeMacro{\lbsf}
+% \index{Pressure>psf|usage}
+% \index{Pressure>Pound per square foot|usage}
 % |\lbsf| is a macro for pounds per square foot (psf).
 %
 % \DescribeMacro{\Ba}
+% \index{Pressure>Barre|usage}
 % |\Ba| is a macro for Barre (Ba).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
 % \DescribeMacro{\Torr}
+% \index{Pressure>Torr|usage}
 % |\Torr| is a macro for Torr (Torr).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
+% \index{Pressure|usage)}
+%
 % \subsection{Other}
 %
+% \index{Other|usage(}
+%
 % \DescribeMacro{\mol}
+% \index{Other>mole|usage(}
+% \index{mole|usage(}
 % |\mol| is a macro for moles (mol).
 %
+% \index{Other|usage)}
 
 % \StopEventually{}
 %
