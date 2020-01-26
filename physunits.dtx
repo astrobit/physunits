@@ -31,7 +31,7 @@
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
-\OnlyDescription
+%\OnlyDescription
 \begin{document}
 \DocInput{physunits.dtx}
 \PrintChanges
@@ -40,7 +40,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{0}
+% \CheckSum{486}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -132,6 +132,9 @@
 % |\Coulomb| is a macro for Coulombs (C).
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
+%
+% \DescribeMacro{\esu}
+% |\esu| is a macro for electrostatic units (esu).
 %
 % \DescribeMacro{\Ohm}
 % |\Ohm| is a macro for Ohms ($\Omega$).
@@ -447,6 +450,9 @@
 %
 % \subsection{Special}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\units@separator}
 % |\units@separator| is a special macro used to set the spacing between a
 % quantity and the associated units.
@@ -455,7 +461,13 @@
 \DeclareRobustCommand{\units@separator}{\,}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\units@separator}
 % |\units@separator| is a special macro used to set the spacing between a
 % quantity and the associated units.
@@ -465,10 +477,16 @@
 \mu}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Electricity \& Magnetism}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\V}
 % |\V| is a macro for Volts (V).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -479,7 +497,13 @@
 \expandafter\units@separator\mathrm{#1V}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Volt}
 % |\Volt| is a macro for Volts (V).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -490,7 +514,13 @@
 \expandafter\units@separator\mathrm{#1V}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Coulomb}
 % |\Coulomb| is a macro for Coulombs (C).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -501,7 +531,28 @@
 \expandafter\units@separator\mathrm{#1C}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
+% \begin{macro}{\esu}
+% |\esu| is a macro for electrostatic units (esu).
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\esu}{\ensuremath{%
+\expandafter\units@separator\mathrm{esu}}}
+%    \end{macrocode}
+% \end{macro}
+%\iffalse
+%</package>
+%\fi
+%
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Ohm}
 % |\Ohm| is a macro for Ohms ($\Omega$).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -512,7 +563,13 @@
 \expandafter\units@separator\mathrm{#1\Omega}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Amp}
 % |\Amp| is a macro for Amperes (A).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -523,7 +580,13 @@
 \expandafter\units@separator\mathrm{#1A}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Farad}
 % |\Farad| is a macro for Farads (F).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -534,7 +597,13 @@
 \expandafter\units@separator\mathrm{#1F}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Tesla}
 % |\Tesla| is a macro for Teslas (T).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -545,7 +614,13 @@
 \expandafter\units@separator\mathrm{#1T}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Gauss}
 % |\Gauss| is a macro for Gauss (G).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -556,7 +631,13 @@
 \expandafter\units@separator\mathrm{#1G}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Henry}
 % |\Henry| is a macro for Henrys (H).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -567,9 +648,15 @@
 \expandafter\units@separator\mathrm{#1H}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 % \subsection{Energy}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\eV}
 % |\eV| is a macro for electron Volts (eV).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -580,7 +667,13 @@
 \expandafter\units@separator\mathrm{#1eV}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\keV}
 % |\keV| is a macro for kilo-electron Volts (keV).
 %
@@ -589,7 +682,13 @@
 \expandafter\units@separator\mathrm{keV}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\MeV}
 % |\MeV| is a macro for mega-electron Volts (MeV).
 %
@@ -598,7 +697,13 @@
 \expandafter\units@separator\mathrm{MeV}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\J}
 % |\J| is a macro for Joules (J).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -609,7 +714,13 @@
 \expandafter\units@separator\mathrm{#1J}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Joule}
 % |\Joule| is a macro for Joules (J).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -620,7 +731,13 @@
 \expandafter\units@separator\mathrm{#1J}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\erg}
 % |\erg| is a macro for ergs (erg).
 %
@@ -629,7 +746,13 @@
 \expandafter\units@separator\mathrm{erg}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\kcal}
 % |\kcal| is a macro for kilo-calories (kcal).
 %
@@ -638,7 +761,13 @@
 \expandafter\units@separator\mathrm{kcal}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Cal}
 % |\Cal| is a macro for kilo=calories (Cal).
 %
@@ -647,7 +776,13 @@
 \expandafter\units@separator\mathrm{Cal}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\calorie}
 % |\calorie| is a macro for calories (cal).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -659,7 +794,13 @@
 \expandafter\units@separator\mathrm{#1cal}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\BTU}
 % |\BTU| is a macro for British Thermal Units (BTU).
 %
@@ -668,7 +809,13 @@
 \expandafter\units@separator\mathrm{BTU}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\tnt}
 % |\tnt| is a macro for tons of TNT).
 %
@@ -679,10 +826,16 @@
 \expandafter\units@separator TNT}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Power}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Watt}
 % |\Watt| is a macro for Watts (W).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -693,7 +846,13 @@
 \expandafter\units@separator\mathrm{#1W}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\hpi}
 % |\hpi| is a macro for Imperial Horsepower (hp(I)).
 %
@@ -702,7 +861,13 @@
 \expandafter\units@separator\mathrm{hp(I)}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\hpi}
 % |\hpi| is a macro for Metric Horsepower (hp(M)).
 %
@@ -711,7 +876,13 @@
 \expandafter\units@separator\mathrm{hp(M)}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\hp}
 % |\hp| is a macro for Horsepower (hp).
 %
@@ -720,10 +891,16 @@
 \expandafter\units@separator\mathrm{hp}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Distance}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\meter}
 % |\meter| is a macro for meters (m).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -734,7 +911,13 @@
 \expandafter\units@separator\mathrm{#1m}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\m}
 % |\m| is a macro for meters (m).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -745,7 +928,13 @@
 \expandafter\units@separator\mathrm{#1m}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\km}
 % |\km| is a macro for kilometers (km).
 %
@@ -754,7 +943,13 @@
 \expandafter\units@separator\mathrm{km}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\au}
 % |\au| is a macro for astronmical units (au).
 %
@@ -763,7 +958,13 @@
 \expandafter\units@separator\mathrm{au}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\pc}
 % |\pc| is a macro for parsecs (pc).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -774,7 +975,13 @@
 \expandafter\units@separator\mathrm{#1pc}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\ly}
 % |\ly| is a macro for light-years (ly).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -785,7 +992,13 @@
 \expandafter\units@separator\mathrm{#1ly}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\cm}
 % |\cm| is a macro for centimeters (cm).
 %
@@ -794,7 +1007,13 @@
 \expandafter\units@separator\mathrm{cm}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\nm}
 % |\nm| is a macro for nanometers (nm).
 %
@@ -803,7 +1022,13 @@
 \expandafter\units@separator\mathrm{nm}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\ft}
 % |\ft| is a macro for feet (ft).
 %
@@ -812,7 +1037,13 @@
 \expandafter\units@separator\mathrm{ft}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\inch}
 % |\inch| is a macro for inches (in).
 %
@@ -821,7 +1052,13 @@
 \expandafter\units@separator\mathrm{in}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\mi}
 % |\mi| is a macro for miles (mi).
 %
@@ -830,10 +1067,16 @@
 \expandafter\units@separator\mathrm{mi}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Time}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\s}
 % |\s| is a macro for seconds (s).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -844,7 +1087,13 @@
 \expandafter\units@separator\mathrm{#1s}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Sec}
 % |\Sec| is a macro for seconds (s).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -855,7 +1104,13 @@
 \expandafter\units@separator\mathrm{#1s}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Min}
 % |\Min| is a macro for minutes (m).
 %
@@ -864,7 +1119,13 @@
 \expandafter\units@separator\mathrm{min}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\h}
 % |\h| is a macro for hours (h).
 %
@@ -873,7 +1134,13 @@
 \expandafter\units@separator\mathrm{h}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\y}
 % |\y| is a macro for years (y).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -884,7 +1151,13 @@
 \expandafter\units@separator\mathrm{#1y}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Day}
 % |\Day| is a macro for days (d).
 %
@@ -893,10 +1166,16 @@
 \expandafter\units@separator\mathrm{d}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Mass}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\gm}
 % |\gm| is a macro for grams (g).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -908,7 +1187,13 @@
 \expandafter\units@separator\mathrm{#1g}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\kg}
 % |\kg| is a macro for kilograms (kg).
 %
@@ -917,7 +1202,13 @@
 \expandafter\units@separator\mathrm{kg}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\lb}
 % |\lb| is a macro for pounds (weight) (lb).
 %
@@ -926,7 +1217,13 @@
 \expandafter\units@separator\mathrm{lb}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\amu}
 % |\amu| is a macro for atomic mass units (amu).
 %
@@ -935,10 +1232,16 @@
 \expandafter\units@separator\mathrm{amu}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Force}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\N}
 % |\N| is a macro for Newtons (N).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -949,7 +1252,13 @@
 \expandafter\units@separator\mathrm{#1N}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Newton}
 % |\Newton| is a macro for Newtons (N).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -960,7 +1269,13 @@
 \expandafter\units@separator\mathrm{#1N}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\dyne}
 % |\dyne| is a macro for dynes (dyn).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -971,7 +1286,13 @@
 \expandafter\units@separator\mathrm{#1dyn}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\lbf}
 % |\lbf| is a macro for pounds of force (lbf).
 %
@@ -980,10 +1301,16 @@
 \expandafter\units@separator\mathrm{lbf}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Velocity}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\kmps}
 % |\kmps| is a macro for kilometers per second ($\kmps$).
 %
@@ -993,7 +1320,13 @@
 \expandafter\units@separator\mathrm{s}^{-1}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\kmph}
 % |\kmph| is a macro for kilometers per hour ($\kmph$).
 %
@@ -1003,7 +1336,13 @@
 \expandafter\units@separator\mathrm{h}^{-1}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\mps}
 % |\mps| is a macro for meters per second ($\mps$).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -1015,7 +1354,13 @@
 \expandafter\units@separator\mathrm{s}^{-1}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\miph}
 % |\miph| is a macro for miles per hour ($\miph$).
 %
@@ -1025,7 +1370,13 @@
 \expandafter\units@separator\mathrm{h}^{-1}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\kts}
 % |\kts| is a macro for knots ($\kts$).
 %
@@ -1034,10 +1385,16 @@
 \expandafter\units@separator\mathrm{kts}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Acceleration}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\mpss}
 % |\mpss| is a macro for acceleration in meters per second squared ($\mpss$).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -1050,7 +1407,13 @@
 \expandafter\units@separator\mathrm{s}^{-2}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\gacc}
 % |\gacc| is a macro for acceleration due to gravity ($\gacc$).
 %
@@ -1059,7 +1422,13 @@
 \expandafter\units@separator\mathrm{g}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\ftpss}
 % |\ftpss| is a macro for acceleration in feet per second squared ($\ftpss$).
 %
@@ -1069,10 +1438,16 @@
 \expandafter\units@separator\mathrm{s}^{-2}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Temperature}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\K}
 % |\K| is a macro for Kelvin (K).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -1083,7 +1458,13 @@
 \expandafter\units@separator\mathrm{#1K}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Kelvin}
 % |\Kelvin| is a macro for Kelvin (K).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -1094,7 +1475,13 @@
 \expandafter\units@separator\mathrm{#1K}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Celcius}
 % |\Celcius| is a macro for degrees Celcius $(\Celcius)$.
 %
@@ -1103,7 +1490,13 @@
 \expandafter\units@separator\mathrm{C}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Rankine}
 % |\Rankine| is a macro for degrees Rankine $(\Rankine)$.
 %
@@ -1112,7 +1505,13 @@
 \expandafter\units@separator\mathrm{R}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Fahrenheit}
 % |\Fahrenheit| is a macro for degrees Fahrenheit $(\Fahrenheit)$.
 %
@@ -1121,10 +1520,16 @@
 \expandafter\units@separator\mathrm{F}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Angular Velocity}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\rpm}
 % |\rpm| is a macro for revolutions per minute $(\rpm)$.
 %
@@ -1135,9 +1540,15 @@
 \expandafter\units@separator\Min^{-1}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 % \subsection{Frequency}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Hz}
 % |\Hz| is a macro for Hertz (Hz).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -1149,10 +1560,16 @@
 \expandafter\units@separator\mathrm{#1Hz}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Pressure}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\barP}
 % |\barP| is a macro for bar (bar). (The use of barP instead of just bar is due
 % the \LaTeX~command \textbackslash bar.)
@@ -1164,7 +1581,13 @@
 \expandafter\units@separator\mathrm{#1bar}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\atm}
 % |\atm| is a macro for atmosphere (atm).
 %
@@ -1173,7 +1596,13 @@
 \expandafter\units@separator\mathrm{atm}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Pa}
 % |\Pa| is a macro for Pascals (Pa).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -1184,7 +1613,13 @@
 \expandafter\units@separator\mathrm{#1Pa}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\mmHg}
 % |\mmHg| is a macro for millimeters of mercury (mmHg).
 %
@@ -1193,7 +1628,13 @@
 \expandafter\units@separator\mathrm{mmHg}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\inHg}
 % |\inHg| is a macro for inches of mercury (inHg).
 %
@@ -1202,7 +1643,13 @@
 \expandafter\units@separator\mathrm{inHg}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\lbsi}
 % |\lbsi| is a macro for pounds per square inch (psi). (Note that \textbackslash
 % psi is a latex command for the greek letter $\psi$).
@@ -1212,7 +1659,13 @@
 \expandafter\units@separator\mathrm{psi}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\lbsf}
 % |\lbsf| is a macro for pounds per square foot (psf).
 %
@@ -1221,7 +1674,13 @@
 \expandafter\units@separator\mathrm{psf}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Ba}
 % |\Ba| is a macro for Barre (Ba).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -1232,7 +1691,13 @@
 \expandafter\units@separator\mathrm{#1Ba}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\Torr}
 % |\Torr| is a macro for Torr (Torr).
 % This macro accepts an optional argument for a prefix. If no option is 
@@ -1243,10 +1708,16 @@
 \expandafter\units@separator\mathrm{#1Torr}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 %
 % \subsection{Other}
 %
+%\iffalse
+%<*package>
+%\fi
 % \begin{macro}{\mol}
 % |\mol| is a macro for moles (mol).
 %
@@ -1255,6 +1726,9 @@
 \expandafter\units@separator\mathrm{mol}}}
 %    \end{macrocode}
 % \end{macro}
+%\iffalse
+%</package>
+%\fi
 %
 \makeatother
 
