@@ -36,4 +36,9 @@
 - modify the makefile to include the new distrubution readme and makefile
 - give instructions on using makefile for distribution
 - Did a little more reformatting in the README.
+## [1.0.3.d] - 2020/01/26
+- there was some issues and mixup with tags in github. This is just a version number change to get the github tags to show up in the right order 
+## [1.0.3.e] - 2020/01/26
+### Changed
+- add a section on just build instructions into readme
 

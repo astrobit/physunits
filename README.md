@@ -51,15 +51,28 @@ Each distributable file contains the following:
     physunits.dtx           The package code and documentation
     physunits.pdf           The package user manual
 ```
+## Building
+### Linux / max
+1. `make` to generate the package
+### Windows or if make doesn't work
+
+Instructions that might help can be for windows can be found at [this post on StackExchange](https://tex.stackexchange.com/questions/369921/loading-packages-with-ins-and-dtx-files).
+1. Run `latex` on physunits.ins
+1. Run `latex` of some form (e.g. `xelatex`) on `physunits.dtx`
+1. Run `makeindex -s gind.ist -o physunits.ind physunits.idx`
+1. Run `makeindex -s gglo.ist -o $(pkgname).gls $(pkgname).glo`
+1. Run `latex` of some form (e.g. `xelatex`) on `physunits.dtx` to create the index
+1. Run `latex` of some form (e.g. `xelatex`) on `physunits.dtx` to get the right links and labels.
+
 ## Creating distributions
 
 ### Linux / max
 To create a disribution on linux (or mac?)
-1. `make` to generate the package
+1. Build the package as described above.
 1. `make dist` to generate the distributable tarball and zip file
 
-### Windows
-1. Build the package.
+### Windows or if make doesn't work
+1. Build the package as described above.
 1. Create a directory named `physunits`
 1. Copy `physunits.ins`, `physunits.dtx`, `physunits.pdf`, and `CHANGELOG.md` into the directory
 1. Copy `README.dist.md` into the directory as `README.md`
