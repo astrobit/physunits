@@ -10,4 +10,8 @@
 *.glo
 *.ilg
 *.out
+*.tar
+*.tar.gz
+*.gz
+*.zip
 
