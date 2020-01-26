@@ -15,18 +15,40 @@ http://www.latex-project.org/lppl.txt
 and version 1.3c or later is part of all distributions of LaTeX
 version 2006/05/20 or later.
 
+# Dependencies
+None.
+
+# Build Dependencies
+- some LaTeX distribution with `xelatex`. The makefile assumes you have texlive.
+- `hyperref` package for LaTeX
+- GNU `make`
+
 # Files
 ```
-    README.md     This file.
-    physunits.ins The installer file
-    physunits.dtx The package code and documentation
-    makefile      GNU makefile to create and install the package
+    README.md               This file.
+    CHANGELOG.md            List of changes
+    physunits.ins           The installer file
+    physunits.ins           The package code and documentation
+    makefile                GNU makefile to create and install the package
 ```
 
+# Distributable Files
+The following distributable files can be created as described below.
+```
+	physunits.sty           The actual package
+    physunits.pdf           Usage documentation
+    physunits.tar.bz2       Tarball containing package, documentation, and 
+                            this README
+    physunits.zip           Zip file containing package, documentation, and 
+                            this README
+```
+To create a disribution on linux (or mac?)
+- `make dist`
+
 # Installation
-For linux, run `makefile` to generate the package (.sty file) and documentation.
+For linux, run `make` to generate the package (.sty file) and documentation.
 If you are using texlive (most modern linux distributions use texlive), you may 
-then run `sudo makefile localinstall` to install the package to your latex 
+then run `sudo make localinstall` to install the package to your latex 
 distribution. If you are not using texlive, you will need to manually
 copy the .sty file into either the folder where your .tex files reside that
 require the package, or manually install the package in your latex distribution.
@@ -38,4 +60,5 @@ then run `texhash` so that latex knows that they are there.
 
 For windows, you're kind of on your own. Instructions that might help can be
 found at [this post on StackExchange](https://tex.stackexchange.com/questions/369921/loading-packages-with-ins-and-dtx-files).
+
 
