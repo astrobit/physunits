@@ -27,5 +27,13 @@
 - Switch tarball/zip to include .dtx instead of .sty per CTAN requirement
 - Clean up installation instructions in README.md
 - Made some changes in the makefile to take better advantage of make
-
+## [1.0.3a] - 2020/01/26
+### Added
+- Created a separate readme for the distribution
+- Created a separate makefile for the distribution
+### Changed
+- modify the makefile to include .ins in the package files
+- modify the makefile to include the new distrubution readme and makefile
+- give instructions on using makefile for distribution
+- Did a little more reformatting in the README.
 
