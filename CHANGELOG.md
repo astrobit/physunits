@@ -51,9 +51,11 @@ causing problems for text mode. The degree symbol is also typically typeset
 with the unit instead of with the number. Correct both of these issues.
 - correct version number and file date in dtx and pdf documentation
 - Use dist changelog for distribution.
+- Make sure \micro macro is compatable with siunitx
 ### Added
 - Create separate changelog for dist.
 - Add acknowledgements to documentation
 - Add bug reporting section to documentation
 - Add prerequisites section to documentation
 - Give some explanation of differences to siunitx in introduction
+
