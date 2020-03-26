@@ -41,7 +41,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{486}
+% \CheckSum{490}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -87,6 +87,33 @@
 % This package consists of several macros that are shorthand for a variety of
 % physical units that are commonly used in introductory level physics and 
 % astronomy classes. 
+%
+% At present, this package provides some similar units to those in siunitx, but
+% is uses slightly different macro names for each. This package also provides
+% a number of non-SI units (e.g. erg, cm, BTU).
+% 
+%
+% \section{Prerequisites / Dependencies}
+% \changes{v1.0.4}{2020/03/26}{Added section for dependencies.}
+%
+% \subsection{General}
+% This package requires the \verb|physunits| package.%
+%
+% \subsection{Generating Documentation}
+% The \verb|hyperref| package are required to generate the documentation
+% (this file) for this package.
+%
+% \section{Acknowledgements}
+% \changes{v1.0.4}{2020/03/26}{Added section for acknowledgements.}
+%
+% The author would like to thank Brian Dunn for catching bugs in the temperature
+% units and kcal, leading to changes in v1.0.4.
+%
+% \section{Bug Reporting}
+% \changes{v1.0.4}{2020/03/26}{Added section for bug reporting.}
+%
+% Please report bugs or issues in this package using github, at
+% \url{https://github.com/astrobit/physunits/issues}.%
 %
 % \section{Naming Convention}
 %
@@ -615,13 +642,17 @@
 %\iffalse
 %<*package>
 %\fi
-% \begin{macro}{\units@separator}
-% |\units@separator| is a special macro used to set the spacing between a
-% quantity and the associated units.
+% \begin{macro}{\micro}
+% \changes{v1.0.4}{2020/03/26}{Corrected version number and date in 
+% documentation}
+% |\micro| is a special macro used to typeset the symbol \textbackslash mu.
+% It is compatable with the \textbackslash micro in siunitx.
 %
 %    \begin{macrocode}
+\ifx\micro\undefined
 \DeclareRobustCommand{\micro}{\ensuremath{%
 \mu}}
+\fi
 %    \end{macrocode}
 % \end{macro}
 %\iffalse

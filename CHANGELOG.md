@@ -53,3 +53,7 @@ with the unit instead of with the number. Correct both of these issues.
 - Use dist changelog for distribution.
 ### Added
 - Create separate changelog for dist.
+- Add acknowledgements to documentation
+- Add bug reporting section to documentation
+- Add prerequisites section to documentation
+- Give some explanation of differences to siunitx in introduction
