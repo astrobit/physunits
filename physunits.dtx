@@ -22,7 +22,7 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[1994/06/01]
 %<package> \ProvidesPackage{physunits}
 %<*package>
-    [2020/01/26 v1.0.3 Physical units package]
+    [2020/03/26 v1.0.4 Physical units package]
 %</package>
 %<package>\ProcessOptions\relax
 %<*driver>
@@ -63,10 +63,12 @@
 % \changes{v1.0.1}{2020/01/25}{Clean up formatting, fix index}
 % \changes{v1.0.2}{2020/01/25}{External changes in makefile}
 % \changes{v1.0.3}{2020/01/26}{External changes in makefile}
+% \changes{v1.0.4}{2020/03/26}{Corrected version number and date in 
+% documentation}
 %
 % \GetFileInfo{physunits.dtx}
-% \DeclareRobustCommand{\fileversion}{v1.0}
-% \DeclareRobustCommand{\filedate}{2020/01/26}
+% \DeclareRobustCommand{\fileversion}{v1.0.4}
+% \DeclareRobustCommand{\filedate}{2020/03/26}
 %
 % \DoNotIndex{\DeclareRobustCommand,\newenvironment,\DeclareRobustCommand,
 %  \left,\right,\textbf,\mathrm,\ensuremath,\units@separator,\expandafter,\,}
@@ -899,10 +901,12 @@
 %<*package>
 %\fi
 % \begin{macro}{\kcal}
+% \changes{v1.0.4}{2020/03/26}{kcal appeared to take a prefix, but the prefix
+% was ignored; removed the prefix.}
 % |\kcal| is a macro for kilo-calories (kcal).
 %
 %    \begin{macrocode}
-\DeclareRobustCommand{\kcal}[1]{\ensuremath{%
+\DeclareRobustCommand{\kcal}{\ensuremath{%
 \expandafter\units@separator\mathrm{kcal}}}
 %    \end{macrocode}
 % \end{macro}
@@ -1628,11 +1632,15 @@
 %<*package>
 %\fi
 % \begin{macro}{\Celcius}
+% \changes{v1.0.4}{2020/03/26}{had ${}^\circ$ outside of 
+% ensuremath, causing problems for text mode. It is also more common to typeset
+% the $^\circ$ with the unit instead of the number. Corrects both of these 
+% issues}
 % |\Celcius| is a macro for degrees Celcius $(\Celcius)$.
 %
 %    \begin{macrocode}
-\DeclareRobustCommand{\Celcius}{^\circ\ensuremath{%
-\expandafter\units@separator\mathrm{C}}}
+\DeclareRobustCommand{\Celcius}{\ensuremath{\expandafter\units@separator{}%
+^\circ\mathrm{C}}}
 %    \end{macrocode}
 % \end{macro}
 %\iffalse
@@ -1643,11 +1651,15 @@
 %<*package>
 %\fi
 % \begin{macro}{\Rankine}
+% \changes{v1.0.4}{2020/03/26}{had ${}^\circ$ outside of 
+% ensuremath, causing problems for text mode. It is also more common to typeset
+% the $^\circ$ with the unit instead of the number. Corrects both of these 
+% issues}
 % |\Rankine| is a macro for degrees Rankine $(\Rankine)$.
 %
 %    \begin{macrocode}
-\DeclareRobustCommand{\Rankine}{^\circ\ensuremath{%
-\expandafter\units@separator\mathrm{R}}}
+\DeclareRobustCommand{\Rankine}{\ensuremath{%
+\expandafter\units@separator{}^\circ\mathrm{R}}}
 %    \end{macrocode}
 % \end{macro}
 %\iffalse
@@ -1658,11 +1670,15 @@
 %<*package>
 %\fi
 % \begin{macro}{\Fahrenheit}
+% \changes{v1.0.4}{2020/03/26}{had ${}^\circ$ outside of 
+% ensuremath, causing problems for text mode. It is also more common to typeset
+% the $^\circ$ with the unit instead of the number. Corrects both of these 
+% issues}
 % |\Fahrenheit| is a macro for degrees Fahrenheit $(\Fahrenheit)$.
 %
 %    \begin{macrocode}
-\DeclareRobustCommand{\Fahrenheit}{^\circ\ensuremath{%
-\expandafter\units@separator\mathrm{F}}}
+\DeclareRobustCommand{\Fahrenheit}{\ensuremath{%
+\expandafter\units@separator{}^\circ\mathrm{F}}}
 %    \end{macrocode}
 % \end{macro}
 %\iffalse
