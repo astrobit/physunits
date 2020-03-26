@@ -42,7 +42,7 @@ number change to get the github tags to show up in the right order
 ## [1.0.3.e] - 2020/01/26
 ### Changed
 - add a section on just build instructions into readme
-## [1.0.4.0] - 2020/03/26
+## [1.0.4] - 2020/03/26
 ### Changes
 - kcal appeared to accept a prefix, though it was ignored; remove option for the
 macro
