@@ -89,7 +89,7 @@ distuninstall:
 	-rm -r $(TEXMFDIST)/doc/latex/$(pkgname)
 	texhash
 
-%.tar: %.dtx %.pdf README.md CHANGELOG.md
+%.tar: %.dtx %.pdf README.dist.md CHANGELOG.dist.md makefile.dist
 	mkdir -p $(pkgname)
 	cp $(pkgname).pdf $(pkgname)/.
 	cp $(pkgname).dtx $(pkgname)/.
@@ -103,7 +103,7 @@ distuninstall:
 %.tar.gz: %.tar
 	gzip -f $(pkgname).tar
  
-%.zip: %.dtx %.pdf README.md CHANGELOG.md
+%.zip: %.dtx %.pdf README.dist.md CHANGELOG.dist.md makefile.dist
 	mkdir -p $(pkgname)
 	cp $(pkgname).pdf $(pkgname)/.
 	cp $(pkgname).dtx $(pkgname)/.
