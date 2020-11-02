@@ -65,6 +65,7 @@
 % \changes{v1.0.3}{2020/01/26}{External changes in makefile}
 % \changes{v1.0.4}{2020/03/26}{Corrected version number and date in 
 % documentation}
+% \changes{v1.0.5}{2020/11/02}{Corrected spelling of Celsius}
 %
 % \GetFileInfo{physunits.dtx}
 % \DeclareRobustCommand{\fileversion}{v1.0.4}
@@ -514,9 +515,11 @@
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
-% \DescribeMacro{\Celcius}
-% \index{Temperature>Celcius|usage}
-% |\Celcius| is a macro for degrees Celcius $(\Celcius)$.
+% \changes{v1.0.5}{2020/11/02}{Corrected spelling of Celsius}
+% \DescribeMacro{\Celsius}
+% \index{Temperature>Celsius|usage}
+% |\Celsius| is a macro for degrees Celsius $(\Celsius)$.
+% |\Celcius| is an identical macro $(\Celsius)$.
 %
 % \DescribeMacro{\Rankine}
 % \index{Temperature>Rankine|usage}
@@ -1662,16 +1665,18 @@
 %\iffalse
 %<*package>
 %\fi
-% \begin{macro}{\Celcius}
+% \begin{macro}{\Celsius}
 % \changes{v1.0.4}{2020/03/26}{had ${}^\circ$ outside of 
 % ensuremath, causing problems for text mode. It is also more common to typeset
 % the $^\circ$ with the unit instead of the number. Corrects both of these 
 % issues}
-% |\Celcius| is a macro for degrees Celcius $(\Celcius)$.
+% \changes{v1.0.5}{2020/11/02}{corrected spelling of Celsius and added
+% duplicate macro with incorrect spelling (``Celcius'')}
 %
 %    \begin{macrocode}
-\DeclareRobustCommand{\Celcius}{\ensuremath{\expandafter\units@separator{}%
+\DeclareRobustCommand{\Celsius}{\ensuremath{\expandafter\units@separator{}%
 ^\circ\mathrm{C}}}
+\DeclareRobustCommand{\Celcius}{\Celsius}}
 %    \end{macrocode}
 % \end{macro}
 %\iffalse
