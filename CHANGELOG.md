@@ -58,4 +58,7 @@ with the unit instead of with the number. Correct both of these issues.
 - Add bug reporting section to documentation
 - Add prerequisites section to documentation
 - Give some explanation of differences to siunitx in introduction
-
+## [1.1.0] - 2020/11/02
+### Added
+- Added Celsius macro (correct spelling of Celcius). Retained incorrect
+spelling for backward compatability.
