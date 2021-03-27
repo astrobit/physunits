@@ -60,3 +60,9 @@ with the unit instead of with the number. Correct both of these issues.
 ### Added
 - Added Celsius macro (correct spelling of Celcius). Retained incorrect
 spelling for backward compatability.
+## [1.2.0] - 2021/03/26
+### Added
+- Added centigrade macro. 
+### Changes
+- Fixed some versioning comments
+

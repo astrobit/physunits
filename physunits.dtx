@@ -22,7 +22,7 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[1994/06/01]
 %<package> \ProvidesPackage{physunits}
 %<*package>
-    [2020/11/02 v1.1.0 Physical units package]
+    [2020/03/26 v1.2.0 Physical units package]
 %</package>
 %<package>\ProcessOptions\relax
 %<*driver>
@@ -41,7 +41,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{493}
+% \CheckSum{496}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -65,11 +65,12 @@
 % \changes{v1.0.3}{2020/01/26}{External changes in makefile}
 % \changes{v1.0.4}{2020/03/26}{Corrected version number and date in 
 % documentation}
-% \changes{v1.1.5}{2020/11/02}{Corrected spelling of Celsius}
+% \changes{v1.1.0}{2020/11/02}{Corrected spelling of Celsius}
+% \changes{v1.2.0}{2020/03/26}{Added centigrade}
 %
 % \GetFileInfo{physunits.dtx}
-% \DeclareRobustCommand{\fileversion}{v1.0.4}
-% \DeclareRobustCommand{\filedate}{2020/03/26}
+% \DeclareRobustCommand{\fileversion}{v1.2.0}
+% \DeclareRobustCommand{\filedate}{2021/03/26}
 %
 % \DoNotIndex{\DeclareRobustCommand,\newenvironment,\DeclareRobustCommand,
 %  \left,\right,\textbf,\mathrm,\ensuremath,\units@separator,\expandafter,\,}
@@ -515,11 +516,12 @@
 % This macro accepts an optional argument for a prefix. If no option is 
 % supplied, no prefix will be prepended.
 %
-% \changes{v1.1.0}{2020/11/02}{Corrected spelling of Celsius}
+% \changes{v1.1.0}{2020/11/02}{Corrected spelling of Celsius.}
+% \changes{v1.2.0}{2020/03/26}{Added centigrade.}
 % \DescribeMacro{\Celsius}
 % \index{Temperature>Celsius|usage}
 % |\Celsius| is a macro for degrees Celsius $(\Celsius)$.
-% |\Celcius| is an identical macro $(\Celsius)$.
+% |\Celcius| and |\centigrade| are identical macros $(\Celsius)$.
 %
 % \DescribeMacro{\Rankine}
 % \index{Temperature>Rankine|usage}
@@ -1670,13 +1672,15 @@
 % ensuremath, causing problems for text mode. It is also more common to typeset
 % the $^\circ$ with the unit instead of the number. Corrects both of these 
 % issues}
-% \changes{v1.0.5}{2020/11/02}{corrected spelling of Celsius and added
+% \changes{v1.1.0}{2020/11/02}{corrected spelling of Celsius and added
 % duplicate macro with incorrect spelling (``Celcius'')}
+% \changes{v1.2.0}{2021/03/26}{Added centigrade}
 %
 %    \begin{macrocode}
 \DeclareRobustCommand{\Celsius}{\ensuremath{\expandafter\units@separator{}%
 ^\circ\mathrm{C}}}
 \DeclareRobustCommand{\Celcius}{\Celsius}
+\DeclareRobustCommand{\centigrade}{\Celsius}
 %    \end{macrocode}
 % \end{macro}
 %\iffalse
