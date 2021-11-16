@@ -41,7 +41,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{496}
+% \CheckSum{508}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -67,10 +67,11 @@
 % documentation}
 % \changes{v1.1.0}{2020/11/02}{Corrected spelling of Celsius}
 % \changes{v1.2.0}{2020/03/26}{Added centigrade}
+% \changes{v1.3.0}{2021/11/16}{Added liters}
 %
 % \GetFileInfo{physunits.dtx}
-% \DeclareRobustCommand{\fileversion}{v1.2.0}
-% \DeclareRobustCommand{\filedate}{2021/03/26}
+% \DeclareRobustCommand{\fileversion}{v1.3.0}
+% \DeclareRobustCommand{\filedate}{2021/11/16}
 %
 % \DoNotIndex{\DeclareRobustCommand,\newenvironment,\DeclareRobustCommand,
 %  \left,\right,\textbf,\mathrm,\ensuremath,\units@separator,\expandafter,\,}
@@ -361,6 +362,17 @@
 % |\mi| is a macro for miles (mi).
 %
 % \index{Distance|usage)}
+%
+% \subsection{Volume}
+% \changes{v1.3.0}{2021/11/16}{Added section for volume and added liters.}
+% \index{Volume|usage)}
+% \DescribeMacro{\m}
+% \index{Volume>Liter|usage}
+% |\l| is a macro for liters (l).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+% \index{Volume|usage)}
 %
 % \subsection{Time}
 % \index{Time|usage(}
@@ -1256,6 +1268,46 @@
 %</package>
 %\fi
 %
+% \subsection{Volume}
+% \changes{v1.3.0}{2021/11/16}{Added section for volume and added liters.}
+%
+%\iffalse
+%<*package>
+%\fi
+% \begin{macro}{\liter}
+% |\liter| is a macro for liters (l).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\liter}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1l}}}
+%    \end{macrocode}
+% \end{macro}
+%\iffalse
+%</package>
+%\fi
+%
+%\iffalse
+%<*package>
+%\fi
+% \begin{macro}{\m}
+% |\l| is a macro for liters (l).
+% This macro accepts an optional argument for a prefix. If no option is 
+% supplied, no prefix will be prepended.
+%
+%    \begin{macrocode}
+\DeclareRobustCommand{\l}[1][ ]{\ensuremath{%
+\expandafter\units@separator\mathrm{#1l}}}
+%    \end{macrocode}
+% \end{macro}
+%\iffalse
+%</package>
+%\fi
+%
+%\iffalse
+%<*package>
+%\fi
 %
 % \subsection{Time}
 %

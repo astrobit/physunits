@@ -67,4 +67,8 @@ spelling for backward compatability.
 - Added centigrade macro. 
 ### Changes
 - Fixed some versioning comments
+## [1.3.0] - 2021/11/16
+### Added
+- Added section for volume
+- Added macros for liter (liter and l)
 
