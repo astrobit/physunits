@@ -1,6 +1,7 @@
 pkgname=$(patsubst %.ins,%,$(wildcard *.ins))
 TEXMFLOCAL = $(shell kpsewhich -var-value TEXMFLOCAL)
 TEXMFDIST = $(shell kpsewhich -var-value TEXMFDIST)
+LATEXFLAGS = -interaction=nonstopmode -halt-on-error
 
 .PHONY: all clean localinstall localuninstall localinstallcheck distinstall distuninstall distinstallcheck dist installcheck
 
@@ -14,11 +15,11 @@ all: $(pkgname).pdf
 	latex $(pkgname).ins
 	
 %.pdf: %.sty
-	xelatex $(pkgname).dtx
+	xelatex $(LATEXFLAGS) $(pkgname).dtx
 	makeindex -s gind.ist -o $(pkgname).ind $(pkgname).idx
 	makeindex -s gglo.ist -o $(pkgname).gls $(pkgname).glo
-	xelatex $(pkgname).dtx
-	xelatex $(pkgname).dtx
+	xelatex $(LATEXFLAGS) $(pkgname).dtx
+	xelatex $(LATEXFLAGS) $(pkgname).dtx
 
 clean:
 	-rm *.pdf
@@ -35,6 +36,7 @@ clean:
 	-rm *.ilg
 	-rm *.ind
 	-rm *.glo
+	-rm *.hd
 	-rm $(pkgname).zip
 	-rm $(pkgname).tar
 	-rm $(pkgname).tar.gz
@@ -57,7 +59,7 @@ $(TEXMFLOCAL)/doc/latex/$(pkgname)/$(pkgname).pdf: $(pkgname).pdf $(TEXMFLOCAL)/
 localinstall: $(pkgname).pdf $(pkgname).sty $(TEXMFLOCAL)/tex/latex/$(pkgname) $(TEXMFLOCAL)/doc/latex/$(pkgname) $(TEXMFLOCAL)/tex/latex/$(pkgname)/$(pkgname).sty $(TEXMFLOCAL)/doc/latex/$(pkgname)/$(pkgname).pdf
 	@echo Installing to $(TEXMFLOCAL)/tex/latex/$(pkgname)
 	texhash
-	make localinstallcheck
+	$(MAKE) localinstallcheck
 
 localuninstall: 
 	@echo Removing from $(TEXMFLOCAL)/tex/latex/$(pkgname)
@@ -81,7 +83,7 @@ $(TEXMFDIST)/doc/latex/$(pkgname)/$(pkgname).pdf: $(pkgname).pdf $(TEXMFDIST)/do
 distinstall: $(pkgname).pdf $(pkgname).sty $(TEXMFDIST)/tex/latex/$(pkgname) $(TEXMFDIST)/doc/latex/$(pkgname) $(TEXMFDIST)/tex/latex/$(pkgname)/$(pkgname).sty $(TEXMFDIST)/doc/latex/$(pkgname)/$(pkgname).pdf
 	@echo Installing to $(TEXMFDIST)/tex/latex/$(pkgname)
 	texhash
-	make distinstallcheck
+	$(MAKE) distinstallcheck
 
 distuninstall: 
 	@echo Removing from $(TEXMFDIST)/tex/latex/$(pkgname)
@@ -89,7 +91,7 @@ distuninstall:
 	-rm -r $(TEXMFDIST)/doc/latex/$(pkgname)
 	texhash
 
-%.tar: %.dtx %.pdf README.dist.md CHANGELOG.dist.md makefile.dist
+%.tar: %.dtx %.ins %.pdf README.dist.md CHANGELOG.dist.md makefile.dist
 	mkdir -p $(pkgname)
 	cp $(pkgname).pdf $(pkgname)/.
 	cp $(pkgname).dtx $(pkgname)/.
@@ -103,7 +105,7 @@ distuninstall:
 %.tar.gz: %.tar
 	gzip -f $(pkgname).tar
  
-%.zip: %.dtx %.pdf README.dist.md CHANGELOG.dist.md makefile.dist
+%.zip: %.dtx %.ins %.pdf README.dist.md CHANGELOG.dist.md makefile.dist
 	mkdir -p $(pkgname)
 	cp $(pkgname).pdf $(pkgname)/.
 	cp $(pkgname).dtx $(pkgname)/.
@@ -111,6 +113,7 @@ distuninstall:
 	cp README.dist.md $(pkgname)/README.md
 	cp makefile.dist $(pkgname)/makefile
 	cp CHANGELOG.dist.md $(pkgname)/CHANGELOG.md
+	rm -f $(pkgname).zip
 	zip -r $(pkgname).zip $(pkgname)
 	rm -r $(pkgname)
 
@@ -134,15 +137,11 @@ else
 	$(error $(pkgname) is not installed as dist)
 endif
 
-installcheck: 
-ifeq (0,$(shell test -d $(TEXMFDIST)/tex/latex/$(pkgname); echo $$?))
-	@echo $(pkgname) installed as dist: $(TEXMFDIST)/tex/latex/$(pkgname)
-else
-ifeq (0,$(shell test -d $(TEXMFLOCAL)/tex/latex/$(pkgname); echo $$?))
-	@echo $(pkgname) installed as local: $(TEXMFLOCAL)/tex/latex/$(pkgname)
-else
+installcheck:
+ifeq (,$(shell cd / && kpsewhich $(pkgname).sty))
 	$(error $(pkgname) is not installed)
-endif
+else
+	@echo LaTeX will use $(pkgname) from: $(shell cd / && kpsewhich $(pkgname).sty)
 endif
 
 

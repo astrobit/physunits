@@ -65,7 +65,54 @@ spelling for backward compatability.
 - Added centigrade macro. 
 ### Changes
 - Fixed some versioning comments
-## [1.3.0] - 2021/11/16
+## [1.3.0] - 2026/11/24
 ### Added
 - Added section for volume
 - Added macros for liter (liter and l)
+- Added the remaining SI units and a large set of cgs, astronomical,
+imperial, US customary and historical units (over 200 new unit macros),
+grouped by quantity
+- Added lower-case and title-case forms of the units (e.g. \newton and
+\Newton; \Gilbert, \Oersted, \Maxwell, \Franklin, \Buckingham, \Fermi,
+\Roentgen, \Curie, \Rutherford, \Eotvos, \Sverdrup, \Poiseuille and
+\Morgan)
+- Added all SI prefix macros, including ronna, quetta, ronto and quecto, and
+\myria
+- Added user-level unit constructors \punit, \punitDeg and \punitVar
+- Added \physunitssetup for setting options in the document
+- Added options for alternative unit symbols (arcmin, minute, hour, day, year,
+au, gram, liter, kcal, Cal, btu, tonTNT, amu, and the imperial area, volume
+and length units, among others), combine-slash for the combination units,
+and degree-space
+- Added named spacing macros (\pThinSpace, \pMediumSpace, \pThickSpace,
+\pFullSpace)
+- Added mho units, using the font's mho glyph when amssymb or unicode-math is
+loaded and a rotated Omega otherwise, with a small gap after a prefix
+- Added a table of contents, a section on where to obtain the package, a
+license section, an AI usage statement, and attribution for the shear code
+used for the upright micro sign (from Bruno Le Floch, used under the LPPL
+with his permission)
+### Changed
+- All unit macros reimplemented with \NewDocumentCommand; each takes
+optional prefix, exponent and separator arguments, in that order. Units that
+do not take SI prefixes (e.g. \Min, \h) no longer accept a prefix
+- Package options are now key-value options (\DeclareKeys); amu, unit-space
+and deka replace the old amu-, space- and deka- options
+- Requires a LaTeX format dated 2022-11-01 or later; upgreek is no longer
+loaded
+- \micro is always an upright mu: sheared math italic mu under pdfLaTeX,
+\upmu under XeLaTeX and LuaLaTeX
+- Default symbol for \tnt is now "ton TNT" (was "ton of TNT")
+- \units@separator is kept for backward compatibility but now gives the
+current unit space; redefining it no longer changes the spacing (use the
+unit-space option)
+- Reorganized the documentation: units grouped by quantity, each split into
+SI, cgs and semi-SI, and imperial, US customary and historical units
+- Updated email address to txstate.edu
+- Updated the readmes: current description, dependencies, copyright and
+email, links to CTAN and GitHub, corrected build commands (run pdflatex or
+xelatex on physunits.dtx), sudo for localinstall and localuninstall, and
+typo fixes
+- makefile: xelatex runs with -interaction=nonstopmode -halt-on-error; clean
+also removes the .hd file; the install checks use $(MAKE); installcheck now
+reports the copy of physunits.sty that LaTeX will actually use
