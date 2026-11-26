@@ -74,7 +74,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{2526}
+% \CheckSum{2592}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -258,8 +258,9 @@
 %   true, \cs{solarmass}, \cs{jupitermass}, \cs{earthmass}, \cs{moonmass},
 %   \cs{solarradius}, \cs{jupiterradius}, \cs{earthradius}, \cs{moonradius}
 %   and \cs{solarluminosity} are not defined, so documents that define their own macros with these names
-%   keep working. This option only works when the package is loaded, not with
-%   \cs{physunitssetup}.
+%   keep working. It is a shortcut for listing these commands in the
+%   \texttt{disable} option (Section~\ref{sec:compat}), and like that option it
+%   only works when the package is loaded.
 % \end{description}
 % \subsection{Area}
 % \begin{description}
@@ -320,6 +321,15 @@
 % \subsection{Combination units}
 % \begin{description}
 % \item[\texttt{combine-slash}] Boolean, default \texttt{false}. When true, the combination units (Section~\ref{sec:combination}) are written with a slash, e.g.\ km/s, instead of a negative exponent, km\,s$^{-1}$.
+% \item[\texttt{Wh}] Values: \texttt{cdot} ($\mathrm{W}\cdot\mathrm{h}$), \texttt{Wh} ($\mathrm{Wh}$). Default \texttt{cdot}; bare key \texttt{cdot}. Affects \cs{Wh}.
+% \item[\texttt{Ah}] Values: \texttt{cdot} ($\mathrm{A}\cdot\mathrm{h}$), \texttt{Ah} ($\mathrm{Ah}$). Default \texttt{cdot}; bare key \texttt{cdot}. Affects \cs{Ah}.
+% \end{description}
+% \subsection{Compatibility}\label{sec:compat}
+% These options decide which commands physunits defines, so they only work
+% when the package is loaded, not with \cs{physunitssetup}.
+% \begin{description}
+% \item[\texttt{disable}] A comma-separated list of command names, given without the backslash, for example \verb|disable={solarmass, ly}|. The listed commands are not defined, so that a document or class can define its own commands with these names. Commands that physunits builds from a disabled command still work; for example \cs{kmps} still works with \verb|disable={meter}|. The option can be given more than once; the lists are combined.
+% \item[\texttt{skip-defined}] Boolean, default \texttt{false}. When true, a command that already exists when physunits is loaded (for example, one defined by the document class) is left unchanged, and a note is written to the log. Without this option such a command gives an error, except for the prefixes, \cs{micro}, the space commands and \cs{kmps}, \cs{kmph}, \cs{ftps}, \cs{ftpss}, \cs{miph}, \cs{rpm}, \cs{lbft} and \cs{lbin}, which are redefined as in earlier versions. Commands that the document defines after loading physunits are not affected; use \texttt{disable} for those.
 % \end{description}
 %
 % \section{Syntax}\label{sec:prefixes}
@@ -1106,7 +1116,7 @@
 % \cs{ppb}: parts per billion, $\ppb$.
 % \end{itemize}
 % \subsection{Combination units}\label{sec:combination}
-% These take no arguments, except that \cs{mps} and \cs{mpss} accept a \oarg{prefix} for the meter, \cs{Nm}, \cs{Wh} and \cs{Ah} for the newton, watt and ampere, \cs{molar} for the mole, and \cs{bps} and \cs{Bps} for the bit and byte. The per-unit forms follow the \texttt{combine-slash} option; the products (\cs{Nm}, \cs{lbft}, \cs{lbin}, \cs{Wh}, \cs{Ah}) are written with a centered dot. \cs{Nm} is the newton meter; use \cs{numbermetric} for the metric yarn count.
+% These take no arguments, except that \cs{mps} and \cs{mpss} accept a \oarg{prefix} for the meter, \cs{Nm}, \cs{Wh} and \cs{Ah} for the newton, watt and ampere, \cs{molar} for the mole, and \cs{bps} and \cs{Bps} for the bit and byte. The per-unit forms follow the \texttt{combine-slash} option; the products (\cs{Nm}, \cs{lbft}, \cs{lbin}, and by default \cs{Wh} and \cs{Ah}) are written with a centered dot. \cs{Nm} is the newton meter; use \cs{numbermetric} for the metric yarn count.
 % \begin{itemize}
 % \item \SpecialUsageIndex{\kmps}\index{Combination units>kmps=\cs{kmps}|usage}
 % \cs{kmps}: kilometer per second, $\kmps$.
@@ -1135,9 +1145,9 @@
 % \item \SpecialUsageIndex{\Bps}\index{Combination units>Bps=\cs{Bps}|usage}
 % \cs{Bps}\oarg{prefix}: byte per second, $\Bps$.
 % \item \SpecialUsageIndex{\Wh}\index{Combination units>Wh=\cs{Wh}|usage}
-% \cs{Wh}\oarg{prefix}: watt hour, $\Wh$.
+% \cs{Wh}\oarg{prefix}: watt hour, $\Wh$. Its form is set by the \texttt{Wh} option.
 % \item \SpecialUsageIndex{\Ah}\index{Combination units>Ah=\cs{Ah}|usage}
-% \cs{Ah}\oarg{prefix}: ampere hour, $\Ah$.
+% \cs{Ah}\oarg{prefix}: ampere hour, $\Ah$. Its form is set by the \texttt{Ah} option.
 % \item \SpecialUsageIndex{\molar}\index{Combination units>molar=\cs{molar}|usage}
 % \cs{molar}\oarg{prefix}: molar (mole per liter), $\molar$. Uses the symbol set by the \texttt{liter} option.
 % \end{itemize}
@@ -1172,15 +1182,30 @@
  \fi
  
 \newif\if@combineSlash
-\newif\ifphysunits@noAstro
 \newif\ifphysunits@astroRoman
 %    \end{macrocode}
 % \end{macro}
 %
 % \subsection{Options}
 % The options are declared with the kernel \cs{DeclareKeys}, inside an expl3 block. Each choice key defines an internal symbol macro; \texttt{.initial:n} sets the default when the key is not given, and \texttt{.default:n} is the value used when the key is given without a value. Spaces are ignored under \cs{ExplSyntaxOn}, so the warning texts use \verb|~| for spaces.
+% \changes{v1.3.0}{2026/11/24}{Added the variables for the \texttt{disable} and \texttt{skip-defined} options.}
+% The names of disabled commands, the \texttt{skip-defined} switch, and a
+% flag set at the end of the package. Options that decide which commands are
+% defined only work while the package is loaded; afterwards they warn.
 %    \begin{macrocode}
 \ExplSyntaxOn
+\clist_new:N \g__physunits_disabled_clist
+\clist_new:N \g__physunits_published_clist
+\bool_new:N \g__physunits_skip_defined_bool
+\bool_new:N \g__physunits_loaded_bool
+\str_new:N \l__physunits_name_str
+\cs_new_protected:Npn \__physunits_load_only:n #1
+  {
+    \bool_if:NT \g__physunits_loaded_bool
+      { \PackageWarning{physunits}{The~#1~option~only~works~when~the~package~is~loaded.} }
+  }
+%    \end{macrocode}
+%    \begin{macrocode}
 \DeclareKeys[physunits]{
 %    \end{macrocode}
 % \begin{macro}{\amu@unit}
@@ -1291,8 +1316,8 @@
     hartree .code = {
         \str_case:nnF {#1}
         {
-            {Eh}{\DeclareDocumentCommand{\hartree}{O{}O{}O{\physunits@units@separator}}{\physunits@variableUnit{E\sb{\mathrm{h}}}[##1][##2][##3]}}
-            {Ha}{\DeclareDocumentCommand{\hartree}{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Ha}[##1][##2][##3]}}
+            {Eh}{\DeclareDocumentCommand{\physunits@u@hartree}{O{}O{}O{\physunits@units@separator}}{\physunits@variableUnit{E\sb{\mathrm{h}}}[##1][##2][##3]}}
+            {Ha}{\DeclareDocumentCommand{\physunits@u@hartree}{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Ha}[##1][##2][##3]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~hartree.~Option~values~are~Eh~or~Ha.}}
     },
@@ -1313,9 +1338,9 @@
     basepair .code = {
         \str_case:nnF {#1}
         {
-            {bp}{\DeclareDocumentCommand{\basepair}{O{}O{}O{\physunits@units@separator}}{\physunits@unit{bp}[##1][##2][##3]}}
-            {b}{\DeclareDocumentCommand{\basepair}{O{}O{}O{\physunits@units@separator}}{\physunits@unit{b}[##1][##2][##3]}}
-            {mixed}{\DeclareDocumentCommand{\basepair}{O{}O{}O{\physunits@units@separator}}{\tl_if_blank:nTF{##1}{\physunits@unit{bp}[][##2][##3]}{\physunits@unit{b}[##1][##2][##3]}}}
+            {bp}{\DeclareDocumentCommand{\physunits@u@basepair}{O{}O{}O{\physunits@units@separator}}{\physunits@unit{bp}[##1][##2][##3]}}
+            {b}{\DeclareDocumentCommand{\physunits@u@basepair}{O{}O{}O{\physunits@units@separator}}{\physunits@unit{b}[##1][##2][##3]}}
+            {mixed}{\DeclareDocumentCommand{\physunits@u@basepair}{O{}O{}O{\physunits@units@separator}}{\tl_if_blank:nTF{##1}{\physunits@unit{bp}[][##2][##3]}{\physunits@unit{b}[##1][##2][##3]}}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~basepair.~Option~values~are~bp,~b,~or~mixed.}}
     },
@@ -1337,6 +1362,42 @@
     },
     tonneCOtwoeq .default:n = {e},
     tonneCOtwoeq .initial:n = {e},
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\Wh}
+% \changes{v1.3.0}{2026/11/24}{Added the \texttt{Wh} option.}
+% Key \texttt{Wh}: \texttt{cdot} writes the watt hour as a product with a
+% centered dot; \texttt{Wh} writes it as one symbol. The optional argument
+% is the prefix of the watt.
+%    \begin{macrocode}
+    Wh .code = {
+        \str_case:nnF {#1}
+        {
+            {cdot}{\DeclareDocumentCommand{\physunits@u@Wh}{O{}}{\ensuremath{\physunits@u@watt[##1]\cdot\physunits@u@hour[][]}}}
+            {Wh}{\DeclareDocumentCommand{\physunits@u@Wh}{O{}}{\physunits@unit{W\hour@unit}[##1]}}
+        }
+        {\PackageWarning{physunits}{Unrecognized~option~for~Wh.~Option~values~are~cdot~or~Wh.}}
+    },
+    Wh .default:n = {cdot},
+    Wh .initial:n = {cdot},
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\Ah}
+% \changes{v1.3.0}{2026/11/24}{Added the \texttt{Ah} option.}
+% Key \texttt{Ah}: \texttt{cdot} writes the ampere hour as a product with a
+% centered dot; \texttt{Ah} writes it as one symbol. The optional argument
+% is the prefix of the ampere.
+%    \begin{macrocode}
+    Ah .code = {
+        \str_case:nnF {#1}
+        {
+            {cdot}{\DeclareDocumentCommand{\physunits@u@Ah}{O{}}{\ensuremath{\physunits@u@ampere[##1]\cdot\physunits@u@hour[][]}}}
+            {Ah}{\DeclareDocumentCommand{\physunits@u@Ah}{O{}}{\physunits@unit{A\hour@unit}[##1]}}
+        }
+        {\PackageWarning{physunits}{Unrecognized~option~for~Ah.~Option~values~are~cdot~or~Ah.}}
+    },
+    Ah .default:n = {cdot},
+    Ah .initial:n = {cdot},
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\liter@unit}
@@ -1453,10 +1514,10 @@
     unit-space .code = {
         \str_case:nnF {#1}
         {
-            {thin}{\DeclareRobustCommand{\units@separator}{\pThinSpace}}
-            {medium}{\DeclareRobustCommand{\units@separator}{\pMediumSpace}}
-            {thick}{\DeclareRobustCommand{\units@separator}{\pThickSpace}}
-            {full}{\DeclareRobustCommand{\units@separator}{\pFullSpace}}
+            {thin}{\DeclareRobustCommand{\units@separator}{\physunits@u@pThinSpace}}
+            {medium}{\DeclareRobustCommand{\units@separator}{\physunits@u@pMediumSpace}}
+            {thick}{\DeclareRobustCommand{\units@separator}{\physunits@u@pThickSpace}}
+            {full}{\DeclareRobustCommand{\units@separator}{\physunits@u@pFullSpace}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~unit-space.~Option~values~are~thin,~medium,~thick,~full.}}
     },
@@ -1620,8 +1681,8 @@
     sqin .code = {
         \str_case:nnF {#1}
         {
-            {sqin}{\DeclareDocumentCommand{\sqin}{O{\physunits@units@separator}}{\physunits@unit{sq\nobreakspace in}[][][##1]}}
-            {in2}{\DeclareDocumentCommand{\sqin}{O{\physunits@units@separator}}{\inch[2][##1]}}
+            {sqin}{\DeclareDocumentCommand{\physunits@u@sqin}{O{\physunits@units@separator}}{\physunits@unit{sq\nobreakspace in}[][][##1]}}
+            {in2}{\DeclareDocumentCommand{\physunits@u@sqin}{O{\physunits@units@separator}}{\physunits@u@inch[2][##1]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~sqin.~Option~values~are~sqin~or~in2}}
     },
@@ -1637,8 +1698,8 @@
     sqft .code = {
         \str_case:nnF {#1}
         {
-            {sqft}{\DeclareDocumentCommand{\sqft}{O{\physunits@units@separator}}{\physunits@unit{sq\nobreakspace ft}[][][##1]}}
-            {ft2}{\DeclareDocumentCommand{\sqft}{O{\physunits@units@separator}}{\foot[2][##1]}}
+            {sqft}{\DeclareDocumentCommand{\physunits@u@sqft}{O{\physunits@units@separator}}{\physunits@unit{sq\nobreakspace ft}[][][##1]}}
+            {ft2}{\DeclareDocumentCommand{\physunits@u@sqft}{O{\physunits@units@separator}}{\physunits@u@foot[2][##1]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~sqft.~Option~values~are~sqft~or~ft2}}
     },
@@ -1654,8 +1715,8 @@
     sqyd .code = {
         \str_case:nnF {#1}
         {
-            {sqyd}{\DeclareDocumentCommand{\sqyd}{O{\physunits@units@separator}}{\physunits@unit{sq\nobreakspace yd}[][][##1]}}
-            {yd2}{\DeclareDocumentCommand{\sqyd}{O{\physunits@units@separator}}{\yard[2][##1]}}
+            {sqyd}{\DeclareDocumentCommand{\physunits@u@sqyd}{O{\physunits@units@separator}}{\physunits@unit{sq\nobreakspace yd}[][][##1]}}
+            {yd2}{\DeclareDocumentCommand{\physunits@u@sqyd}{O{\physunits@units@separator}}{\physunits@u@yard[2][##1]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~sqyd.~Option~values~are~sqyd~or~yd2}}
     },
@@ -1671,8 +1732,8 @@
     sqmi .code = {
         \str_case:nnF {#1}
         {
-            {sqmi}{\DeclareDocumentCommand{\sqmi}{O{\physunits@units@separator}}{\physunits@unit{sq\nobreakspace mi}[][][##1]}}
-            {mi2}{\DeclareDocumentCommand{\sqmi}{O{\physunits@units@separator}}{\mile[2][##1]}}
+            {sqmi}{\DeclareDocumentCommand{\physunits@u@sqmi}{O{\physunits@units@separator}}{\physunits@unit{sq\nobreakspace mi}[][][##1]}}
+            {mi2}{\DeclareDocumentCommand{\physunits@u@sqmi}{O{\physunits@units@separator}}{\physunits@u@mile[2][##1]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~sqmi.~Option~values~are~sqmi~or~mi2}}
     },
@@ -1688,8 +1749,8 @@
     cuin .code = {
         \str_case:nnF {#1}
         {
-            {cuin}{\DeclareDocumentCommand{\cuin}{O{\physunits@units@separator}}{\physunits@unit{cu\nobreakspace in}[][][##1]}}
-            {in3}{\DeclareDocumentCommand{\cuin}{O{\physunits@units@separator}}{\inch[3][##1]}}
+            {cuin}{\DeclareDocumentCommand{\physunits@u@cuin}{O{\physunits@units@separator}}{\physunits@unit{cu\nobreakspace in}[][][##1]}}
+            {in3}{\DeclareDocumentCommand{\physunits@u@cuin}{O{\physunits@units@separator}}{\physunits@u@inch[3][##1]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~cuin.~Option~values~are~cuin~or~in3}}
     },
@@ -1705,8 +1766,8 @@
     cuft .code = {
         \str_case:nnF {#1}
         {
-            {cuft}{\DeclareDocumentCommand{\cuft}{O{\physunits@units@separator}}{\physunits@unit{cu\nobreakspace ft}[][][##1]}}
-            {ft3}{\DeclareDocumentCommand{\cuft}{O{\physunits@units@separator}}{\foot[3][##1]}}
+            {cuft}{\DeclareDocumentCommand{\physunits@u@cuft}{O{\physunits@units@separator}}{\physunits@unit{cu\nobreakspace ft}[][][##1]}}
+            {ft3}{\DeclareDocumentCommand{\physunits@u@cuft}{O{\physunits@units@separator}}{\physunits@u@foot[3][##1]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~cuft.~Option~values~are~cuft~or~ft3}}
     },
@@ -1722,8 +1783,8 @@
     cuyd .code = {
         \str_case:nnF {#1}
         {
-            {cuyd}{\DeclareDocumentCommand{\cuyd}{O{\physunits@units@separator}}{\physunits@unit{cu\nobreakspace yd}[][][##1]}}
-            {yd3}{\DeclareDocumentCommand{\cuyd}{O{\physunits@units@separator}}{\yard[3][##1]}}
+            {cuyd}{\DeclareDocumentCommand{\physunits@u@cuyd}{O{\physunits@units@separator}}{\physunits@unit{cu\nobreakspace yd}[][][##1]}}
+            {yd3}{\DeclareDocumentCommand{\physunits@u@cuyd}{O{\physunits@units@separator}}{\physunits@u@yard[3][##1]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~cuyd.~Option~values~are~cuyd~or~yd3}}
     },
@@ -1739,8 +1800,8 @@
     cumi .code = {
         \str_case:nnF {#1}
         {
-            {cumi}{\DeclareDocumentCommand{\cumi}{O{\physunits@units@separator}}{\physunits@unit{cu\nobreakspace mi}[][][##1]}}
-            {mi3}{\DeclareDocumentCommand{\cumi}{O{\physunits@units@separator}}{\mile[3][##1]}}
+            {cumi}{\DeclareDocumentCommand{\physunits@u@cumi}{O{\physunits@units@separator}}{\physunits@unit{cu\nobreakspace mi}[][][##1]}}
+            {mi3}{\DeclareDocumentCommand{\physunits@u@cumi}{O{\physunits@units@separator}}{\physunits@u@mile[3][##1]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~cumi.~Option~values~are~cumi~or~mi3}}
     },
@@ -1888,7 +1949,47 @@
 % \changes{v1.3.0}{2026/11/24}{Added the \texttt{disable-astro-mass-radii} option.}
 % Key \texttt{disable-astro-mass-radii}.
 %    \begin{macrocode}
-    disable-astro-mass-radii .if = physunits@noAstro,
+    disable-astro-mass-radii .code = {
+        \__physunits_load_only:n {disable-astro-mass-radii}
+        \str_if_eq:nnF {#1} {false}
+          {
+            \clist_map_inline:nn
+              { solarmass, jupitermass, earthmass, moonmass, solarradius,
+                jupiterradius, earthradius, moonradius, solarluminosity }
+              { \exp_args:NNe \clist_gput_right:Nn \g__physunits_disabled_clist { \tl_to_str:n {##1} } }
+          }
+    },
+    disable-astro-mass-radii .default:n = {true},
+%    \end{macrocode}
+% \changes{v1.3.0}{2026/11/24}{Added the \texttt{disable} option.}
+% Key \texttt{disable}: a list of command names that are not to be
+% defined. Names are given without the backslash (in \cs{usepackage} options
+% a control sequence would be expanded); a leading backslash is removed if
+% present. Each is stored as a string, and compared as a string when the
+% commands are defined.
+%    \begin{macrocode}
+    disable .code = {
+        \__physunits_load_only:n {disable}
+        \clist_map_inline:nn {#1}
+          {
+            \str_set:Nx \l__physunits_name_str { \tl_to_str:n {##1} }
+            \str_remove_all:Nn \l__physunits_name_str { ~ }
+            \str_if_eq:eeT { \str_head:N \l__physunits_name_str } { \c_backslash_str }
+              { \str_set:Nx \l__physunits_name_str { \str_tail:N \l__physunits_name_str } }
+            \clist_gput_right:NV \g__physunits_disabled_clist \l__physunits_name_str
+          }
+    },
+%    \end{macrocode}
+% \changes{v1.3.0}{2026/11/24}{Added the \texttt{skip-defined} option.}
+% Key \texttt{skip-defined}.
+%    \begin{macrocode}
+    skip-defined .code = {
+        \__physunits_load_only:n {skip-defined}
+        \str_if_eq:nnTF {#1} {false}
+          { \bool_gset_false:N \g__physunits_skip_defined_bool }
+          { \bool_gset_true:N \g__physunits_skip_defined_bool }
+    },
+    skip-defined .default:n = {true},
 %    \end{macrocode}
 % \begin{macro}{\physunitssetup}
 % End of the key list, the handler for unknown keys, option processing, and the user-level setup command.
@@ -1944,10 +2045,10 @@
 % \begin{macro}{\pThinSpace,\pMediumSpace,\pThickSpace,\pFullSpace}
 % \changes{v1.3.0}{2026/11/24}{Added the named spacing macros.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\pThinSpace}{\,}
-\DeclareRobustCommand{\pMediumSpace}{\:}
-\DeclareRobustCommand{\pThickSpace}{\;}
-\DeclareRobustCommand{\pFullSpace}{\nobreakspace}
+\DeclareRobustCommand{\physunits@u@pThinSpace}{\,}
+\DeclareRobustCommand{\physunits@u@pMediumSpace}{\:}
+\DeclareRobustCommand{\physunits@u@pThickSpace}{\;}
+\DeclareRobustCommand{\physunits@u@pFullSpace}{\nobreakspace}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\physunits@slantbox,\physunits@foobox}
@@ -2011,34 +2112,34 @@
 % \changes{v1.3.0}{2026/11/24}{Added all SI prefix macros and \cs{myria}.}
 % \changes{v1.0.4}{2020/03/26}{\cs{micro}: corrected version number and date in documentation}
 %    \begin{macrocode}
-\DeclareRobustCommand{\quetta}{\ensuremath{\mathrm{Q}}}
-\DeclareRobustCommand{\ronna}{\ensuremath{\mathrm{R}}}
-\DeclareRobustCommand{\yotta}{\ensuremath{\mathrm{Y}}}
-\DeclareRobustCommand{\zetta}{\ensuremath{\mathrm{Z}}}
-\DeclareRobustCommand{\exa}{\ensuremath{\mathrm{E}}}
-\DeclareRobustCommand{\peta}{\ensuremath{\mathrm{P}}}
-\DeclareRobustCommand{\tera}{\ensuremath{\mathrm{T}}}
-\DeclareRobustCommand{\giga}{\ensuremath{\mathrm{G}}}
-\DeclareRobustCommand{\hebdo}{\ensuremath{\mathrm{H}}}
-\DeclareRobustCommand{\Hebdo}{\ensuremath{\hebdo}}
-\DeclareRobustCommand{\mega}{\ensuremath{\mathrm{M}}}
-\DeclareRobustCommand{\kilo}{\ensuremath{\mathrm{k}}}
-\DeclareRobustCommand{\hecto}{\ensuremath{\mathrm{h}}}
-\DeclareRobustCommand{\deci}{\ensuremath{\mathrm{d}}}
-\DeclareRobustCommand{\deka}{\ensuremath{\mathrm{\deka@unit}}}
-\DeclareRobustCommand{\deca}{\ensuremath{\mathrm{\deka@unit}}}
-\DeclareRobustCommand{\centi}{\ensuremath{\mathrm{c}}}
-\DeclareRobustCommand{\milli}{\ensuremath{\mathrm{m}}}
-\DeclareRobustCommand{\micro}{\ensuremath{\mathrm{\micro@unit}}}
-\DeclareRobustCommand{\nano}{\ensuremath{\mathrm{n}}}
-\DeclareRobustCommand{\pico}{\ensuremath{\mathrm{p}}}
-\DeclareRobustCommand{\femto}{\ensuremath{\mathrm{f}}}
-\DeclareRobustCommand{\atto}{\ensuremath{\mathrm{a}}}
-\DeclareRobustCommand{\zepto}{\ensuremath{\mathrm{z}}}
-\DeclareRobustCommand{\yocto}{\ensuremath{\mathrm{y}}}
-\DeclareRobustCommand{\ronto}{\ensuremath{\mathrm{r}}}
-\DeclareRobustCommand{\quecto}{\ensuremath{\mathrm{q}}}
-\DeclareRobustCommand{\myria}{\ensuremath{\mathrm{my}}}
+\DeclareRobustCommand{\physunits@u@quetta}{\ensuremath{\mathrm{Q}}}
+\DeclareRobustCommand{\physunits@u@ronna}{\ensuremath{\mathrm{R}}}
+\DeclareRobustCommand{\physunits@u@yotta}{\ensuremath{\mathrm{Y}}}
+\DeclareRobustCommand{\physunits@u@zetta}{\ensuremath{\mathrm{Z}}}
+\DeclareRobustCommand{\physunits@u@exa}{\ensuremath{\mathrm{E}}}
+\DeclareRobustCommand{\physunits@u@peta}{\ensuremath{\mathrm{P}}}
+\DeclareRobustCommand{\physunits@u@tera}{\ensuremath{\mathrm{T}}}
+\DeclareRobustCommand{\physunits@u@giga}{\ensuremath{\mathrm{G}}}
+\DeclareRobustCommand{\physunits@u@hebdo}{\ensuremath{\mathrm{H}}}
+\DeclareRobustCommand{\physunits@u@Hebdo}{\ensuremath{\physunits@u@hebdo}}
+\DeclareRobustCommand{\physunits@u@mega}{\ensuremath{\mathrm{M}}}
+\DeclareRobustCommand{\physunits@u@kilo}{\ensuremath{\mathrm{k}}}
+\DeclareRobustCommand{\physunits@u@hecto}{\ensuremath{\mathrm{h}}}
+\DeclareRobustCommand{\physunits@u@deci}{\ensuremath{\mathrm{d}}}
+\DeclareRobustCommand{\physunits@u@deka}{\ensuremath{\mathrm{\deka@unit}}}
+\DeclareRobustCommand{\physunits@u@deca}{\ensuremath{\mathrm{\deka@unit}}}
+\DeclareRobustCommand{\physunits@u@centi}{\ensuremath{\mathrm{c}}}
+\DeclareRobustCommand{\physunits@u@milli}{\ensuremath{\mathrm{m}}}
+\DeclareRobustCommand{\physunits@u@micro}{\ensuremath{\mathrm{\micro@unit}}}
+\DeclareRobustCommand{\physunits@u@nano}{\ensuremath{\mathrm{n}}}
+\DeclareRobustCommand{\physunits@u@pico}{\ensuremath{\mathrm{p}}}
+\DeclareRobustCommand{\physunits@u@femto}{\ensuremath{\mathrm{f}}}
+\DeclareRobustCommand{\physunits@u@atto}{\ensuremath{\mathrm{a}}}
+\DeclareRobustCommand{\physunits@u@zepto}{\ensuremath{\mathrm{z}}}
+\DeclareRobustCommand{\physunits@u@yocto}{\ensuremath{\mathrm{y}}}
+\DeclareRobustCommand{\physunits@u@ronto}{\ensuremath{\mathrm{r}}}
+\DeclareRobustCommand{\physunits@u@quecto}{\ensuremath{\mathrm{q}}}
+\DeclareRobustCommand{\physunits@u@myria}{\ensuremath{\mathrm{my}}}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2072,9 +2173,9 @@
 % \begin{macro}{\punit,\punitDeg,\punitVar}
 % \changes{v1.3.0}{2026/11/24}{Added user-level unit constructors.}
 %    \begin{macrocode}
-\NewDocumentCommand\punit{mO{}O{}O{\physunits@units@separator}}{\physunits@unit{#1}[#2][#3][#4]}
-\NewDocumentCommand\punitDeg{mO{}O{}O{\physunits@units@separator}}{\physunits@degreeUnit{#1}[#2][#3][#4]}
-\NewDocumentCommand\punitVar{mO{}O{}O{\physunits@units@separator}}{\physunits@variableUnit{#1}[#2][#3][#4]}
+\NewDocumentCommand\physunits@u@punit{mO{}O{}O{\physunits@units@separator}}{\physunits@unit{#1}[#2][#3][#4]}
+\NewDocumentCommand\physunits@u@punitDeg{mO{}O{}O{\physunits@units@separator}}{\physunits@degreeUnit{#1}[#2][#3][#4]}
+\NewDocumentCommand\physunits@u@punitVar{mO{}O{}O{\physunits@units@separator}}{\physunits@variableUnit{#1}[#2][#3][#4]}
 
 \ExplSyntaxOff
 %    \end{macrocode}
@@ -2084,27 +2185,27 @@
 % \begin{macro}{\radian,\rad}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{radian}, \cs{rad}.}
 %    \begin{macrocode}
-\NewDocumentCommand\radian{O{}O{}O{\physunits@units@separator}}{\physunits@unit{rad}[#1][#2][#3]}
-\NewDocumentCommand\rad{O{}O{}O{\physunits@units@separator}}{\radian[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@radian{O{}O{}O{\physunits@units@separator}}{\physunits@unit{rad}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@rad{O{}O{}O{\physunits@units@separator}}{\physunits@u@radian[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\steradian}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{steradian}.}
 %    \begin{macrocode}
-\NewDocumentCommand\steradian{O{}O{}O{\physunits@units@separator}}{\physunits@unit{sr}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@steradian{O{}O{}O{\physunits@units@separator}}{\physunits@unit{sr}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{cgs and semi-SI units}
 % \begin{macro}{\arcsecond}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{arcsecond}.}
 %    \begin{macrocode}
-\NewDocumentCommand\arcsecond{O{}O{}O{\physunits@units@separator}}{\physunits@unit{as}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@arcsecond{O{}O{}O{\physunits@units@separator}}{\physunits@unit{as}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\arcminute}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{arcminute}.}
 %    \begin{macrocode}
-\NewDocumentCommand\arcminute{O{}O{\physunits@units@separator}}{\physunits@unit{\arcmin@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@arcminute{O{}O{\physunits@units@separator}}{\physunits@unit{\arcmin@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Amount of substance}
@@ -2113,9 +2214,9 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{mole}, \cs{Mole}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{mol}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\mole{O{}O{}O{\physunits@units@separator}}{\physunits@unit{mol}[#1][#2][#3]}
-\NewDocumentCommand\Mole{O{}O{}O{\physunits@units@separator}}{\mole[#1][#2][#3]}
-\NewDocumentCommand\mol{O{}O{}O{\physunits@units@separator}}{\mole[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@mole{O{}O{}O{\physunits@units@separator}}{\physunits@unit{mol}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Mole{O{}O{}O{\physunits@units@separator}}{\physunits@u@mole[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@mol{O{}O{}O{\physunits@units@separator}}{\physunits@u@mole[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Time}
@@ -2125,10 +2226,10 @@
 % \changes{v1.3.0}{2026/11/24}{\cs{s}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Sec}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\second{O{}O{}O{\physunits@units@separator}}{\physunits@unit{s}[#1][#2][#3]}
-\NewDocumentCommand\Second{O{}O{}O{\physunits@units@separator}}{\second[#1][#2][#3]}
-\NewDocumentCommand\s{O{}O{}O{\physunits@units@separator}}{\second[#1][#2][#3]}
-\NewDocumentCommand\Sec{O{}O{}O{\physunits@units@separator}}{\second[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@second{O{}O{}O{\physunits@units@separator}}{\physunits@unit{s}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Second{O{}O{}O{\physunits@units@separator}}{\physunits@u@second[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@s{O{}O{}O{\physunits@units@separator}}{\physunits@u@second[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Sec{O{}O{}O{\physunits@units@separator}}{\physunits@u@second[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{cgs and semi-SI units}
@@ -2136,69 +2237,69 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{minute}, \cs{Minute}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Min}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments. No longer accepts a prefix (prefixes are not used with the minute).}
 %    \begin{macrocode}
-\NewDocumentCommand\minute{O{}O{\physunits@units@separator}}{\physunits@unit{\minute@unit}[][#1][#2]}
-\NewDocumentCommand\Minute{O{}O{\physunits@units@separator}}{\minute[#1][#2]}
-\NewDocumentCommand\Min{O{}O{\physunits@units@separator}}{\minute[#1][#2]}
+\NewDocumentCommand\physunits@u@minute{O{}O{\physunits@units@separator}}{\physunits@unit{\minute@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Minute{O{}O{\physunits@units@separator}}{\physunits@u@minute[#1][#2]}
+\NewDocumentCommand\physunits@u@Min{O{}O{\physunits@units@separator}}{\physunits@u@minute[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\hour,\Hour,\h}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hour}, \cs{Hour}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{h}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments. No longer accepts a prefix (prefixes are not used with the hour).}
 %    \begin{macrocode}
-\NewDocumentCommand\hour{O{}O{\physunits@units@separator}}{\physunits@unit{\hour@unit}[][#1][#2]}
-\NewDocumentCommand\Hour{O{}O{\physunits@units@separator}}{\hour[#1][#2]}
-\NewDocumentCommand\h{O{}O{\physunits@units@separator}}{\hour[#1][#2]}
+\NewDocumentCommand\physunits@u@hour{O{}O{\physunits@units@separator}}{\physunits@unit{\hour@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Hour{O{}O{\physunits@units@separator}}{\physunits@u@hour[#1][#2]}
+\NewDocumentCommand\physunits@u@h{O{}O{\physunits@units@separator}}{\physunits@u@hour[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\Day}
 % \changes{v1.3.0}{2026/11/24}{\cs{Day}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments. Symbol set by the \texttt{day} option.}
 %    \begin{macrocode}
-\NewDocumentCommand\Day{O{}O{\physunits@units@separator}}{\physunits@unit{\day@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Day{O{}O{\physunits@units@separator}}{\physunits@unit{\day@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\Year,\y}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Year}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{y}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\Year{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\year@unit}[#1][#2][#3]}
-\NewDocumentCommand\y{O{}O{}O{\physunits@units@separator}}{\Year[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Year{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\year@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@y{O{}O{}O{\physunits@units@separator}}{\physunits@u@Year[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\svedberg}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{svedberg}.}
 %    \begin{macrocode}
-\NewDocumentCommand\svedberg{O{}O{\physunits@units@separator}}{\physunits@unit{S}[][#1][#2]}
+\NewDocumentCommand\physunits@u@svedberg{O{}O{\physunits@units@separator}}{\physunits@unit{S}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\shake}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{shake}.}
 %    \begin{macrocode}
-\NewDocumentCommand\shake{O{}O{\physunits@units@separator}}{\physunits@unit{shake}[][#1][#2]}
+\NewDocumentCommand\physunits@u@shake{O{}O{\physunits@units@separator}}{\physunits@unit{shake}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\annum}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{annum}.}
 %    \begin{macrocode}
-\NewDocumentCommand\annum{O{}O{}O{\physunits@units@separator}}{\physunits@unit{a}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@annum{O{}O{}O{\physunits@units@separator}}{\physunits@unit{a}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\galacticyear}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{galacticyear}.}
 %    \begin{macrocode}
-\NewDocumentCommand\galacticyear{O{}O{\physunits@units@separator}}{\physunits@unit{GY}[][#1][#2]}
+\NewDocumentCommand\physunits@u@galacticyear{O{}O{\physunits@units@separator}}{\physunits@unit{GY}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\sol}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{sol}.}
 %    \begin{macrocode}
-\NewDocumentCommand\sol{O{}O{\physunits@units@separator}}{\physunits@unit{sol}[][#1][#2]}
+\NewDocumentCommand\physunits@u@sol{O{}O{\physunits@units@separator}}{\physunits@unit{sol}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\jiffy}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{jiffy}.}
 %    \begin{macrocode}
-\NewDocumentCommand\jiffy{O{}O{\physunits@units@separator}}{\physunits@unit{jiffy}[][#1][#2]}
+\NewDocumentCommand\physunits@u@jiffy{O{}O{\physunits@units@separator}}{\physunits@unit{jiffy}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Frequency}
@@ -2207,9 +2308,9 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hertz}, \cs{Hertz}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Hz}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\hertz{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Hz}[#1][#2][#3]}
-\NewDocumentCommand\Hertz{O{}O{}O{\physunits@units@separator}}{\hertz[#1][#2][#3]}
-\NewDocumentCommand\Hz{O{}O{}O{\physunits@units@separator}}{\hertz[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@hertz{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Hz}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Hertz{O{}O{}O{\physunits@units@separator}}{\physunits@u@hertz[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Hz{O{}O{}O{\physunits@units@separator}}{\physunits@u@hertz[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Length}
@@ -2219,35 +2320,35 @@
 % \changes{v1.3.0}{2026/11/24}{\cs{meter}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 % \changes{v1.3.0}{2026/11/24}{\cs{m}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\meter{O{}O{}O{\physunits@units@separator}}{\physunits@unit{m}[#1][#2][#3]}
-\NewDocumentCommand\metre{O{}O{}O{\physunits@units@separator}}{\meter[#1][#2][#3]}
-\NewDocumentCommand\m{O{}O{}O{\physunits@units@separator}}{\meter[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@meter{O{}O{}O{\physunits@units@separator}}{\physunits@unit{m}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@metre{O{}O{}O{\physunits@units@separator}}{\physunits@u@meter[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@m{O{}O{}O{\physunits@units@separator}}{\physunits@u@meter[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\fermi,\Fermi}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{fermi}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Fermi}.}
 %    \begin{macrocode}
-\NewDocumentCommand\fermi{O{}O{\physunits@units@separator}}{\meter[\femto][#1][#2]}
-\NewDocumentCommand\Fermi{O{}O{\physunits@units@separator}}{\fermi[#1][#2]}
+\NewDocumentCommand\physunits@u@fermi{O{}O{\physunits@units@separator}}{\physunits@u@meter[\physunits@u@femto][#1][#2]}
+\NewDocumentCommand\physunits@u@Fermi{O{}O{\physunits@units@separator}}{\physunits@u@fermi[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\km}
 % \changes{v1.3.0}{2026/11/24}{\cs{km}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\km{O{}O{\physunits@units@separator}}{\meter[\kilo][#1][#2]}
+\NewDocumentCommand\physunits@u@km{O{}O{\physunits@units@separator}}{\physunits@u@meter[\physunits@u@kilo][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\cm}
 % \changes{v1.3.0}{2026/11/24}{\cs{cm}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\cm{O{}O{\physunits@units@separator}}{\meter[\centi][#1][#2]}
+\NewDocumentCommand\physunits@u@cm{O{}O{\physunits@units@separator}}{\physunits@u@meter[\physunits@u@centi][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\nm}
 % \changes{v1.3.0}{2026/11/24}{\cs{nm}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\nm{O{}O{\physunits@units@separator}}{\meter[\nano][#1][#2]} %may also be used for nautical mile, though nmi would be the correct form
+\NewDocumentCommand\physunits@u@nm{O{}O{\physunits@units@separator}}{\physunits@u@meter[\physunits@u@nano][#1][#2]} %may also be used for nautical mile, though nmi would be the correct form
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{cgs and semi-SI units}
@@ -2255,214 +2356,200 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{astronomicalunit}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{au}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\astronomicalunit{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\au@unit}[#1][#2][#3]}
-\NewDocumentCommand\au{O{}O{}O{\physunits@units@separator}}{\astronomicalunit[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@astronomicalunit{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\au@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@au{O{}O{}O{\physunits@units@separator}}{\physunits@u@astronomicalunit[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\parsec,\pc}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{parsec}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{pc}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\parsec{O{}O{}O{\physunits@units@separator}}{\physunits@unit{pc}[#1][#2][#3]}
-\NewDocumentCommand\pc{O{}O{}O{\physunits@units@separator}}{\parsec[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@parsec{O{}O{}O{\physunits@units@separator}}{\physunits@unit{pc}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@pc{O{}O{}O{\physunits@units@separator}}{\physunits@u@parsec[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\lightyear,\ly}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{lightyear}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{ly}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\lightyear{O{}O{}O{\physunits@units@separator}}{\physunits@unit{ly}[#1][#2][#3]}
-\NewDocumentCommand\ly{O{}O{}O{\physunits@units@separator}}{\lightyear[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@lightyear{O{}O{}O{\physunits@units@separator}}{\physunits@unit{ly}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@ly{O{}O{}O{\physunits@units@separator}}{\physunits@u@lightyear[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\solarradius}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{solarradius}.}
-% \changes{v1.3.0}{2026/11/24}{\cs{solarradius}: not defined with the \texttt{disable-astro-mass-radii} option.}
+% \changes{v1.3.0}{2026/11/24}{\cs{solarradius}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{solarradius}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
-\ifphysunits@noAstro\else
-\NewDocumentCommand\solarradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\odot}}[][#1][#2]}
-\fi
+\NewDocumentCommand\physunits@u@solarradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\odot}}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\jupiterradius}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{jupiterradius}.}
-% \changes{v1.3.0}{2026/11/24}{\cs{jupiterradius}: not defined with the \texttt{disable-astro-mass-radii} option.}
+% \changes{v1.3.0}{2026/11/24}{\cs{jupiterradius}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{jupiterradius}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
-\ifphysunits@noAstro\else
-\NewDocumentCommand\jupiterradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\mathrm{J}}}[][#1][#2]}
-\fi
+\NewDocumentCommand\physunits@u@jupiterradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\mathrm{J}}}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\earthradius}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{earthradius}.}
-% \changes{v1.3.0}{2026/11/24}{\cs{earthradius}: not defined with the \texttt{disable-astro-mass-radii} option.}
+% \changes{v1.3.0}{2026/11/24}{\cs{earthradius}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{earthradius}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
-\ifphysunits@noAstro\else
-\NewDocumentCommand\earthradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\oplus}}[][#1][#2]}
-\fi
+\NewDocumentCommand\physunits@u@earthradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\oplus}}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\moonradius}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{moonradius}.}
-% \changes{v1.3.0}{2026/11/24}{\cs{moonradius}: not defined with the \texttt{disable-astro-mass-radii} option.}
+% \changes{v1.3.0}{2026/11/24}{\cs{moonradius}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{moonradius}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
-\ifphysunits@noAstro\else
-\NewDocumentCommand\moonradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\mathrm{L}}}[][#1][#2]}
-\fi
+\NewDocumentCommand\physunits@u@moonradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\mathrm{L}}}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\nauticalmile,\nmile}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{nauticalmile}, \cs{nmile}.}
 %    \begin{macrocode}
-\NewDocumentCommand\nauticalmile{O{}O{\physunits@units@separator}}{\physunits@unit{nmi}[][#1][#2]}
-\NewDocumentCommand\nmile{O{}O{\physunits@units@separator}}{\nauticalmile[#1][#2]}
+\NewDocumentCommand\physunits@u@nauticalmile{O{}O{\physunits@units@separator}}{\physunits@unit{nmi}[][#1][#2]}
+\NewDocumentCommand\physunits@u@nmile{O{}O{\physunits@units@separator}}{\physunits@u@nauticalmile[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\angstrom,\Angstrom}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{angstrom}, \cs{Angstrom}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Angstrom} is redefined at the end of \cs{begin}\{document\}, because \textsf{unicode-math} defines its own \cs{Angstrom} symbol there.}
-% \textsf{unicode-math} defines \cs{Angstrom} as a math symbol at the start of
-% the document, replacing the unit. The unit is restored at the end of
-% \cs{begin}\{document\}, after \textsf{unicode-math} has made its definitions.
 %    \begin{macrocode}
-\NewDocumentCommand\angstrom{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\physunits@angstrom}[#1][#2][#3]}
-\NewDocumentCommand\Angstrom{O{}O{}O{\physunits@units@separator}}{\angstrom[#1][#2][#3]}
-\AddToHook{begindocument/end}{%
-  \DeclareDocumentCommand\Angstrom{O{}O{}O{\physunits@units@separator}}{\angstrom[#1][#2][#3]}%
-}
+\NewDocumentCommand\physunits@u@angstrom{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\physunits@angstrom}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Angstrom{O{}O{}O{\physunits@units@separator}}{\physunits@u@angstrom[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\bohr,\Bohr}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{bohr}, \cs{Bohr}.}
 %    \begin{macrocode}
-\NewDocumentCommand\bohr{O{}O{\physunits@units@separator}}{\physunits@variableUnit{a_{\mathrm{0}}}[][#1][#2]}
-\NewDocumentCommand\Bohr{O{}O{\physunits@units@separator}}{\bohr[#1][#2]}
+\NewDocumentCommand\physunits@u@bohr{O{}O{\physunits@units@separator}}{\physunits@variableUnit{a_{\mathrm{0}}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Bohr{O{}O{\physunits@units@separator}}{\physunits@u@bohr[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\romanmile}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{romanmile}.}
 %    \begin{macrocode}
-\NewDocumentCommand\romanmile{O{}O{\physunits@units@separator}}{\physunits@unit{m.p.}[][#1][#2]}
+\NewDocumentCommand\physunits@u@romanmile{O{}O{\physunits@units@separator}}{\physunits@unit{m.p.}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\mile,\mi}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{mile}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{mi}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\mile{O{}O{\physunits@units@separator}}{\physunits@unit{mi}[][#1][#2]}
-\NewDocumentCommand\mi{O{}O{\physunits@units@separator}}{\mile[#1][#2]}
+\NewDocumentCommand\physunits@u@mile{O{}O{\physunits@units@separator}}{\physunits@unit{mi}[][#1][#2]}
+\NewDocumentCommand\physunits@u@mi{O{}O{\physunits@units@separator}}{\physunits@u@mile[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\yard,\yd}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{yard}, \cs{yd}.}
 %    \begin{macrocode}
-\NewDocumentCommand\yard{O{}O{\physunits@units@separator}}{\physunits@unit{yd}[][#1][#2]}
-\NewDocumentCommand\yd{O{}O{\physunits@units@separator}}{\yard[#1][#2]}
+\NewDocumentCommand\physunits@u@yard{O{}O{\physunits@units@separator}}{\physunits@unit{yd}[][#1][#2]}
+\NewDocumentCommand\physunits@u@yd{O{}O{\physunits@units@separator}}{\physunits@u@yard[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\foot,\feet,\ft}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{foot}, \cs{feet}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{ft}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\foot{O{}O{\physunits@units@separator}}{\physunits@unit{ft}[][#1][#2]}
-\NewDocumentCommand\feet{O{}O{\physunits@units@separator}}{\foot[#1][#2]}
-\NewDocumentCommand\ft{O{}O{\physunits@units@separator}}{\foot[#1][#2]}
+\NewDocumentCommand\physunits@u@foot{O{}O{\physunits@units@separator}}{\physunits@unit{ft}[][#1][#2]}
+\NewDocumentCommand\physunits@u@feet{O{}O{\physunits@units@separator}}{\physunits@u@foot[#1][#2]}
+\NewDocumentCommand\physunits@u@ft{O{}O{\physunits@units@separator}}{\physunits@u@foot[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\inch}
 % \changes{v1.3.0}{2026/11/24}{\cs{inch}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\inch{O{}O{\physunits@units@separator}}{\physunits@unit{in}[][#1][#2]}
+\NewDocumentCommand\physunits@u@inch{O{}O{\physunits@units@separator}}{\physunits@unit{in}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\twip}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{twip}.}
 %    \begin{macrocode}
-\NewDocumentCommand\twip{O{}O{\physunits@units@separator}}{\physunits@unit{twip}[][#1][#2]}
+\NewDocumentCommand\physunits@u@twip{O{}O{\physunits@units@separator}}{\physunits@unit{twip}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\thou}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{thou}.}
 %    \begin{macrocode}
-\NewDocumentCommand\thou{O{}O{\physunits@units@separator}}{\physunits@unit{\thou@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@thou{O{}O{\physunits@units@separator}}{\physunits@unit{\thou@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\barleycorn}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{barleycorn}.}
 %    \begin{macrocode}
-\NewDocumentCommand\barleycorn{O{}O{\physunits@units@separator}}{\physunits@unit{barleycorn}[][#1][#2]}
+\NewDocumentCommand\physunits@u@barleycorn{O{}O{\physunits@units@separator}}{\physunits@unit{barleycorn}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\hand}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hand}.}
 %    \begin{macrocode}
-\NewDocumentCommand\hand{O{}O{\physunits@units@separator}}{\physunits@unit{\hand@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@hand{O{}O{\physunits@units@separator}}{\physunits@unit{\hand@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\link}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{link}.}
 %    \begin{macrocode}
-\NewDocumentCommand\link{O{}O{\physunits@units@separator}}{\physunits@unit{\link@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@link{O{}O{\physunits@units@separator}}{\physunits@unit{\link@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\fathom}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{fathom}.}
 %    \begin{macrocode}
-\NewDocumentCommand\fathom{O{}O{\physunits@units@separator}}{\physunits@unit{fathom}[][#1][#2]}
+\NewDocumentCommand\physunits@u@fathom{O{}O{\physunits@units@separator}}{\physunits@unit{fathom}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\rod}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{rod}.}
 %    \begin{macrocode}
-\NewDocumentCommand\rod{O{}O{\physunits@units@separator}}{\physunits@unit{rod}[][#1][#2]}
+\NewDocumentCommand\physunits@u@rod{O{}O{\physunits@units@separator}}{\physunits@unit{rod}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\perch}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{perch}.}
 %    \begin{macrocode}
-\NewDocumentCommand\perch{O{}O{\physunits@units@separator}}{\physunits@unit{perch}[][#1][#2]}
+\NewDocumentCommand\physunits@u@perch{O{}O{\physunits@units@separator}}{\physunits@unit{perch}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\pole}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{pole}.}
 %    \begin{macrocode}
-\NewDocumentCommand\pole{O{}O{\physunits@units@separator}}{\physunits@unit{pole}[][#1][#2]}
+\NewDocumentCommand\physunits@u@pole{O{}O{\physunits@units@separator}}{\physunits@unit{pole}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\lug}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{lug}.}
 %    \begin{macrocode}
-\NewDocumentCommand\lug{O{}O{\physunits@units@separator}}{\physunits@unit{lug}[][#1][#2]}
+\NewDocumentCommand\physunits@u@lug{O{}O{\physunits@units@separator}}{\physunits@unit{lug}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\chain}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{chain}.}
 %    \begin{macrocode}
-\NewDocumentCommand\chain{O{}O{\physunits@units@separator}}{\physunits@unit{ch}[][#1][#2]}
+\NewDocumentCommand\physunits@u@chain{O{}O{\physunits@units@separator}}{\physunits@unit{ch}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\furlong,\fur}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{furlong}, \cs{fur}.}
 %    \begin{macrocode}
-\NewDocumentCommand\furlong{O{}O{\physunits@units@separator}}{\physunits@unit{furlong}[][#1][#2]}
-\NewDocumentCommand\fur{O{}O{\physunits@units@separator}}{\furlong[#1][#2]}
+\NewDocumentCommand\physunits@u@furlong{O{}O{\physunits@units@separator}}{\physunits@unit{furlong}[][#1][#2]}
+\NewDocumentCommand\physunits@u@fur{O{}O{\physunits@units@separator}}{\physunits@u@furlong[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\cable}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{cable}.}
 %    \begin{macrocode}
-\NewDocumentCommand\cable{O{}O{\physunits@units@separator}}{\physunits@unit{cable}[][#1][#2]}
+\NewDocumentCommand\physunits@u@cable{O{}O{\physunits@units@separator}}{\physunits@unit{cable}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\league}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{league}.}
 %    \begin{macrocode}
-\NewDocumentCommand\league{O{}O{\physunits@units@separator}}{\physunits@unit{league}[][#1][#2]}
+\NewDocumentCommand\physunits@u@league{O{}O{\physunits@units@separator}}{\physunits@unit{league}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Inverse length}
@@ -2470,15 +2557,15 @@
 % \begin{macro}{\diopter,\dioptre}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{diopter}, \cs{dioptre}.}
 %    \begin{macrocode}
-\NewDocumentCommand\diopter{O{}O{}O{\physunits@units@separator}}{\physunits@unit{D}[#1][#2][#3]}
-\NewDocumentCommand\dioptre{O{}O{}O{\physunits@units@separator}}{\diopter[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@diopter{O{}O{}O{\physunits@units@separator}}{\physunits@unit{D}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@dioptre{O{}O{}O{\physunits@units@separator}}{\physunits@u@diopter[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\kayser,\Kayser}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{kayser}, \cs{Kayser}.}
 %    \begin{macrocode}
-\NewDocumentCommand\kayser{O{}O{\physunits@units@separator}}{\physunits@unit{K}[][#1][#2]}
-\NewDocumentCommand\Kayser{O{}O{\physunits@units@separator}}{\kayser[#1][#2]}
+\NewDocumentCommand\physunits@u@kayser{O{}O{\physunits@units@separator}}{\physunits@unit{K}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Kayser{O{}O{\physunits@units@separator}}{\physunits@u@kayser[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Area}
@@ -2486,46 +2573,46 @@
 % \begin{macro}{\shed}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{shed}.}
 %    \begin{macrocode}
-\NewDocumentCommand\shed{O{}O{\physunits@units@separator}}{\physunits@unit{shed}[][#1][#2]}
+\NewDocumentCommand\physunits@u@shed{O{}O{\physunits@units@separator}}{\physunits@unit{shed}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\outhouse}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{outhouse}.}
 %    \begin{macrocode}
-\NewDocumentCommand\outhouse{O{}O{\physunits@units@separator}}{\physunits@unit{outhouse}[][#1][#2]}
+\NewDocumentCommand\physunits@u@outhouse{O{}O{\physunits@units@separator}}{\physunits@unit{outhouse}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\barn}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{barn}.}
 %    \begin{macrocode}
-\NewDocumentCommand\barn{O{}O{}O{\physunits@units@separator}}{\physunits@unit{b}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@barn{O{}O{}O{\physunits@units@separator}}{\physunits@unit{b}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\are}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{are}.}
 %    \begin{macrocode}
-\NewDocumentCommand\are{O{}O{}O{\physunits@units@separator}}{\physunits@unit{a}[#1][#2][#3]} % use \are[\hecto] for hectare, and \are[\deci] for deciare
+\NewDocumentCommand\physunits@u@are{O{}O{}O{\physunits@units@separator}}{\physunits@unit{a}[#1][#2][#3]} % use \physunits@u@are[\physunits@u@hecto] for hectare, and \physunits@u@are[\physunits@u@deci] for deciare
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\decare,\dekare}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{decare}, \cs{dekare}.}
 %    \begin{macrocode}
-\NewDocumentCommand\decare{O{}O{\physunits@units@separator}}{\physunits@unit{daa}[][#1][#2]}
-\NewDocumentCommand\dekare{O{}O{\physunits@units@separator}}{\decare[#1][#2]}
+\NewDocumentCommand\physunits@u@decare{O{}O{\physunits@units@separator}}{\physunits@unit{daa}[][#1][#2]}
+\NewDocumentCommand\physunits@u@dekare{O{}O{\physunits@units@separator}}{\physunits@u@decare[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\hectare,\Hectare}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hectare}, \cs{Hectare}.}
 %    \begin{macrocode}
-\NewDocumentCommand\hectare{O{}O{\physunits@units@separator}}{\are[\hecto][#1][#2]}
-\NewDocumentCommand\Hectare{O{}O{\physunits@units@separator}}{\hectare[#1][#2]}
+\NewDocumentCommand\physunits@u@hectare{O{}O{\physunits@units@separator}}{\physunits@u@are[\physunits@u@hecto][#1][#2]}
+\NewDocumentCommand\physunits@u@Hectare{O{}O{\physunits@units@separator}}{\physunits@u@hectare[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\acre}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{acre}.}
 %    \begin{macrocode}
-\NewDocumentCommand\acre{O{}O{\physunits@units@separator}}{\physunits@unit{\acre@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@acre{O{}O{\physunits@units@separator}}{\physunits@unit{\acre@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Volume}
@@ -2533,145 +2620,145 @@
 % \begin{macro}{\liter,\litre}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{liter}, \cs{litre}.}
 %    \begin{macrocode}
-\NewDocumentCommand\liter{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\liter@unit}[#1][#2][#3]}
-\NewDocumentCommand\litre{O{}O{}O{\physunits@units@separator}}{\liter[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@liter{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\liter@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@litre{O{}O{}O{\physunits@units@separator}}{\physunits@u@liter[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\stere}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{stere}.}
 %    \begin{macrocode}
-\NewDocumentCommand\stere{O{}O{}O{\physunits@units@separator}}{\physunits@unit{St}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@stere{O{}O{}O{\physunits@units@separator}}{\physunits@unit{St}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\gallon}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{gallon}.}
 %    \begin{macrocode}
-\NewDocumentCommand\gallon{O{}O{\physunits@units@separator}}{\physunits@unit{gal}[][#1][#2]}
+\NewDocumentCommand\physunits@u@gallon{O{}O{\physunits@units@separator}}{\physunits@unit{gal}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\imperialgallon,\impgal}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{impgal}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{imperialgallon}.}
 %    \begin{macrocode}
-\NewDocumentCommand\imperialgallon{O{}O{\physunits@units@separator}}{\physunits@unit{imp\nobreakspace gal}[][#1][#2]}
-\NewDocumentCommand\impgal{O{}O{\physunits@units@separator}}{\imperialgallon[#1][#2]}
+\NewDocumentCommand\physunits@u@imperialgallon{O{}O{\physunits@units@separator}}{\physunits@unit{imp\nobreakspace gal}[][#1][#2]}
+\NewDocumentCommand\physunits@u@impgal{O{}O{\physunits@units@separator}}{\physunits@u@imperialgallon[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\USgallon,\usgal}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{usgal}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{USgallon}.}
 %    \begin{macrocode}
-\NewDocumentCommand\USgallon{O{}O{\physunits@units@separator}}{\physunits@unit{US\nobreakspace gal}[][#1][#2]}
-\NewDocumentCommand\usgal{O{}O{\physunits@units@separator}}{\USgallon[#1][#2]}
+\NewDocumentCommand\physunits@u@USgallon{O{}O{\physunits@units@separator}}{\physunits@unit{US\nobreakspace gal}[][#1][#2]}
+\NewDocumentCommand\physunits@u@usgal{O{}O{\physunits@units@separator}}{\physunits@u@USgallon[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\quart}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{quart}.}
 %    \begin{macrocode}
-\NewDocumentCommand\quart{O{}O{\physunits@units@separator}}{\physunits@unit{qt}[][#1][#2]}
+\NewDocumentCommand\physunits@u@quart{O{}O{\physunits@units@separator}}{\physunits@unit{qt}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\pint}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{pint}.}
 %    \begin{macrocode}
-\NewDocumentCommand\pint{O{}O{\physunits@units@separator}}{\physunits@unit{\pint@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@pint{O{}O{\physunits@units@separator}}{\physunits@unit{\pint@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\fluidounce,\floz}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{floz}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{fluidounce}.}
 %    \begin{macrocode}
-\NewDocumentCommand\fluidounce{O{}O{\physunits@units@separator}}{\physunits@unit{\floz@unit}[][#1][#2]}
-\NewDocumentCommand\floz{O{}O{\physunits@units@separator}}{\fluidounce[#1][#2]}
+\NewDocumentCommand\physunits@u@fluidounce{O{}O{\physunits@units@separator}}{\physunits@unit{\floz@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@floz{O{}O{\physunits@units@separator}}{\physunits@u@fluidounce[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\tablespoon,\tbsp}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{tablespoon}, \cs{tbsp}.}
 %    \begin{macrocode}
-\NewDocumentCommand\tablespoon{O{}O{\physunits@units@separator}}{\physunits@unit{\tbsp@unit}[][#1][#2]}
-\NewDocumentCommand\tbsp{O{}O{\physunits@units@separator}}{\tablespoon[#1][#2]}
+\NewDocumentCommand\physunits@u@tablespoon{O{}O{\physunits@units@separator}}{\physunits@unit{\tbsp@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@tbsp{O{}O{\physunits@units@separator}}{\physunits@u@tablespoon[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\teaspoon,\tsp}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{teaspoon}, \cs{tsp}.}
 %    \begin{macrocode}
-\NewDocumentCommand\teaspoon{O{}O{\physunits@units@separator}}{\physunits@unit{tsp.}[][#1][#2]}
-\NewDocumentCommand\tsp{O{}O{\physunits@units@separator}}{\teaspoon[#1][#2]}
+\NewDocumentCommand\physunits@u@teaspoon{O{}O{\physunits@units@separator}}{\physunits@unit{tsp.}[][#1][#2]}
+\NewDocumentCommand\physunits@u@tsp{O{}O{\physunits@units@separator}}{\physunits@u@teaspoon[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\teu}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{teu}.}
 %    \begin{macrocode}
-\NewDocumentCommand\teu{O{}O{\physunits@units@separator}}{\physunits@unit{\teu@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@teu{O{}O{\physunits@units@separator}}{\physunits@unit{\teu@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\feu}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{feu}.}
 %    \begin{macrocode}
-\NewDocumentCommand\feu{O{}O{\physunits@units@separator}}{\physunits@unit{\feu@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@feu{O{}O{\physunits@units@separator}}{\physunits@unit{\feu@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\hoppus,\hft}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hft}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hoppus}.}
 %    \begin{macrocode}
-\NewDocumentCommand\hoppus{O{}O{\physunits@units@separator}}{\physunits@unit{\hoppus@unit}[][#1][#2]}
-\NewDocumentCommand\hft{O{}O{\physunits@units@separator}}{\hoppus[#1][#2]}
+\NewDocumentCommand\physunits@u@hoppus{O{}O{\physunits@units@separator}}{\physunits@unit{\hoppus@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@hft{O{}O{\physunits@units@separator}}{\physunits@u@hoppus[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\hoppuston,\htn}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{htn}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hoppuston}.}
 %    \begin{macrocode}
-\NewDocumentCommand\hoppuston{O{}O{\physunits@units@separator}}{\physunits@unit{HT}[][#1][#2]}
-\NewDocumentCommand\htn{O{}O{\physunits@units@separator}}{\hoppuston[#1][#2]}
+\NewDocumentCommand\physunits@u@hoppuston{O{}O{\physunits@units@separator}}{\physunits@unit{HT}[][#1][#2]}
+\NewDocumentCommand\physunits@u@htn{O{}O{\physunits@units@separator}}{\physunits@u@hoppuston[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\tmcft}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{tmcft}.}
 %    \begin{macrocode}
-\NewDocumentCommand\tmcft{O{}O{\physunits@units@separator}}{\physunits@unit{\tmcft@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@tmcft{O{}O{\physunits@units@separator}}{\physunits@unit{\tmcft@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\hogshead,\hhd}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hhd}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hogshead}.}
 %    \begin{macrocode}
-\NewDocumentCommand\hogshead{O{}O{\physunits@units@separator}}{\physunits@unit{hhd}[][#1][#2]}
-\NewDocumentCommand\hhd{O{}O{\physunits@units@separator}}{\hogshead[#1][#2]}
+\NewDocumentCommand\physunits@u@hogshead{O{}O{\physunits@units@separator}}{\physunits@unit{hhd}[][#1][#2]}
+\NewDocumentCommand\physunits@u@hhd{O{}O{\physunits@units@separator}}{\physunits@u@hogshead[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\stuck}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{stuck}.}
 %    \begin{macrocode}
-\NewDocumentCommand\stuck{O{}O{\physunits@units@separator}}{\physunits@unit{stuck}[][#1][#2]}
+\NewDocumentCommand\physunits@u@stuck{O{}O{\physunits@units@separator}}{\physunits@unit{stuck}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\barrel,\bbl}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{bbl}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{barrel}.}
 %    \begin{macrocode}
-\NewDocumentCommand\barrel{O{}O{\physunits@units@separator}}{\physunits@unit{bbl}[][#1][#2]}
-\NewDocumentCommand\bbl{O{}O{\physunits@units@separator}}{\barrel[#1][#2]}
+\NewDocumentCommand\physunits@u@barrel{O{}O{\physunits@units@separator}}{\physunits@unit{bbl}[][#1][#2]}
+\NewDocumentCommand\physunits@u@bbl{O{}O{\physunits@units@separator}}{\physunits@u@barrel[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\rundlet}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{rundlet}.}
 %    \begin{macrocode}
-\NewDocumentCommand\rundlet{O{}O{\physunits@units@separator}}{\physunits@unit{rundlet}[][#1][#2]}
+\NewDocumentCommand\physunits@u@rundlet{O{}O{\physunits@units@separator}}{\physunits@unit{rundlet}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\tierces}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{tierces}.}
 %    \begin{macrocode}
-\NewDocumentCommand\tierces{O{}O{\physunits@units@separator}}{\physunits@unit{tierces}[][#1][#2]}
+\NewDocumentCommand\physunits@u@tierces{O{}O{\physunits@units@separator}}{\physunits@unit{tierces}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\tun}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{tun}.}
 %    \begin{macrocode}
-\NewDocumentCommand\tun{O{}O{\physunits@units@separator}}{\physunits@unit{tun}[][#1][#2]}
+\NewDocumentCommand\physunits@u@tun{O{}O{\physunits@units@separator}}{\physunits@unit{tun}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Speed and acceleration}
@@ -2680,29 +2767,29 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{knots}, \cs{Knots}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{kts}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\knots{O{}O{\physunits@units@separator}}{\physunits@unit{kts}[][#1][#2]}
-\NewDocumentCommand\Knots{O{}O{\physunits@units@separator}}{\knots[#1][#2]}
-\NewDocumentCommand\kts{O{}O{\physunits@units@separator}}{\knots[#1][#2]}
+\NewDocumentCommand\physunits@u@knots{O{}O{\physunits@units@separator}}{\physunits@unit{kts}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Knots{O{}O{\physunits@units@separator}}{\physunits@u@knots[#1][#2]}
+\NewDocumentCommand\physunits@u@kts{O{}O{\physunits@units@separator}}{\physunits@u@knots[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\Gal}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Gal}.}
 %    \begin{macrocode}
-\NewDocumentCommand\Gal{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Gal}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Gal{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Gal}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\gacc}
 % \changes{v1.3.0}{2026/11/24}{\cs{gacc}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\gacc{O{}O{\physunits@units@separator}}{\physunits@unit{g}[][#1][#2]}
+\NewDocumentCommand\physunits@u@gacc{O{}O{\physunits@units@separator}}{\physunits@unit{g}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\eotvos,\Eotvos}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{eotvos}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Eotvos}.}
 %    \begin{macrocode}
-\NewDocumentCommand\eotvos{O{}O{}O{\physunits@units@separator}}{\physunits@unit{E}[#1][#2][#3]}
-\NewDocumentCommand\Eotvos{O{}O{}O{\physunits@units@separator}}{\eotvos[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@eotvos{O{}O{}O{\physunits@units@separator}}{\physunits@unit{E}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Eotvos{O{}O{}O{\physunits@units@separator}}{\physunits@u@eotvos[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Mass}
@@ -2711,15 +2798,15 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{gram}, \cs{Gram}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{gm}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\gram{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\gram@unit}[#1][#2][#3]}
-\NewDocumentCommand\Gram{O{}O{}O{\physunits@units@separator}}{\gram[#1][#2][#3]}
-\NewDocumentCommand\gm{O{}O{}O{\physunits@units@separator}}{\gram[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@gram{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\gram@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Gram{O{}O{}O{\physunits@units@separator}}{\physunits@u@gram[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@gm{O{}O{}O{\physunits@units@separator}}{\physunits@u@gram[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\kg}
 % \changes{v1.3.0}{2026/11/24}{\cs{kg}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\kg{O{}O{\physunits@units@separator}}{\gram[\kilo][#1][#2]}
+\NewDocumentCommand\physunits@u@kg{O{}O{\physunits@units@separator}}{\physunits@u@gram[\physunits@u@kilo][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{cgs and semi-SI units}
@@ -2727,136 +2814,128 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{dalton}, \cs{Dalton}, \cs{Da}, \cs{da}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{amu}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments. Now a synonym for \cs{dalton}; symbol set by the \texttt{amu} option (default amu).}
 %    \begin{macrocode}
-\NewDocumentCommand\dalton{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\amu@unit}[#1][#2][#3]}
-\NewDocumentCommand\Dalton{O{}O{}O{\physunits@units@separator}}{\dalton[#1][#2][#3]}
-\NewDocumentCommand\Da{O{}O{}O{\physunits@units@separator}}{\dalton[#1][#2][#3]}
-\NewDocumentCommand\da{O{}O{}O{\physunits@units@separator}}{\dalton[#1][#2][#3]}
-\NewDocumentCommand\amu{O{}O{}O{\physunits@units@separator}}{\dalton[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@dalton{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\amu@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Dalton{O{}O{}O{\physunits@units@separator}}{\physunits@u@dalton[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Da{O{}O{}O{\physunits@units@separator}}{\physunits@u@dalton[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@da{O{}O{}O{\physunits@units@separator}}{\physunits@u@dalton[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@amu{O{}O{}O{\physunits@units@separator}}{\physunits@u@dalton[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\tonne,\Tonne}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{tonne}, \cs{Tonne}.}
 %    \begin{macrocode}
-\NewDocumentCommand\tonne{O{}O{}O{\physunits@units@separator}}{\physunits@unit{t}[#1][#2][#3]}
-\NewDocumentCommand\Tonne{O{}O{}O{\physunits@units@separator}}{\tonne[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@tonne{O{}O{}O{\physunits@units@separator}}{\physunits@unit{t}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Tonne{O{}O{}O{\physunits@units@separator}}{\physunits@u@tonne[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\solarmass}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{solarmass}.}
-% \changes{v1.3.0}{2026/11/24}{\cs{solarmass}: not defined with the \texttt{disable-astro-mass-radii} option.}
+% \changes{v1.3.0}{2026/11/24}{\cs{solarmass}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{solarmass}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
-\ifphysunits@noAstro\else
-\NewDocumentCommand\solarmass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\odot}}[][#1][#2]}
-\fi
+\NewDocumentCommand\physunits@u@solarmass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\odot}}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\jupitermass}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{jupitermass}.}
-% \changes{v1.3.0}{2026/11/24}{\cs{jupitermass}: not defined with the \texttt{disable-astro-mass-radii} option.}
+% \changes{v1.3.0}{2026/11/24}{\cs{jupitermass}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{jupitermass}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
-\ifphysunits@noAstro\else
-\NewDocumentCommand\jupitermass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\mathrm{J}}}[][#1][#2]}
-\fi
+\NewDocumentCommand\physunits@u@jupitermass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\mathrm{J}}}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\earthmass}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{earthmass}.}
-% \changes{v1.3.0}{2026/11/24}{\cs{earthmass}: not defined with the \texttt{disable-astro-mass-radii} option.}
+% \changes{v1.3.0}{2026/11/24}{\cs{earthmass}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{earthmass}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
-\ifphysunits@noAstro\else
-\NewDocumentCommand\earthmass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\oplus}}[][#1][#2]}
-\fi
+\NewDocumentCommand\physunits@u@earthmass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\oplus}}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\moonmass}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{moonmass}.}
-% \changes{v1.3.0}{2026/11/24}{\cs{moonmass}: not defined with the \texttt{disable-astro-mass-radii} option.}
+% \changes{v1.3.0}{2026/11/24}{\cs{moonmass}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{moonmass}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
-\ifphysunits@noAstro\else
-\NewDocumentCommand\moonmass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\mathrm{L}}}[][#1][#2]}
-\fi
+\NewDocumentCommand\physunits@u@moonmass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\mathrm{L}}}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\carat,\ct}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{carat}, \cs{ct}.}
 %    \begin{macrocode}
-\NewDocumentCommand\carat{O{}O{\physunits@units@separator}}{\physunits@unit{ct}[][#1][#2]}
-\NewDocumentCommand\ct{O{}O{\physunits@units@separator}}{\carat[#1][#2]}
+\NewDocumentCommand\physunits@u@carat{O{}O{\physunits@units@separator}}{\physunits@unit{ct}[][#1][#2]}
+\NewDocumentCommand\physunits@u@ct{O{}O{\physunits@units@separator}}{\physunits@u@carat[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\hyl}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hyl}.}
 %    \begin{macrocode}
-\NewDocumentCommand\hyl{O{}O{\physunits@units@separator}}{\physunits@unit{hyl}[][#1][#2]}
+\NewDocumentCommand\physunits@u@hyl{O{}O{\physunits@units@separator}}{\physunits@unit{hyl}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\slug}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{slug}.}
 %    \begin{macrocode}
-\NewDocumentCommand\slug{O{}O{\physunits@units@separator}}{\physunits@unit{slug}[][#1][#2]}
+\NewDocumentCommand\physunits@u@slug{O{}O{\physunits@units@separator}}{\physunits@unit{slug}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\TME}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{TME}.}
 %    \begin{macrocode}
-\NewDocumentCommand\TME{O{}O{\physunits@units@separator}}{\physunits@unit{TME}[][#1][#2]}
+\NewDocumentCommand\physunits@u@TME{O{}O{\physunits@units@separator}}{\physunits@unit{TME}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\poundmass,\lb}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{poundmass}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{lb}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\poundmass{O{}O{\physunits@units@separator}}{\physunits@unit{lb}[][#1][#2]}
-\NewDocumentCommand\lb{O{}O{\physunits@units@separator}}{\poundmass[#1][#2]}
+\NewDocumentCommand\physunits@u@poundmass{O{}O{\physunits@units@separator}}{\physunits@unit{lb}[][#1][#2]}
+\NewDocumentCommand\physunits@u@lb{O{}O{\physunits@units@separator}}{\physunits@u@poundmass[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\grain}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{grain}.}
 %    \begin{macrocode}
-\NewDocumentCommand\grain{O{}O{\physunits@units@separator}}{\physunits@unit{gr}[][#1][#2]}
+\NewDocumentCommand\physunits@u@grain{O{}O{\physunits@units@separator}}{\physunits@unit{gr}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\hundredweight,\cwt}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hundredweight}, \cs{cwt}.}
 %    \begin{macrocode}
-\NewDocumentCommand\hundredweight{O{}O{\physunits@units@separator}}{\physunits@unit{cwt}[][#1][#2]}
-\NewDocumentCommand\cwt{O{}O{\physunits@units@separator}}{\hundredweight[#1][#2]}
+\NewDocumentCommand\physunits@u@hundredweight{O{}O{\physunits@units@separator}}{\physunits@unit{cwt}[][#1][#2]}
+\NewDocumentCommand\physunits@u@cwt{O{}O{\physunits@units@separator}}{\physunits@u@hundredweight[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\pennyweight,\dwt}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{pennyweight}, \cs{dwt}.}
 %    \begin{macrocode}
-\NewDocumentCommand\pennyweight{O{}O{\physunits@units@separator}}{\physunits@unit{dwt}[][#1][#2]}
-\NewDocumentCommand\dwt{O{}O{\physunits@units@separator}}{\pennyweight[#1][#2]}
+\NewDocumentCommand\physunits@u@pennyweight{O{}O{\physunits@units@separator}}{\physunits@unit{dwt}[][#1][#2]}
+\NewDocumentCommand\physunits@u@dwt{O{}O{\physunits@units@separator}}{\physunits@u@pennyweight[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\troyounce}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{troyounce}.}
 %    \begin{macrocode}
-\NewDocumentCommand\troyounce{O{}O{\physunits@units@separator}}{\physunits@unit{oz\nobreakspace t}[][#1][#2]}
+\NewDocumentCommand\physunits@u@troyounce{O{}O{\physunits@units@separator}}{\physunits@unit{oz\nobreakspace t}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\troypound}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{troypound}.}
 %    \begin{macrocode}
-\NewDocumentCommand\troypound{O{}O{\physunits@units@separator}}{\physunits@unit{lb\nobreakspace t}[][#1][#2]}
+\NewDocumentCommand\physunits@u@troypound{O{}O{\physunits@units@separator}}{\physunits@unit{lb\nobreakspace t}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\shortton}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{shortton}.}
 %    \begin{macrocode}
-\NewDocumentCommand\shortton{O{}O{\physunits@units@separator}}{\physunits@unit{short\nobreakspace ton}[][#1][#2]}
+\NewDocumentCommand\physunits@u@shortton{O{}O{\physunits@units@separator}}{\physunits@unit{short\nobreakspace ton}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\longton}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{longton}.}
 %    \begin{macrocode}
-\NewDocumentCommand\longton{O{}O{\physunits@units@separator}}{\physunits@unit{long\nobreakspace ton}[][#1][#2]}
+\NewDocumentCommand\physunits@u@longton{O{}O{\physunits@units@separator}}{\physunits@unit{long\nobreakspace ton}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Force}
@@ -2866,9 +2945,9 @@
 % \changes{v1.3.0}{2026/11/24}{\cs{Newton}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 % \changes{v1.3.0}{2026/11/24}{\cs{N}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\newton{O{}O{}O{\physunits@units@separator}}{\physunits@unit{N}[#1][#2][#3]}
-\NewDocumentCommand\Newton{O{}O{}O{\physunits@units@separator}}{\newton[#1][#2][#3]}
-\NewDocumentCommand\N{O{}O{}O{\physunits@units@separator}}{\newton[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@newton{O{}O{}O{\physunits@units@separator}}{\physunits@unit{N}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Newton{O{}O{}O{\physunits@units@separator}}{\physunits@u@newton[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@N{O{}O{}O{\physunits@units@separator}}{\physunits@u@newton[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{cgs and semi-SI units}
@@ -2876,54 +2955,54 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Dyne}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{dyne}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\dyne{O{}O{}O{\physunits@units@separator}}{\physunits@unit{dyn}[#1][#2][#3]}
-\NewDocumentCommand\Dyne{O{}O{}O{\physunits@units@separator}}{\dyne[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@dyne{O{}O{}O{\physunits@units@separator}}{\physunits@unit{dyn}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Dyne{O{}O{}O{\physunits@units@separator}}{\physunits@u@dyne[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\pond}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{pond}.}
 %    \begin{macrocode}
-\NewDocumentCommand\pond{O{}O{}O{\physunits@units@separator}}{\physunits@unit{p}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@pond{O{}O{}O{\physunits@units@separator}}{\physunits@unit{p}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\kp}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{kp}.}
 %    \begin{macrocode}
-\NewDocumentCommand\kp{O{}O{\physunits@units@separator}}{\pond[\kilo][#1][#2]}
+\NewDocumentCommand\physunits@u@kp{O{}O{\physunits@units@separator}}{\physunits@u@pond[\physunits@u@kilo][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\gramforce}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{gramforce}.}
 %    \begin{macrocode}
-\NewDocumentCommand\gramforce{O{}O{}O{\physunits@units@separator}}{\physunits@unit{gf}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@gramforce{O{}O{}O{\physunits@units@separator}}{\physunits@unit{gf}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\kgf}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{kgf}.}
 %    \begin{macrocode}
-\NewDocumentCommand\kgf{O{}O{\physunits@units@separator}}{\gramforce[\kilo][#1][#2]}
+\NewDocumentCommand\physunits@u@kgf{O{}O{\physunits@units@separator}}{\physunits@u@gramforce[\physunits@u@kilo][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\poundal}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{poundal}.}
 %    \begin{macrocode}
-\NewDocumentCommand\poundal{O{}O{\physunits@units@separator}}{\physunits@unit{pdl}[][#1][#2]}
+\NewDocumentCommand\physunits@u@poundal{O{}O{\physunits@units@separator}}{\physunits@unit{pdl}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\poundforce,\lbf}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{poundforce}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{lbf}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\poundforce{O{}O{\physunits@units@separator}}{\physunits@unit{lbf}[][#1][#2]}
-\NewDocumentCommand\lbf{O{}O{\physunits@units@separator}}{\poundforce[#1][#2]}
+\NewDocumentCommand\physunits@u@poundforce{O{}O{\physunits@units@separator}}{\physunits@unit{lbf}[][#1][#2]}
+\NewDocumentCommand\physunits@u@lbf{O{}O{\physunits@units@separator}}{\physunits@u@poundforce[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\sthene,\Sthene}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{sthene}, \cs{Sthene}.}
 %    \begin{macrocode}
-\NewDocumentCommand\sthene{O{}O{}O{\physunits@units@separator}}{\physunits@unit{sn}[#1][#2][#3]}
-\NewDocumentCommand\Sthene{O{}O{}O{\physunits@units@separator}}{\sthene[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@sthene{O{}O{}O{\physunits@units@separator}}{\physunits@unit{sn}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Sthene{O{}O{}O{\physunits@units@separator}}{\physunits@u@sthene[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Energy, power, and energy flux}
@@ -2933,17 +3012,17 @@
 % \changes{v1.3.0}{2026/11/24}{\cs{Joule}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 % \changes{v1.3.0}{2026/11/24}{\cs{J}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\joule{O{}O{}O{\physunits@units@separator}}{\physunits@unit{J}[#1][#2][#3]}
-\NewDocumentCommand\Joule{O{}O{}O{\physunits@units@separator}}{\joule[#1][#2][#3]}
-\NewDocumentCommand\J{O{}O{}O{\physunits@units@separator}}{\joule[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@joule{O{}O{}O{\physunits@units@separator}}{\physunits@unit{J}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Joule{O{}O{}O{\physunits@units@separator}}{\physunits@u@joule[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@J{O{}O{}O{\physunits@units@separator}}{\physunits@u@joule[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\watt,\Watt}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{watt}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Watt}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\watt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{W}[#1][#2][#3]}
-\NewDocumentCommand\Watt{O{}O{}O{\physunits@units@separator}}{\watt[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@watt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{W}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Watt{O{}O{}O{\physunits@units@separator}}{\physunits@u@watt[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{cgs and semi-SI units}
@@ -2951,143 +3030,141 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{electronvolt}, \cs{electronVolt}, \cs{ElectronVolt}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{eV}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\electronvolt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{eV}[#1][#2][#3]}
-\NewDocumentCommand\electronVolt{O{}O{}O{\physunits@units@separator}}{\electronvolt[#1][#2][#3]}
-\NewDocumentCommand\ElectronVolt{O{}O{}O{\physunits@units@separator}}{\electronvolt[#1][#2][#3]}
-\NewDocumentCommand\eV{O{}O{}O{\physunits@units@separator}}{\electronvolt[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@electronvolt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{eV}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@electronVolt{O{}O{}O{\physunits@units@separator}}{\physunits@u@electronvolt[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@ElectronVolt{O{}O{}O{\physunits@units@separator}}{\physunits@u@electronvolt[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@eV{O{}O{}O{\physunits@units@separator}}{\physunits@u@electronvolt[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\keV}
 % \changes{v1.3.0}{2026/11/24}{\cs{keV}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\keV{O{}O{\physunits@units@separator}}{\electronvolt[\kilo][#1][#2]}
+\NewDocumentCommand\physunits@u@keV{O{}O{\physunits@units@separator}}{\physunits@u@electronvolt[\physunits@u@kilo][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\MeV}
 % \changes{v1.3.0}{2026/11/24}{\cs{MeV}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\MeV{O{}O{\physunits@units@separator}}{\electronvolt[\mega][#1][#2]}
+\NewDocumentCommand\physunits@u@MeV{O{}O{\physunits@units@separator}}{\physunits@u@electronvolt[\physunits@u@mega][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\erg,\Erg}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Erg}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{erg}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\erg{O{}O{}O{\physunits@units@separator}}{\physunits@unit{erg}[#1][#2][#3]}
-\NewDocumentCommand\Erg{O{}O{}O{\physunits@units@separator}}{\erg[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@erg{O{}O{}O{\physunits@units@separator}}{\physunits@unit{erg}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Erg{O{}O{}O{\physunits@units@separator}}{\physunits@u@erg[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\rydberg,\Rydberg}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{rydberg}, \cs{Rydberg}.}
 %    \begin{macrocode}
-\NewDocumentCommand\rydberg{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Ry}[#1][#2][#3]}
-\NewDocumentCommand\Rydberg{O{}O{}O{\physunits@units@separator}}{\rydberg[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@rydberg{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Ry}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Rydberg{O{}O{}O{\physunits@units@separator}}{\physunits@u@rydberg[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\Hartree}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{hartree}, \cs{Hartree}.}
 % \cs{hartree} itself is defined by the \texttt{hartree} option.
 %    \begin{macrocode}
-\NewDocumentCommand\Hartree{O{}O{}O{\physunits@units@separator}}{\hartree[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Hartree{O{}O{}O{\physunits@units@separator}}{\physunits@u@hartree[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\foe}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{foe}.}
 %    \begin{macrocode}
-\NewDocumentCommand\foe{O{}O{\physunits@units@separator}}{\physunits@unit{foe}[][#1][#2]}
+\NewDocumentCommand\physunits@u@foe{O{}O{\physunits@units@separator}}{\physunits@unit{foe}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\jansky,\Jansky}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{jansky}, \cs{Jansky}.}
 %    \begin{macrocode}
-\NewDocumentCommand\jansky{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Jy}[#1][#2][#3]}
-\NewDocumentCommand\Jansky{O{}O{}O{\physunits@units@separator}}{\jansky[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@jansky{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Jy}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Jansky{O{}O{}O{\physunits@units@separator}}{\physunits@u@jansky[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\solarfluxunit,\sfu}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{solarfluxunit}, \cs{sfu}.}
 %    \begin{macrocode}
-\NewDocumentCommand\solarfluxunit{O{}O{\physunits@units@separator}}{\physunits@unit{sfu}[][#1][#2]}
-\NewDocumentCommand\sfu{O{}O{\physunits@units@separator}}{\solarfluxunit[#1][#2]}
+\NewDocumentCommand\physunits@u@solarfluxunit{O{}O{\physunits@units@separator}}{\physunits@unit{sfu}[][#1][#2]}
+\NewDocumentCommand\physunits@u@sfu{O{}O{\physunits@units@separator}}{\physunits@u@solarfluxunit[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\solarluminosity}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{solarluminosity}.}
 %    \begin{macrocode}
-\ifphysunits@noAstro\else
-\NewDocumentCommand\solarluminosity{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{L}_{\odot}}[][#1][#2]}
-\fi
+\NewDocumentCommand\physunits@u@solarluminosity{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{L}_{\odot}}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\kcal}
 % \changes{v1.3.0}{2026/11/24}{\cs{kcal}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments. Symbol now set by the \texttt{kcal} option (default kcal).}
 %    \begin{macrocode}
-\NewDocumentCommand\kcal{O{}O{\physunits@units@separator}}{\physunits@unit{\kcal@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@kcal{O{}O{\physunits@units@separator}}{\physunits@unit{\kcal@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\Calorie,\Cal}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Calorie}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Cal}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments. Symbol now set by the \texttt{Cal} option (default Cal).}
 %    \begin{macrocode}
-\NewDocumentCommand\Calorie{O{}O{\physunits@units@separator}}{\physunits@unit{\Cal@unit}[][#1][#2]}
-\NewDocumentCommand\Cal{O{}O{\physunits@units@separator}}{\Calorie[#1][#2]}
+\NewDocumentCommand\physunits@u@Calorie{O{}O{\physunits@units@separator}}{\physunits@unit{\Cal@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Cal{O{}O{\physunits@units@separator}}{\physunits@u@Calorie[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\calorie}
 % \changes{v1.3.0}{2026/11/24}{\cs{calorie}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\calorie{O{}O{}O{\physunits@units@separator}}{\physunits@unit{cal}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@calorie{O{}O{}O{\physunits@units@separator}}{\physunits@unit{cal}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\Btu,\BTU}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Btu}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{BTU}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments. Now a synonym for \cs{Btu}; symbol set by the \texttt{btu} option (default BTU).}
 %    \begin{macrocode}
-\NewDocumentCommand\Btu{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\btu@unit}[#1][#2][#3]}
-\NewDocumentCommand\BTU{O{}O{}O{\physunits@units@separator}}{\Btu[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Btu{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\btu@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@BTU{O{}O{}O{\physunits@units@separator}}{\physunits@u@Btu[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\therm}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{therm}.}
 %    \begin{macrocode}
-\NewDocumentCommand\therm{O{}O{}O{\physunits@units@separator}}{\physunits@unit{thm}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@therm{O{}O{}O{\physunits@units@separator}}{\physunits@unit{thm}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\thermie}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{thermie}.}
 %    \begin{macrocode}
-\NewDocumentCommand\thermie{O{}O{\physunits@units@separator}}{\physunits@unit{th}[][#1][#2]}
+\NewDocumentCommand\physunits@u@thermie{O{}O{\physunits@units@separator}}{\physunits@unit{th}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\tnt}
 % \changes{v1.3.0}{2026/11/24}{\cs{tnt}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments. Symbol set by the \texttt{tonTNT} option; the default is now ``ton TNT'' (was ``ton of TNT''), and a prefix is accepted.}
 %    \begin{macrocode}
-\NewDocumentCommand\tnt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\tnt@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@tnt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\tnt@unit}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\hpi}
 % \changes{v1.3.0}{2026/11/24}{\cs{hpi}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\hpi{O{}O{\physunits@units@separator}}{\physunits@unit{hp(I)}[][#1][#2]}
+\NewDocumentCommand\physunits@u@hpi{O{}O{\physunits@units@separator}}{\physunits@unit{hp(I)}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\hpm}
 % \changes{v1.3.0}{2026/11/24}{\cs{hpm}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\hpm{O{}O{\physunits@units@separator}}{\physunits@unit{hp(M)}[][#1][#2]}
+\NewDocumentCommand\physunits@u@hpm{O{}O{\physunits@units@separator}}{\physunits@unit{hp(M)}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\hp}
 % \changes{v1.3.0}{2026/11/24}{\cs{hp}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\hp{O{}O{\physunits@units@separator}}{\physunits@unit{hp}[][#1][#2]}
+\NewDocumentCommand\physunits@u@hp{O{}O{\physunits@units@separator}}{\physunits@unit{hp}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\poncelet}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{poncelet}.}
 %    \begin{macrocode}
-\NewDocumentCommand\poncelet{O{}O{}O{\physunits@units@separator}}{\physunits@unit{p}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@poncelet{O{}O{}O{\physunits@units@separator}}{\physunits@unit{p}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Electricity and magnetism}
@@ -3097,271 +3174,271 @@
 % \changes{v1.3.0}{2026/11/24}{\cs{Volt}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 % \changes{v1.3.0}{2026/11/24}{\cs{V}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\volt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{V}[#1][#2][#3]}
-\NewDocumentCommand\Volt{O{}O{}O{\physunits@units@separator}}{\volt[#1][#2][#3]}
-\NewDocumentCommand\V{O{}O{}O{\physunits@units@separator}}{\volt[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@volt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{V}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Volt{O{}O{}O{\physunits@units@separator}}{\physunits@u@volt[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@V{O{}O{}O{\physunits@units@separator}}{\physunits@u@volt[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\coulomb,\Coulomb}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{coulomb}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Coulomb}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\coulomb{O{}O{}O{\physunits@units@separator}}{\physunits@unit{C}[#1][#2][#3]}
-\NewDocumentCommand\Coulomb{O{}O{}O{\physunits@units@separator}}{\coulomb[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@coulomb{O{}O{}O{\physunits@units@separator}}{\physunits@unit{C}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Coulomb{O{}O{}O{\physunits@units@separator}}{\physunits@u@coulomb[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\ohm,\Ohm}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{ohm}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Ohm}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\ohm{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\ohm@unit}[#1][#2][#3]}
-\NewDocumentCommand\Ohm{O{}O{}O{\physunits@units@separator}}{\ohm[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@ohm{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\ohm@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Ohm{O{}O{}O{\physunits@units@separator}}{\physunits@u@ohm[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\ampere,\Ampere,\amp,\Amp}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{ampere}, \cs{Ampere}, \cs{amp}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Amp}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\ampere{O{}O{}O{\physunits@units@separator}}{\physunits@unit{A}[#1][#2][#3]}
-\NewDocumentCommand\Ampere{O{}O{}O{\physunits@units@separator}}{\ampere[#1][#2][#3]}
-\NewDocumentCommand\amp{O{}O{}O{\physunits@units@separator}}{\ampere[#1][#2][#3]}
-\NewDocumentCommand\Amp{O{}O{}O{\physunits@units@separator}}{\ampere[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@ampere{O{}O{}O{\physunits@units@separator}}{\physunits@unit{A}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Ampere{O{}O{}O{\physunits@units@separator}}{\physunits@u@ampere[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@amp{O{}O{}O{\physunits@units@separator}}{\physunits@u@ampere[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Amp{O{}O{}O{\physunits@units@separator}}{\physunits@u@ampere[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\farad,\Farad}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{farad}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Farad}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\farad{O{}O{}O{\physunits@units@separator}}{\physunits@unit{F}[#1][#2][#3]}
-\NewDocumentCommand\Farad{O{}O{}O{\physunits@units@separator}}{\farad[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@farad{O{}O{}O{\physunits@units@separator}}{\physunits@unit{F}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Farad{O{}O{}O{\physunits@units@separator}}{\physunits@u@farad[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\tesla,\Tesla}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{tesla}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Tesla}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\tesla{O{}O{}O{\physunits@units@separator}}{\physunits@unit{T}[#1][#2][#3]}
-\NewDocumentCommand\Tesla{O{}O{}O{\physunits@units@separator}}{\tesla[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@tesla{O{}O{}O{\physunits@units@separator}}{\physunits@unit{T}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Tesla{O{}O{}O{\physunits@units@separator}}{\physunits@u@tesla[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\henry,\Henry}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{henry}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Henry}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\henry{O{}O{}O{\physunits@units@separator}}{\physunits@unit{H}[#1][#2][#3]}
-\NewDocumentCommand\Henry{O{}O{}O{\physunits@units@separator}}{\henry[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@henry{O{}O{}O{\physunits@units@separator}}{\physunits@unit{H}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Henry{O{}O{}O{\physunits@units@separator}}{\physunits@u@henry[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\weber,\Weber,\Wb}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{weber}, \cs{Weber}, \cs{Wb}.}
 %    \begin{macrocode}
-\NewDocumentCommand\weber{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Wb}[#1][#2][#3]}
-\NewDocumentCommand\Weber{O{}O{}O{\physunits@units@separator}}{\weber[#1][#2][#3]}
-\NewDocumentCommand\Wb{O{}O{}O{\physunits@units@separator}}{\weber[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@weber{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Wb}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Weber{O{}O{}O{\physunits@units@separator}}{\physunits@u@weber[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Wb{O{}O{}O{\physunits@units@separator}}{\physunits@u@weber[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\siemens,\Siemens}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{siemens}, \cs{Siemens}.}
 %    \begin{macrocode}
-\NewDocumentCommand\siemens{O{}O{}O{\physunits@units@separator}}{\physunits@unit{S}[#1][#2][#3]}
-\NewDocumentCommand\Siemens{O{}O{}O{\physunits@units@separator}}{\siemens[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@siemens{O{}O{}O{\physunits@units@separator}}{\physunits@unit{S}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Siemens{O{}O{}O{\physunits@units@separator}}{\physunits@u@siemens[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{cgs and semi-SI units}
 % \begin{macro}{\esu}
 % \changes{v1.3.0}{2026/11/24}{\cs{esu}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\esu{O{}O{}O{\physunits@units@separator}}{\physunits@unit{esu}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@esu{O{}O{}O{\physunits@units@separator}}{\physunits@unit{esu}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\statwatt,\statW}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{statwatt}, \cs{statW}.}
 %    \begin{macrocode}
-\NewDocumentCommand\statwatt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statW}[#1][#2][#3]}
-\NewDocumentCommand\statW{O{}O{}O{\physunits@units@separator}}{\statwatt[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statwatt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statW}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statW{O{}O{}O{\physunits@units@separator}}{\physunits@u@statwatt[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\statcoulomb,\statC}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{statcoulomb}, \cs{statC}.}
 %    \begin{macrocode}
-\NewDocumentCommand\statcoulomb{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statC}[#1][#2][#3]}
-\NewDocumentCommand\statC{O{}O{}O{\physunits@units@separator}}{\statcoulomb[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statcoulomb{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statC}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statC{O{}O{}O{\physunits@units@separator}}{\physunits@u@statcoulomb[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\statvolt,\statV}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{statvolt}, \cs{statV}.}
 %    \begin{macrocode}
-\NewDocumentCommand\statvolt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statV}[#1][#2][#3]}
-\NewDocumentCommand\statV{O{}O{}O{\physunits@units@separator}}{\statvolt[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statvolt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statV}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statV{O{}O{}O{\physunits@units@separator}}{\physunits@u@statvolt[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\statohm,\statOhm}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{statohm}, \cs{statOhm}.}
 %    \begin{macrocode}
-\NewDocumentCommand\statohm{O{}O{}O{\physunits@units@separator}}{\physunits@unit{stat\ohm@unit}[#1][#2][#3]}
-\NewDocumentCommand\statOhm{O{}O{}O{\physunits@units@separator}}{\statohm[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statohm{O{}O{}O{\physunits@units@separator}}{\physunits@unit{stat\ohm@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statOhm{O{}O{}O{\physunits@units@separator}}{\physunits@u@statohm[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\statmho}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{statmho}.}
 %    \begin{macrocode}
-\NewDocumentCommand\statmho{O{}O{}O{\physunits@units@separator}}{\physunits@unit{stat\physunits@mho}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statmho{O{}O{}O{\physunits@units@separator}}{\physunits@unit{stat\physunits@mho}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\statsiemens,\statS}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{statsiemens}, \cs{statS}.}
 %    \begin{macrocode}
-\NewDocumentCommand\statsiemens{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statS}[#1][#2][#3]}
-\NewDocumentCommand\statS{O{}O{}O{\physunits@units@separator}}{\statsiemens[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statsiemens{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statS}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statS{O{}O{}O{\physunits@units@separator}}{\physunits@u@statsiemens[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\stathenry,\statH}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{stathenry}, \cs{statH}.}
 %    \begin{macrocode}
-\NewDocumentCommand\stathenry{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statH}[#1][#2][#3]}
-\NewDocumentCommand\statH{O{}O{}O{\physunits@units@separator}}{\stathenry[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@stathenry{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statH}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statH{O{}O{}O{\physunits@units@separator}}{\physunits@u@stathenry[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\statfarad,\statF}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{statfarad}, \cs{statF}.}
 %    \begin{macrocode}
-\NewDocumentCommand\statfarad{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statF}[#1][#2][#3]}
-\NewDocumentCommand\statF{O{}O{}O{\physunits@units@separator}}{\statfarad[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statfarad{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statF}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statF{O{}O{}O{\physunits@units@separator}}{\physunits@u@statfarad[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\statdaraf,\statD}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{statdaraf}, \cs{statD}.}
 %    \begin{macrocode}
-\NewDocumentCommand\statdaraf{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statD}[#1][#2][#3]}
-\NewDocumentCommand\statD{O{}O{}O{\physunits@units@separator}}{\statdaraf[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statdaraf{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statD}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statD{O{}O{}O{\physunits@units@separator}}{\physunits@u@statdaraf[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\statweber,\statWb}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{statweber}, \cs{statWb}.}
 %    \begin{macrocode}
-\NewDocumentCommand\statweber{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statWb}[#1][#2][#3]}
-\NewDocumentCommand\statWb{O{}O{}O{\physunits@units@separator}}{\statweber[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statweber{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statWb}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statWb{O{}O{}O{\physunits@units@separator}}{\physunits@u@statweber[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\stattesla,\statT}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{stattesla}, \cs{statT}.}
 %    \begin{macrocode}
-\NewDocumentCommand\stattesla{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statT}[#1][#2][#3]}
-\NewDocumentCommand\statT{O{}O{}O{\physunits@units@separator}}{\stattesla[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@stattesla{O{}O{}O{\physunits@units@separator}}{\physunits@unit{statT}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@statT{O{}O{}O{\physunits@units@separator}}{\physunits@u@stattesla[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\abwatt,\abW}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{abwatt}, \cs{abW}.}
 %    \begin{macrocode}
-\NewDocumentCommand\abwatt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{abW}[#1][#2][#3]}
-\NewDocumentCommand\abW{O{}O{}O{\physunits@units@separator}}{\abwatt[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abwatt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{abW}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abW{O{}O{}O{\physunits@units@separator}}{\physunits@u@abwatt[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\abcoulomb,\abC}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{abcoulomb}, \cs{abC}.}
 %    \begin{macrocode}
-\NewDocumentCommand\abcoulomb{O{}O{}O{\physunits@units@separator}}{\physunits@unit{abC}[#1][#2][#3]}
-\NewDocumentCommand\abC{O{}O{}O{\physunits@units@separator}}{\abcoulomb[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abcoulomb{O{}O{}O{\physunits@units@separator}}{\physunits@unit{abC}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abC{O{}O{}O{\physunits@units@separator}}{\physunits@u@abcoulomb[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\abvolt,\abV}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{abvolt}, \cs{abV}.}
 %    \begin{macrocode}
-\NewDocumentCommand\abvolt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{abV}[#1][#2][#3]}
-\NewDocumentCommand\abV{O{}O{}O{\physunits@units@separator}}{\abvolt[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abvolt{O{}O{}O{\physunits@units@separator}}{\physunits@unit{abV}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abV{O{}O{}O{\physunits@units@separator}}{\physunits@u@abvolt[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\abohm,\abOhm}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{abohm}, \cs{abOhm}.}
 %    \begin{macrocode}
-\NewDocumentCommand\abohm{O{}O{}O{\physunits@units@separator}}{\physunits@unit{ab\ohm@unit}[#1][#2][#3]}
-\NewDocumentCommand\abOhm{O{}O{}O{\physunits@units@separator}}{\abohm[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abohm{O{}O{}O{\physunits@units@separator}}{\physunits@unit{ab\ohm@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abOhm{O{}O{}O{\physunits@units@separator}}{\physunits@u@abohm[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\abmho}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{abmho}.}
 %    \begin{macrocode}
-\NewDocumentCommand\abmho{O{}O{}O{\physunits@units@separator}}{\physunits@unit{ab\physunits@mho}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abmho{O{}O{}O{\physunits@units@separator}}{\physunits@unit{ab\physunits@mho}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\abhenry,\abH}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{abhenry}, \cs{abH}.}
 %    \begin{macrocode}
-\NewDocumentCommand\abhenry{O{}O{}O{\physunits@units@separator}}{\physunits@unit{abH}[#1][#2][#3]}
-\NewDocumentCommand\abH{O{}O{}O{\physunits@units@separator}}{\abhenry[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abhenry{O{}O{}O{\physunits@units@separator}}{\physunits@unit{abH}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abH{O{}O{}O{\physunits@units@separator}}{\physunits@u@abhenry[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\abfarad,\abF}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{abfarad}, \cs{abF}.}
 %    \begin{macrocode}
-\NewDocumentCommand\abfarad{O{}O{}O{\physunits@units@separator}}{\physunits@unit{abF}[#1][#2][#3]}
-\NewDocumentCommand\abF{O{}O{}O{\physunits@units@separator}}{\abfarad[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abfarad{O{}O{}O{\physunits@units@separator}}{\physunits@unit{abF}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@abF{O{}O{}O{\physunits@units@separator}}{\physunits@u@abfarad[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\gilbert,\Gb,\Gilbert}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{gilbert}, \cs{Gb}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Gilbert}.}
 %    \begin{macrocode}
-\NewDocumentCommand\gilbert{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Gb}[#1][#2][#3]}
-\NewDocumentCommand\Gb{O{}O{}O{\physunits@units@separator}}{\gilbert[#1][#2][#3]}
-\NewDocumentCommand\Gilbert{O{}O{}O{\physunits@units@separator}}{\gilbert[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@gilbert{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Gb}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Gb{O{}O{}O{\physunits@units@separator}}{\physunits@u@gilbert[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Gilbert{O{}O{}O{\physunits@units@separator}}{\physunits@u@gilbert[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\oersted,\Oe,\Oersted}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{oersted}, \cs{Oe}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Oersted}.}
 %    \begin{macrocode}
-\NewDocumentCommand\oersted{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Oe}[#1][#2][#3]}
-\NewDocumentCommand\Oe{O{}O{}O{\physunits@units@separator}}{\oersted[#1][#2][#3]}
-\NewDocumentCommand\Oersted{O{}O{}O{\physunits@units@separator}}{\oersted[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@oersted{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Oe}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Oe{O{}O{}O{\physunits@units@separator}}{\physunits@u@oersted[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Oersted{O{}O{}O{\physunits@units@separator}}{\physunits@u@oersted[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\maxwell,\Mx,\Maxwell}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{maxwell}, \cs{Mx}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Maxwell}.}
 %    \begin{macrocode}
-\NewDocumentCommand\maxwell{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Mx}[#1][#2][#3]}
-\NewDocumentCommand\Mx{O{}O{}O{\physunits@units@separator}}{\maxwell[#1][#2][#3]}
-\NewDocumentCommand\Maxwell{O{}O{}O{\physunits@units@separator}}{\maxwell[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@maxwell{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Mx}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Mx{O{}O{}O{\physunits@units@separator}}{\physunits@u@maxwell[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Maxwell{O{}O{}O{\physunits@units@separator}}{\physunits@u@maxwell[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\gauss,\Gauss}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{gauss}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Gauss}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\gauss{O{}O{}O{\physunits@units@separator}}{\physunits@unit{G}[#1][#2][#3]}
-\NewDocumentCommand\Gauss{O{}O{}O{\physunits@units@separator}}{\gauss[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@gauss{O{}O{}O{\physunits@units@separator}}{\physunits@unit{G}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Gauss{O{}O{}O{\physunits@units@separator}}{\physunits@u@gauss[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\franklin,\Fr,\Franklin}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{franklin}, \cs{Fr}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Franklin}.}
 %    \begin{macrocode}
-\NewDocumentCommand\franklin{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Fr}[#1][#2][#3]}
-\NewDocumentCommand\Fr{O{}O{}O{\physunits@units@separator}}{\franklin[#1][#2][#3]}
-\NewDocumentCommand\Franklin{O{}O{}O{\physunits@units@separator}}{\franklin[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@franklin{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Fr}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Fr{O{}O{}O{\physunits@units@separator}}{\physunits@u@franklin[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Franklin{O{}O{}O{\physunits@units@separator}}{\physunits@u@franklin[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\buckingham,\Buckingham}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{buckingham}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Buckingham}.}
 %    \begin{macrocode}
-\NewDocumentCommand\buckingham{O{}O{}O{\physunits@units@separator}}{\physunits@unit{B}[#1][#2][#3]}
-\NewDocumentCommand\Buckingham{O{}O{}O{\physunits@units@separator}}{\buckingham[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@buckingham{O{}O{}O{\physunits@units@separator}}{\physunits@unit{B}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Buckingham{O{}O{}O{\physunits@units@separator}}{\physunits@u@buckingham[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\debye,\Debye}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{debye}, \cs{Debye}.}
 %    \begin{macrocode}
-\NewDocumentCommand\debye{O{}O{}O{\physunits@units@separator}}{\physunits@unit{D}[#1][#2][#3]}
-\NewDocumentCommand\Debye{O{}O{}O{\physunits@units@separator}}{\debye[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@debye{O{}O{}O{\physunits@units@separator}}{\physunits@unit{D}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Debye{O{}O{}O{\physunits@units@separator}}{\physunits@u@debye[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\unitmho}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{unitmho}.}
 %    \begin{macrocode}
-\NewDocumentCommand\unitmho{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\physunits@mho}[\physunits@mhoprefix{#1}][#2][#3]}
+\NewDocumentCommand\physunits@u@unitmho{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\physunits@mho}[\physunits@mhoprefix{#1}][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Temperature}
@@ -3371,9 +3448,9 @@
 % \changes{v1.3.0}{2026/11/24}{\cs{Kelvin}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 % \changes{v1.3.0}{2026/11/24}{\cs{K}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\kelvin{O{}O{}O{\physunits@units@separator}}{\physunits@unit{K}[#1][#2][#3]}
-\NewDocumentCommand\Kelvin{O{}O{}O{\physunits@units@separator}}{\kelvin[#1][#2][#3]}
-\NewDocumentCommand\K{O{}O{}O{\physunits@units@separator}}{\kelvin[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@kelvin{O{}O{}O{\physunits@units@separator}}{\physunits@unit{K}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Kelvin{O{}O{}O{\physunits@units@separator}}{\physunits@u@kelvin[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@K{O{}O{}O{\physunits@units@separator}}{\physunits@u@kelvin[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\celsius,\Celsius,\centigrade,\Celcius,\celcius}
@@ -3382,11 +3459,11 @@
 % \changes{v1.3.0}{2026/11/24}{\cs{centigrade}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Celcius}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\celsius{O{}O{}O{\physunits@units@separator}}{\physunits@degreeUnit{C}[#1][#2][#3]}
-\NewDocumentCommand\Celsius{O{}O{}O{\physunits@units@separator}}{\celsius[#1][#2][#3]}
-\NewDocumentCommand\centigrade{O{}O{}O{\physunits@units@separator}}{\celsius[#1][#2][#3]}
-\NewDocumentCommand\Celcius{O{}O{}O{\physunits@units@separator}}{\celsius[#1][#2][#3]} % because I can't spell
-\NewDocumentCommand\celcius{O{}O{}O{\physunits@units@separator}}{\celsius[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@celsius{O{}O{}O{\physunits@units@separator}}{\physunits@degreeUnit{C}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Celsius{O{}O{}O{\physunits@units@separator}}{\physunits@u@celsius[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@centigrade{O{}O{}O{\physunits@units@separator}}{\physunits@u@celsius[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Celcius{O{}O{}O{\physunits@units@separator}}{\physunits@u@celsius[#1][#2][#3]} % because I can't spell
+\NewDocumentCommand\physunits@u@celcius{O{}O{}O{\physunits@units@separator}}{\physunits@u@celsius[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
@@ -3394,37 +3471,37 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{fahrenheit}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Fahrenheit}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\fahrenheit{O{}O{\physunits@units@separator}}{\physunits@degreeUnit{F}[][#1][#2]}
-\NewDocumentCommand\Fahrenheit{O{}O{\physunits@units@separator}}{\fahrenheit[#1][#2]}
+\NewDocumentCommand\physunits@u@fahrenheit{O{}O{\physunits@units@separator}}{\physunits@degreeUnit{F}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Fahrenheit{O{}O{\physunits@units@separator}}{\physunits@u@fahrenheit[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\rankine,\Rankine}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{rankine}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Rankine}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\rankine{O{}O{\physunits@units@separator}}{\physunits@degreeUnit{R}[][#1][#2]}
-\NewDocumentCommand\Rankine{O{}O{\physunits@units@separator}}{\rankine[#1][#2]}
+\NewDocumentCommand\physunits@u@rankine{O{}O{\physunits@units@separator}}{\physunits@degreeUnit{R}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Rankine{O{}O{\physunits@units@separator}}{\physunits@u@rankine[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\delisle,\Delisle}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{delisle}, \cs{Delisle}.}
 %    \begin{macrocode}
-\NewDocumentCommand\delisle{O{}O{\physunits@units@separator}}{\physunits@degreeUnit{De}[][#1][#2]}
-\NewDocumentCommand\Delisle{O{}O{\physunits@units@separator}}{\delisle[#1][#2]}
+\NewDocumentCommand\physunits@u@delisle{O{}O{\physunits@units@separator}}{\physunits@degreeUnit{De}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Delisle{O{}O{\physunits@units@separator}}{\physunits@u@delisle[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\reaumur,\Reaumur}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{reaumur}, \cs{Reaumur}.}
 %    \begin{macrocode}
-\NewDocumentCommand\reaumur{O{}O{\physunits@units@separator}}{\physunits@degreeUnit{R\acute{e}}[][#1][#2]}
-\NewDocumentCommand\Reaumur{O{}O{\physunits@units@separator}}{\reaumur[#1][#2]}
+\NewDocumentCommand\physunits@u@reaumur{O{}O{\physunits@units@separator}}{\physunits@degreeUnit{R\acute{e}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Reaumur{O{}O{\physunits@units@separator}}{\physunits@u@reaumur[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\romer,\Romer}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{romer}, \cs{Romer}.}
 %    \begin{macrocode}
-\NewDocumentCommand\romer{O{}O{\physunits@units@separator}}{\physunits@degreeUnit{R\mbox{\o}}[][#1][#2]}
-\NewDocumentCommand\Romer{O{}O{\physunits@units@separator}}{\romer[#1][#2]}
+\NewDocumentCommand\physunits@u@romer{O{}O{\physunits@units@separator}}{\physunits@degreeUnit{R\mbox{\o}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@Romer{O{}O{\physunits@units@separator}}{\physunits@u@romer[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Pressure}
@@ -3433,92 +3510,92 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{pascal}, \cs{Pascal}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Pa}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\pascal{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Pa}[#1][#2][#3]}
-\NewDocumentCommand\Pascal{O{}O{}O{\physunits@units@separator}}{\pascal[#1][#2][#3]}
-\NewDocumentCommand\Pa{O{}O{}O{\physunits@units@separator}}{\pascal[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@pascal{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Pa}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Pascal{O{}O{}O{\physunits@units@separator}}{\physunits@u@pascal[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Pa{O{}O{}O{\physunits@units@separator}}{\physunits@u@pascal[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{cgs and semi-SI units}
 % \begin{macro}{\barP}
 % \changes{v1.3.0}{2026/11/24}{\cs{barP}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\barP{O{}O{}O{\physunits@units@separator}}{\physunits@unit{bar}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@barP{O{}O{}O{\physunits@units@separator}}{\physunits@unit{bar}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\barye,\Barye,\Ba}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{barye}, \cs{Barye}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Ba}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\barye{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Ba}[#1][#2][#3]}
-\NewDocumentCommand\Barye{O{}O{}O{\physunits@units@separator}}{\barye[#1][#2][#3]}
-\NewDocumentCommand\Ba{O{}O{}O{\physunits@units@separator}}{\barye[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@barye{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Ba}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Barye{O{}O{}O{\physunits@units@separator}}{\physunits@u@barye[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Ba{O{}O{}O{\physunits@units@separator}}{\physunits@u@barye[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\atmosphere,\atm}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{atmosphere}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{atm}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\atmosphere{O{}O{\physunits@units@separator}}{\physunits@unit{atm}[][#1][#2]}
-\NewDocumentCommand\atm{O{}O{\physunits@units@separator}}{\atmosphere[#1][#2]}
+\NewDocumentCommand\physunits@u@atmosphere{O{}O{\physunits@units@separator}}{\physunits@unit{atm}[][#1][#2]}
+\NewDocumentCommand\physunits@u@atm{O{}O{\physunits@units@separator}}{\physunits@u@atmosphere[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\torr,\Torr}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{torr}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Torr}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\torr{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Torr}[#1][#2][#3]}
-\NewDocumentCommand\Torr{O{}O{}O{\physunits@units@separator}}{\torr[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@torr{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Torr}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Torr{O{}O{}O{\physunits@units@separator}}{\physunits@u@torr[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\mmHg}
 % \changes{v1.3.0}{2026/11/24}{\cs{mmHg}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\mmHg{O{}O{\physunits@units@separator}}{\physunits@unit{mmHg}[][#1][#2]}
+\NewDocumentCommand\physunits@u@mmHg{O{}O{\physunits@units@separator}}{\physunits@unit{mmHg}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\meterseawater,\metreseawater,\msw}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{meterseawater}, \cs{metreseawater}, \cs{msw}.}
 %    \begin{macrocode}
-\NewDocumentCommand\meterseawater{O{}O{\physunits@units@separator}}{\physunits@unit{msw}[][#1][#2]}
-\NewDocumentCommand\metreseawater{O{}O{\physunits@units@separator}}{\meterseawater[#1][#2]}
-\NewDocumentCommand\msw{O{}O{\physunits@units@separator}}{\meterseawater[#1][#2]}
+\NewDocumentCommand\physunits@u@meterseawater{O{}O{\physunits@units@separator}}{\physunits@unit{msw}[][#1][#2]}
+\NewDocumentCommand\physunits@u@metreseawater{O{}O{\physunits@units@separator}}{\physunits@u@meterseawater[#1][#2]}
+\NewDocumentCommand\physunits@u@msw{O{}O{\physunits@units@separator}}{\physunits@u@meterseawater[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\inHg}
 % \changes{v1.3.0}{2026/11/24}{\cs{inHg}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments.}
 %    \begin{macrocode}
-\NewDocumentCommand\inHg{O{}O{\physunits@units@separator}}{\physunits@unit{inHg}[][#1][#2]}
+\NewDocumentCommand\physunits@u@inHg{O{}O{\physunits@units@separator}}{\physunits@unit{inHg}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\lbsqin,\lbsi}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{lbsqin}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{lbsi}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments. Now a synonym for \cs{lbsqin}.}
 %    \begin{macrocode}
-\NewDocumentCommand\lbsqin{O{}O{\physunits@units@separator}}{\physunits@unit{psi}[][#1][#2]} %psi is the greek letter 
-\NewDocumentCommand\lbsi{O{}O{\physunits@units@separator}}{\lbsqin[#1][#2]} %psi is the greek letter 
+\NewDocumentCommand\physunits@u@lbsqin{O{}O{\physunits@units@separator}}{\physunits@unit{psi}[][#1][#2]} %psi is the greek letter 
+\NewDocumentCommand\physunits@u@lbsi{O{}O{\physunits@units@separator}}{\physunits@u@lbsqin[#1][#2]} %psi is the greek letter 
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\lbsqft,\lbsf,\psf}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{lbsqft}, \cs{psf}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{lbsf}: reimplemented with \cs{NewDocumentCommand}; added exponent and separator arguments. Now a synonym for \cs{lbsqft}.}
 %    \begin{macrocode}
-\NewDocumentCommand\lbsqft{O{}O{\physunits@units@separator}}{\physunits@unit{psf}[][#1][#2]}
-\NewDocumentCommand\lbsf{O{}O{\physunits@units@separator}}{\lbsqft[#1][#2]}
-\NewDocumentCommand\psf{O{}O{\physunits@units@separator}}{\lbsqft[#1][#2]}
+\NewDocumentCommand\physunits@u@lbsqft{O{}O{\physunits@units@separator}}{\physunits@unit{psf}[][#1][#2]}
+\NewDocumentCommand\physunits@u@lbsf{O{}O{\physunits@units@separator}}{\physunits@u@lbsqft[#1][#2]}
+\NewDocumentCommand\physunits@u@psf{O{}O{\physunits@units@separator}}{\physunits@u@lbsqft[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\atmospheretechnical}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{atmospheretechnical}.}
 %    \begin{macrocode}
-\NewDocumentCommand\atmospheretechnical{O{}O{\physunits@units@separator}}{\physunits@unit{at}[][#1][#2]}
+\NewDocumentCommand\physunits@u@atmospheretechnical{O{}O{\physunits@units@separator}}{\physunits@unit{at}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\pieze,\Pieze}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{pieze}, \cs{Pieze}.}
 %    \begin{macrocode}
-\NewDocumentCommand\pieze{O{}O{}O{\physunits@units@separator}}{\physunits@unit{pz}[#1][#2][#3]}
-\NewDocumentCommand\Pieze{O{}O{}O{\physunits@units@separator}}{\pieze[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@pieze{O{}O{}O{\physunits@units@separator}}{\physunits@unit{pz}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Pieze{O{}O{}O{\physunits@units@separator}}{\physunits@u@pieze[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Photometry}
@@ -3526,97 +3603,97 @@
 % \begin{macro}{\candela}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{candela}.}
 %    \begin{macrocode}
-\NewDocumentCommand\candela{O{}O{}O{\physunits@units@separator}}{\physunits@unit{cd}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@candela{O{}O{}O{\physunits@units@separator}}{\physunits@unit{cd}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\lumen}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{lumen}.}
 %    \begin{macrocode}
-\NewDocumentCommand\lumen{O{}O{}O{\physunits@units@separator}}{\physunits@unit{lm}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@lumen{O{}O{}O{\physunits@units@separator}}{\physunits@unit{lm}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\lux}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{lux}.}
 %    \begin{macrocode}
-\NewDocumentCommand\lux{O{}O{}O{\physunits@units@separator}}{\physunits@unit{lx}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@lux{O{}O{}O{\physunits@units@separator}}{\physunits@unit{lx}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{cgs and semi-SI units}
 % \begin{macro}{\stilb,\Stilb}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{stilb}, \cs{Stilb}.}
 %    \begin{macrocode}
-\NewDocumentCommand\stilb{O{}O{}O{\physunits@units@separator}}{\physunits@unit{sb}[#1][#2][#3]}
-\NewDocumentCommand\Stilb{O{}O{}O{\physunits@units@separator}}{\stilb[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@stilb{O{}O{}O{\physunits@units@separator}}{\physunits@unit{sb}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Stilb{O{}O{}O{\physunits@units@separator}}{\physunits@u@stilb[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\phot,\Phot}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{phot}, \cs{Phot}.}
 %    \begin{macrocode}
-\NewDocumentCommand\phot{O{}O{}O{\physunits@units@separator}}{\physunits@unit{ph}[#1][#2][#3]}
-\NewDocumentCommand\Phot{O{}O{}O{\physunits@units@separator}}{\phot[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@phot{O{}O{}O{\physunits@units@separator}}{\physunits@unit{ph}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Phot{O{}O{}O{\physunits@units@separator}}{\physunits@u@phot[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\lambert,\Lambert}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Lambert}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{lambert}.}
 %    \begin{macrocode}
-\NewDocumentCommand\lambert{O{}O{}O{\physunits@units@separator}}{\physunits@unit{L}[#1][#2][#3]}
-\NewDocumentCommand\Lambert{O{}O{}O{\physunits@units@separator}}{\lambert[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@lambert{O{}O{}O{\physunits@units@separator}}{\physunits@unit{L}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Lambert{O{}O{}O{\physunits@units@separator}}{\physunits@u@lambert[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\nit}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{nit}.}
 %    \begin{macrocode}
-\NewDocumentCommand\nit{O{}O{}O{\physunits@units@separator}}{\physunits@unit{nit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@nit{O{}O{}O{\physunits@units@separator}}{\physunits@unit{nit}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\einstein,\Einstein}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Einstein}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{einstein}.}
 %    \begin{macrocode}
-\NewDocumentCommand\einstein{O{}O{}O{\physunits@units@separator}}{\physunits@unit{E}[#1][#2][#3]}
-\NewDocumentCommand\Einstein{O{}O{}O{\physunits@units@separator}}{\einstein[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@einstein{O{}O{}O{\physunits@units@separator}}{\physunits@unit{E}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Einstein{O{}O{}O{\physunits@units@separator}}{\physunits@u@einstein[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\rayleigh,\Rayleigh}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Rayleigh}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{rayleigh}.}
 %    \begin{macrocode}
-\NewDocumentCommand\rayleigh{O{}O{}O{\physunits@units@separator}}{\physunits@unit{R}[#1][#2][#3]}
-\NewDocumentCommand\Rayleigh{O{}O{}O{\physunits@units@separator}}{\rayleigh[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@rayleigh{O{}O{}O{\physunits@units@separator}}{\physunits@unit{R}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Rayleigh{O{}O{}O{\physunits@units@separator}}{\physunits@u@rayleigh[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\magnitude}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{magnitude}.}
 %    \begin{macrocode}
-\NewDocumentCommand\magnitude{O{}O{}O{\physunits@units@separator}}{\physunits@unit{mag}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@magnitude{O{}O{}O{\physunits@units@separator}}{\physunits@unit{mag}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\nox}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{nox}.}
 %    \begin{macrocode}
-\NewDocumentCommand\nox{O{}O{}O{\physunits@units@separator}}{\physunits@unit{nox}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@nox{O{}O{}O{\physunits@units@separator}}{\physunits@unit{nox}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\bril}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{bril}.}
 %    \begin{macrocode}
-\NewDocumentCommand\bril{O{}O{}O{\physunits@units@separator}}{\physunits@unit{bril}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@bril{O{}O{}O{\physunits@units@separator}}{\physunits@unit{bril}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\lumerg}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{lumerg}.}
 %    \begin{macrocode}
-\NewDocumentCommand\lumerg{O{}O{}O{\physunits@units@separator}}{\physunits@unit{lumerg}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@lumerg{O{}O{}O{\physunits@units@separator}}{\physunits@unit{lumerg}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\talbot,\Talbot}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Talbot}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{talbot}.}
 %    \begin{macrocode}
-\NewDocumentCommand\talbot{O{}O{}O{\physunits@units@separator}}{\physunits@unit{T}[#1][#2][#3]}
-\NewDocumentCommand\Talbot{O{}O{}O{\physunits@units@separator}}{\talbot[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@talbot{O{}O{}O{\physunits@units@separator}}{\physunits@unit{T}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Talbot{O{}O{}O{\physunits@units@separator}}{\physunits@u@talbot[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Radioactivity and catalytic activity}
@@ -3624,37 +3701,37 @@
 % \begin{macro}{\becquerel,\Becquerel,\Bq}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{becquerel}, \cs{Becquerel}, \cs{Bq}.}
 %    \begin{macrocode}
-\NewDocumentCommand\becquerel{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Bq}[#1][#2][#3]}
-\NewDocumentCommand\Becquerel{O{}O{}O{\physunits@units@separator}}{\becquerel[#1][#2][#3]}
-\NewDocumentCommand\Bq{O{}O{}O{\physunits@units@separator}}{\becquerel[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@becquerel{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Bq}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Becquerel{O{}O{}O{\physunits@units@separator}}{\physunits@u@becquerel[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Bq{O{}O{}O{\physunits@units@separator}}{\physunits@u@becquerel[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\gray,\Gray}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{gray}, \cs{Gray}.}
 %    \begin{macrocode}
-\NewDocumentCommand\gray{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Gy}[#1][#2][#3]}
-\NewDocumentCommand\Gray{O{}O{}O{\physunits@units@separator}}{\gray[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@gray{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Gy}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Gray{O{}O{}O{\physunits@units@separator}}{\physunits@u@gray[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\sievert,\Sievert}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{sievert}, \cs{Sievert}.}
 %    \begin{macrocode}
-\NewDocumentCommand\sievert{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Sv}[#1][#2][#3]}
-\NewDocumentCommand\Sievert{O{}O{}O{\physunits@units@separator}}{\sievert[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@sievert{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Sv}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Sievert{O{}O{}O{\physunits@units@separator}}{\physunits@u@sievert[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\katal,\Katal}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{katal}, \cs{Katal}.}
 %    \begin{macrocode}
-\NewDocumentCommand\katal{O{}O{}O{\physunits@units@separator}}{\physunits@unit{kat}[#1][#2][#3]}
-\NewDocumentCommand\Katal{O{}O{}O{\physunits@units@separator}}{\katal[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@katal{O{}O{}O{\physunits@units@separator}}{\physunits@unit{kat}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Katal{O{}O{}O{\physunits@units@separator}}{\physunits@u@katal[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{cgs and semi-SI units}
 % \begin{macro}{\enzymeunit}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{enzymeunit}.}
 %    \begin{macrocode}
-\NewDocumentCommand\enzymeunit{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\enzymeunit@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@enzymeunit{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\enzymeunit@unit}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
@@ -3662,37 +3739,37 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{roentgen}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Roentgen}.}
 %    \begin{macrocode}
-\NewDocumentCommand\roentgen{O{}O{}O{\physunits@units@separator}}{\physunits@unit{R}[#1][#2][#3]}
-\NewDocumentCommand\Roentgen{O{}O{}O{\physunits@units@separator}}{\roentgen[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@roentgen{O{}O{}O{\physunits@units@separator}}{\physunits@unit{R}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Roentgen{O{}O{}O{\physunits@units@separator}}{\physunits@u@roentgen[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\roentgenequivalentman,\rem}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{roentgenequivalentman}, \cs{rem}.}
 %    \begin{macrocode}
-\NewDocumentCommand\roentgenequivalentman{O{}O{}O{\physunits@units@separator}}{\physunits@unit{rem}[#1][#2][#3]}
-\NewDocumentCommand\rem{O{}O{}O{\physunits@units@separator}}{\roentgenequivalentman[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@roentgenequivalentman{O{}O{}O{\physunits@units@separator}}{\physunits@unit{rem}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@rem{O{}O{}O{\physunits@units@separator}}{\physunits@u@roentgenequivalentman[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\raddose}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{raddose}.}
 %    \begin{macrocode}
-\NewDocumentCommand\raddose{O{}O{}O{\physunits@units@separator}}{\physunits@unit{rad}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@raddose{O{}O{}O{\physunits@units@separator}}{\physunits@unit{rad}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\curie,\Curie}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{curie}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Curie}.}
 %    \begin{macrocode}
-\NewDocumentCommand\curie{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Ci}[#1][#2][#3]}
-\NewDocumentCommand\Curie{O{}O{}O{\physunits@units@separator}}{\curie[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@curie{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Ci}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Curie{O{}O{}O{\physunits@units@separator}}{\physunits@u@curie[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\rutherford,\Rutherford}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{rutherford}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Rutherford}.}
 %    \begin{macrocode}
-\NewDocumentCommand\rutherford{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Rd}[#1][#2][#3]}
-\NewDocumentCommand\Rutherford{O{}O{}O{\physunits@units@separator}}{\rutherford[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@rutherford{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Rd}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Rutherford{O{}O{}O{\physunits@units@separator}}{\physunits@u@rutherford[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Logarithmic and acoustic units}
@@ -3700,30 +3777,30 @@
 % \begin{macro}{\bel,\Bel}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{bel}, \cs{Bel}.}
 %    \begin{macrocode}
-\NewDocumentCommand\bel{O{}O{}O{\physunits@units@separator}}{\physunits@unit{B}[#1][#2][#3]}
-\NewDocumentCommand\Bel{O{}O{}O{\physunits@units@separator}}{\bel[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@bel{O{}O{}O{\physunits@units@separator}}{\physunits@unit{B}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Bel{O{}O{}O{\physunits@units@separator}}{\physunits@u@bel[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\dB,\decibel,\Decibel}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{dB}, \cs{decibel}, \cs{Decibel}.}
 %    \begin{macrocode}
-\NewDocumentCommand\dB{O{}O{\physunits@units@separator}}{\physunits@unit{B}[\deci][#1][#2]}
-\NewDocumentCommand\decibel{O{}O{\physunits@units@separator}}{\dB[#1][#2]}
-\NewDocumentCommand\Decibel{O{}O{\physunits@units@separator}}{\dB[#1][#2]}
+\NewDocumentCommand\physunits@u@dB{O{}O{\physunits@units@separator}}{\physunits@unit{B}[\physunits@u@deci][#1][#2]}
+\NewDocumentCommand\physunits@u@decibel{O{}O{\physunits@units@separator}}{\physunits@u@dB[#1][#2]}
+\NewDocumentCommand\physunits@u@Decibel{O{}O{\physunits@units@separator}}{\physunits@u@dB[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\neper,\Neper}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{neper}, \cs{Neper}.}
 %    \begin{macrocode}
-\NewDocumentCommand\neper{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Np}[#1][#2][#3]}
-\NewDocumentCommand\Neper{O{}O{}O{\physunits@units@separator}}{\neper[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@neper{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Np}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Neper{O{}O{}O{\physunits@units@separator}}{\physunits@u@neper[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\rayl,\Rayl}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{rayl}, \cs{Rayl}.}
 %    \begin{macrocode}
-\NewDocumentCommand\rayl{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Rayl}[#1][#2][#3]}
-\NewDocumentCommand\Rayl{O{}O{}O{\physunits@units@separator}}{\rayl[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@rayl{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Rayl}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Rayl{O{}O{}O{\physunits@units@separator}}{\physunits@u@rayl[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Viscosity}
@@ -3731,15 +3808,15 @@
 % \begin{macro}{\poise,\Poise}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{poise}, \cs{Poise}.}
 %    \begin{macrocode}
-\NewDocumentCommand\poise{O{}O{}O{\physunits@units@separator}}{\physunits@unit{P}[#1][#2][#3]}
-\NewDocumentCommand\Poise{O{}O{}O{\physunits@units@separator}}{\poise[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@poise{O{}O{}O{\physunits@units@separator}}{\physunits@unit{P}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Poise{O{}O{}O{\physunits@units@separator}}{\physunits@u@poise[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\stokes,\Stokes}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{stokes}, \cs{Stokes}.}
 %    \begin{macrocode}
-\NewDocumentCommand\stokes{O{}O{}O{\physunits@units@separator}}{\physunits@unit{St}[#1][#2][#3]}
-\NewDocumentCommand\Stokes{O{}O{}O{\physunits@units@separator}}{\stokes[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@stokes{O{}O{}O{\physunits@units@separator}}{\physunits@unit{St}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Stokes{O{}O{}O{\physunits@units@separator}}{\physunits@u@stokes[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Miscellaneous building and solid-angle units}
@@ -3747,14 +3824,14 @@
 % \begin{macro}{\basicmodule}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{basicmodule}.}
 %    \begin{macrocode}
-\NewDocumentCommand\basicmodule{O{}O{\physunits@units@separator}}{\physunits@unit{M}[][#1][#2]}
+\NewDocumentCommand\physunits@u@basicmodule{O{}O{\physunits@units@separator}}{\physunits@unit{M}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\spat}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{spat}.}
 %    \begin{macrocode}
-\NewDocumentCommand\spat{O{}O{\physunits@units@separator}}{\physunits@unit{S}[][#1][#2]}
+\NewDocumentCommand\physunits@u@spat{O{}O{\physunits@units@separator}}{\physunits@unit{S}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Fluid flow}
@@ -3763,16 +3840,16 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{sverdrup}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Sverdrup}.}
 %    \begin{macrocode}
-\NewDocumentCommand\sverdrup{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Sv}[#1][#2][#3]}
-\NewDocumentCommand\Sverdrup{O{}O{}O{\physunits@units@separator}}{\sverdrup[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@sverdrup{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Sv}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Sverdrup{O{}O{}O{\physunits@units@separator}}{\physunits@u@sverdrup[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\poiseuille,\Poiseuille}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{poiseuille}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Poiseuille}.}
 %    \begin{macrocode}
-\NewDocumentCommand\poiseuille{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Pl}[#1][#2][#3]}
-\NewDocumentCommand\Poiseuille{O{}O{}O{\physunits@units@separator}}{\poiseuille[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@poiseuille{O{}O{}O{\physunits@units@separator}}{\physunits@unit{Pl}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Poiseuille{O{}O{}O{\physunits@units@separator}}{\physunits@u@poiseuille[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Textiles (linear mass density)}
@@ -3780,20 +3857,20 @@
 % \begin{macro}{\tex}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{tex}.}
 %    \begin{macrocode}
-\NewDocumentCommand\tex{O{}O{}O{\physunits@units@separator}}{\physunits@unit{tex}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@tex{O{}O{}O{\physunits@units@separator}}{\physunits@unit{tex}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\numbermetric}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{numbermetric}.}
 %    \begin{macrocode}
-\NewDocumentCommand\numbermetric{O{}O{\physunits@units@separator}}{\physunits@unit{Nm}[][#1][#2]}
+\NewDocumentCommand\physunits@u@numbermetric{O{}O{\physunits@units@separator}}{\physunits@unit{Nm}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{macro}{\denier}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{denier}.}
 %    \begin{macrocode}
-\NewDocumentCommand\denier{O{}O{\physunits@units@separator}}{\physunits@unit{\denier@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@denier{O{}O{\physunits@units@separator}}{\physunits@unit{\denier@unit}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Genetics}
@@ -3802,15 +3879,15 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{morgan}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Morgan}.}
 %    \begin{macrocode}
-\NewDocumentCommand\morgan{O{}O{}O{\physunits@units@separator}}{\physunits@unit{M}[#1][#2][#3]}
-\NewDocumentCommand\Morgan{O{}O{}O{\physunits@units@separator}}{\morgan[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@morgan{O{}O{}O{\physunits@units@separator}}{\physunits@unit{M}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@Morgan{O{}O{}O{\physunits@units@separator}}{\physunits@u@morgan[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\nucleotideunit}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{basepair} and \cs{nucleotideunit}.}
 % \cs{basepair} itself is defined by the \texttt{basepair} option.
 %    \begin{macrocode}
-\NewDocumentCommand\nucleotideunit{O{}O{}O{\physunits@units@separator}}{\physunits@unit{nt}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@nucleotideunit{O{}O{}O{\physunits@units@separator}}{\physunits@unit{nt}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Atmospheric science}
@@ -3818,16 +3895,16 @@
 % \begin{macro}{\dobsonunit}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{dobsonunit}.}
 %    \begin{macrocode}
-\NewDocumentCommand\dobsonunit{O{}O{\physunits@units@separator}}{\physunits@unit{DU}[][#1][#2]}
+\NewDocumentCommand\physunits@u@dobsonunit{O{}O{\physunits@units@separator}}{\physunits@unit{DU}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Climate and carbon}
 % \begin{macro}{\tonneC,\tonneCOtwo,\tonneCOtwoeq}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{tonneC}, \cs{tonneCOtwo}, \cs{tonneCOtwoeq}.}
 %    \begin{macrocode}
-\NewDocumentCommand\tonneC{O{}O{}O{\physunits@units@separator}}{\physunits@unit{tC}[#1][#2][#3]}
-\NewDocumentCommand\tonneCOtwo{O{}O{}O{\physunits@units@separator}}{\physunits@unit{tCO_{2}}[#1][#2][#3]}
-\NewDocumentCommand\tonneCOtwoeq{O{}O{}O{\physunits@units@separator}}{\physunits@unit{tCO_{2}\tonneCOtwoeq@unit}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@tonneC{O{}O{}O{\physunits@units@separator}}{\physunits@unit{tC}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@tonneCOtwo{O{}O{}O{\physunits@units@separator}}{\physunits@unit{tCO_{2}}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@tonneCOtwoeq{O{}O{}O{\physunits@units@separator}}{\physunits@unit{tCO_{2}\tonneCOtwoeq@unit}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Computing}
@@ -3835,59 +3912,59 @@
 % \begin{macro}{\nibble,\nybble}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{nibble}, \cs{nybble}.}
 %    \begin{macrocode}
-\NewDocumentCommand\nibble{O{}O{\physunits@units@separator}}{\physunits@unit{nybl}[][#1][#2]}
-\NewDocumentCommand\nybble{O{}O{\physunits@units@separator}}{\nibble[#1][#2]}
+\NewDocumentCommand\physunits@u@nibble{O{}O{\physunits@units@separator}}{\physunits@unit{nybl}[][#1][#2]}
+\NewDocumentCommand\physunits@u@nybble{O{}O{\physunits@units@separator}}{\physunits@u@nibble[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\bit}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{bit}.}
 %    \begin{macrocode}
-\NewDocumentCommand\bit{O{}O{}O{\physunits@units@separator}}{\physunits@unit{b}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@bit{O{}O{}O{\physunits@units@separator}}{\physunits@unit{b}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\byte}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{byte}.}
 %    \begin{macrocode}
-\NewDocumentCommand\byte{O{}O{}O{\physunits@units@separator}}{\physunits@unit{B}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@byte{O{}O{}O{\physunits@units@separator}}{\physunits@unit{B}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\baud}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{baud}.}
 %    \begin{macrocode}
-\NewDocumentCommand\baud{O{}O{}O{\physunits@units@separator}}{\physunits@unit{baud}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@baud{O{}O{}O{\physunits@units@separator}}{\physunits@unit{baud}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\flop}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{flop}.}
 %    \begin{macrocode}
-\NewDocumentCommand\flop{O{}O{}O{\physunits@units@separator}}{\physunits@unit{flop}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@flop{O{}O{}O{\physunits@units@separator}}{\physunits@unit{flop}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\kloc}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{kloc}.}
 %    \begin{macrocode}
-\NewDocumentCommand\kloc{O{}O{\physunits@units@separator}}{\physunits@unit{KLOC}[][#1][#2]}
+\NewDocumentCommand\physunits@u@kloc{O{}O{\physunits@units@separator}}{\physunits@unit{KLOC}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Ratios}
 % \begin{macro}{\percent,\permille,\ppm,\ppb}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{percent}, \cs{permille}, \cs{ppm}, \cs{ppb}.}
 %    \begin{macrocode}
-\NewDocumentCommand\percent{O{}O{\physunits@units@separator}}{\physunits@unit{\percent@unit}[][#1][#2]}
-\NewDocumentCommand\permille{O{}O{\physunits@units@separator}}{\physunits@unit{\physunits@permille}[][#1][#2]}
-\NewDocumentCommand\ppm{O{}O{\physunits@units@separator}}{\physunits@unit{ppm}[][#1][#2]}
-\NewDocumentCommand\ppb{O{}O{\physunits@units@separator}}{\physunits@unit{ppb}[][#1][#2]}
+\NewDocumentCommand\physunits@u@percent{O{}O{\physunits@units@separator}}{\physunits@unit{\percent@unit}[][#1][#2]}
+\NewDocumentCommand\physunits@u@permille{O{}O{\physunits@units@separator}}{\physunits@unit{\physunits@permille}[][#1][#2]}
+\NewDocumentCommand\physunits@u@ppm{O{}O{\physunits@units@separator}}{\physunits@unit{ppm}[][#1][#2]}
+\NewDocumentCommand\physunits@u@ppb{O{}O{\physunits@units@separator}}{\physunits@unit{ppb}[][#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Combination units}
 % \begin{macro}{\kmps}
 % \changes{v1.3.0}{2026/11/24}{\cs{kmps}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\kmps}{%
+\DeclareRobustCommand{\physunits@u@kmps}{%
   \if@combineSlash
-    \meter[\kilo]/\physunits@unit{s}[][][]%
+    \physunits@u@meter[\physunits@u@kilo]/\physunits@unit{s}[][][]%
   \else
-    \meter[\kilo]\second[][-1]%
+    \physunits@u@meter[\physunits@u@kilo]\physunits@u@second[][-1]%
   \fi
 }
 %    \end{macrocode}
@@ -3895,11 +3972,11 @@
 % \begin{macro}{\kmph}
 % \changes{v1.3.0}{2026/11/24}{\cs{kmph}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\kmph}{%
+\DeclareRobustCommand{\physunits@u@kmph}{%
   \if@combineSlash
-    \meter[\kilo]/\physunits@unit{\hour@unit}[][][]%
+    \physunits@u@meter[\physunits@u@kilo]/\physunits@unit{\hour@unit}[][][]%
   \else
-    \meter[\kilo]\hour[-1]%
+    \physunits@u@meter[\physunits@u@kilo]\physunits@u@hour[-1]%
   \fi
 }
 %    \end{macrocode}
@@ -3907,11 +3984,11 @@
 % \begin{macro}{\mps}
 % \changes{v1.3.0}{2026/11/24}{\cs{mps}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\NewDocumentCommand{\mps}{O{}}{%
+\NewDocumentCommand{\physunits@u@mps}{O{}}{%
   \if@combineSlash
-    \meter[#1]/\physunits@unit{s}[][][]%
+    \physunits@u@meter[#1]/\physunits@unit{s}[][][]%
   \else
-    \meter[#1]\second[][-1]%
+    \physunits@u@meter[#1]\physunits@u@second[][-1]%
   \fi
 }
 %    \end{macrocode}
@@ -3919,11 +3996,11 @@
 % \begin{macro}{\ftps}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{ftps}.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\ftps}{%
+\DeclareRobustCommand{\physunits@u@ftps}{%
   \if@combineSlash
-    \foot/\physunits@unit{s}[][][]%
+    \physunits@u@foot/\physunits@unit{s}[][][]%
   \else
-    \foot\second[][-1]%
+    \physunits@u@foot\physunits@u@second[][-1]%
   \fi
 }
 %    \end{macrocode}
@@ -3931,11 +4008,11 @@
 % \begin{macro}{\ftpss}
 % \changes{v1.3.0}{2026/11/24}{\cs{ftpss}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\ftpss}{%
+\DeclareRobustCommand{\physunits@u@ftpss}{%
   \if@combineSlash
-    \foot/\physunits@unit{s}[][2][]%
+    \physunits@u@foot/\physunits@unit{s}[][2][]%
   \else
-    \foot\second[][-2]%
+    \physunits@u@foot\physunits@u@second[][-2]%
   \fi
 }
 %    \end{macrocode}
@@ -3943,11 +4020,11 @@
 % \begin{macro}{\mpss}
 % \changes{v1.3.0}{2026/11/24}{\cs{mpss}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\NewDocumentCommand{\mpss}{O{}}{%
+\NewDocumentCommand{\physunits@u@mpss}{O{}}{%
   \if@combineSlash
-    \meter[#1]/\physunits@unit{s}[][2][]%
+    \physunits@u@meter[#1]/\physunits@unit{s}[][2][]%
   \else
-    \meter[#1]\second[][-2]%
+    \physunits@u@meter[#1]\physunits@u@second[][-2]%
   \fi
 }
 %    \end{macrocode}
@@ -3955,11 +4032,11 @@
 % \begin{macro}{\miph}
 % \changes{v1.3.0}{2026/11/24}{\cs{miph}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\miph}{%
+\DeclareRobustCommand{\physunits@u@miph}{%
   \if@combineSlash
-    \mile/\physunits@unit{\hour@unit}[][][]%
+    \physunits@u@mile/\physunits@unit{\hour@unit}[][][]%
   \else
-    \mile\hour[-1]%
+    \physunits@u@mile\physunits@u@hour[-1]%
   \fi
 }
 %    \end{macrocode}
@@ -3967,11 +4044,11 @@
 % \begin{macro}{\rpm}
 % \changes{v1.3.0}{2026/11/24}{\cs{rpm}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\rpm}{%
+\DeclareRobustCommand{\physunits@u@rpm}{%
   \if@combineSlash
     \physunits@unit{rev}/\physunits@unit{\minute@unit}[][][]%
   \else
-    \physunits@unit{rev}\minute[-1]%
+    \physunits@unit{rev}\physunits@u@minute[-1]%
   \fi
 }
 %    \end{macrocode}
@@ -3980,8 +4057,8 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Nm}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Nm}: added a prefix argument for the newton.}
 %    \begin{macrocode}
-\NewDocumentCommand{\Nm}{O{}}{%
-    \ensuremath{\newton[#1]\cdot\meter[][][]}%
+\NewDocumentCommand{\physunits@u@Nm}{O{}}{%
+    \ensuremath{\physunits@u@newton[#1]\cdot\physunits@u@meter[][][]}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -3989,11 +4066,11 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{lbft} and \cs{lbin}.}
 % Pound-force foot and pound-force inch.
 %    \begin{macrocode}
-\DeclareRobustCommand{\lbft}{%
-    \ensuremath{\poundforce\cdot\foot[][]}%
+\DeclareRobustCommand{\physunits@u@lbft}{%
+    \ensuremath{\physunits@u@poundforce\cdot\physunits@u@foot[][]}%
 }
-\DeclareRobustCommand{\lbin}{%
-    \ensuremath{\poundforce\cdot\inch[][]}%
+\DeclareRobustCommand{\physunits@u@lbin}{%
+    \ensuremath{\physunits@u@poundforce\cdot\physunits@u@inch[][]}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -4002,47 +4079,153 @@
 % Bit per second and byte per second; the optional argument is the prefix of
 % the bit or byte.
 %    \begin{macrocode}
-\NewDocumentCommand{\bps}{O{}}{%
+\NewDocumentCommand{\physunits@u@bps}{O{}}{%
   \if@combineSlash
-    \bit[#1]/\physunits@unit{s}[][][]%
+    \physunits@u@bit[#1]/\physunits@unit{s}[][][]%
   \else
-    \bit[#1]\second[][-1]%
+    \physunits@u@bit[#1]\physunits@u@second[][-1]%
   \fi
 }
-\NewDocumentCommand{\Bps}{O{}}{%
+\NewDocumentCommand{\physunits@u@Bps}{O{}}{%
   \if@combineSlash
-    \byte[#1]/\physunits@unit{s}[][][]%
+    \physunits@u@byte[#1]/\physunits@unit{s}[][][]%
   \else
-    \byte[#1]\second[][-1]%
+    \physunits@u@byte[#1]\physunits@u@second[][-1]%
   \fi
 }
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\Wh,\Ah}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Wh} and \cs{Ah}.}
-% Watt hour and ampere hour; the optional argument is the prefix of the watt or ampere.
-%    \begin{macrocode}
-\NewDocumentCommand{\Wh}{O{}}{%
-    \ensuremath{\watt[#1]\cdot\hour[][]}%
-}
-\NewDocumentCommand{\Ah}{O{}}{%
-    \ensuremath{\ampere[#1]\cdot\hour[][]}%
-}
-%    \end{macrocode}
-% \end{macro}
+% \cs{Wh} and \cs{Ah} (watt hour and ampere hour) are defined by the
+% \texttt{Wh} and \texttt{Ah} options.
 % \begin{macro}{\molar}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{molar}.}
 % Mole per liter; the optional argument is the prefix of the mole.
 %    \begin{macrocode}
-\NewDocumentCommand{\molar}{O{}}{%
+\NewDocumentCommand{\physunits@u@molar}{O{}}{%
   \if@combineSlash
-    \mole[#1]/\physunits@unit{\liter@unit}[][][]%
+    \physunits@u@mole[#1]/\physunits@unit{\liter@unit}[][][]%
   \else
-    \mole[#1]\liter[][-1]%
+    \physunits@u@mole[#1]\physunits@u@liter[][-1]%
   \fi
 }
 %    \end{macrocode}
 % \end{macro}
+% \subsection{Defining the public commands}
+% \changes{v1.3.0}{2026/11/24}{All units are defined under internal names and made public at the end of the package, so that the \texttt{disable} and \texttt{skip-defined} options can leave out any of them.}
+% Every unit, prefix and other command is defined above under an internal
+% name, \cs{physunits@u@}\meta{name}, and the commands refer to one another
+% only by these internal names. Here each public name is defined to call its
+% internal command, unless it was disabled. A public name that already exists
+% is left alone with \texttt{skip-defined}; otherwise it is an error, as
+% before, except for the commands that were always declared with
+% \cs{DeclareRobustCommand} (the prefixes, \cs{micro}, the space commands and
+% some combination units), which are redefined as before. The first argument
+% is \texttt{N} (error if defined) or \texttt{D} (redefine).
+%    \begin{macrocode}
+\ExplSyntaxOn
+\cs_new_protected:Npn \__physunits_publish:nn #1#2
+  {
+    \exp_args:NNe \clist_if_in:NnTF \g__physunits_disabled_clist { \tl_to_str:n {#2} }
+      { \PackageInfo{physunits}{\c_backslash_str #2~not~defined~(disable~option)} }
+      {
+        \cs_if_free:cTF {#2}
+          { \__physunits_publish:n {#2} }
+          {
+            \bool_if:NTF \g__physunits_skip_defined_bool
+              { \PackageInfo{physunits}{\c_backslash_str #2~already~defined;~not~redefined~(skip-defined~option)} }
+              {
+                \str_if_eq:nnTF {#1} {D}
+                  { \__physunits_publish:n {#2} }
+                  {
+                    \PackageError{physunits}
+                      {Command~\c_backslash_str #2~already~defined}
+                      {Load~physunits~with~disable={\c_backslash_str #2}~or~skip-defined~to~keep~the~existing~definition.}
+                  }
+              }
+          }
+      }
+  }
+\cs_new_protected:Npn \__physunits_publish:n #1
+  {
+    \exp_args:Ncc \__physunits_publish_aux:NN {#1} { physunits@u@#1 }
+    \clist_gput_right:Nn \g__physunits_published_clist {#1}
+  }
+\cs_new_protected:Npn \__physunits_publish_aux:NN #1#2
+  { \cs_gset_protected:Npn #1 {#2} }
+\clist_map_inline:nn
+  {
+    hartree, basepair, sqin, sqft, sqyd, sqmi, cuin, cuft, cuyd, cumi,
+    punit, punitDeg, punitVar, radian, rad, steradian, arcsecond, arcminute,
+    mole, Mole, mol, second, Second, s, Sec, minute, Minute, Min, hour,
+    Hour, h, Day, Year, y, svedberg, shake, annum, galacticyear, sol, jiffy,
+    hertz, Hertz, Hz, meter, metre, m, fermi, Fermi, km, cm, nm,
+    astronomicalunit, au, parsec, pc, lightyear, ly, solarradius,
+    jupiterradius, earthradius, moonradius, nauticalmile, nmile, angstrom,
+    Angstrom, bohr, Bohr, romanmile, mile, mi, yard, yd, foot, feet, ft,
+    inch, twip, thou, barleycorn, hand, link, fathom, rod, perch, pole, lug,
+    chain, furlong, fur, cable, league, diopter, dioptre, kayser, Kayser,
+    shed, outhouse, barn, are, decare, dekare, hectare, Hectare, acre,
+    liter, litre, stere, gallon, imperialgallon, impgal, USgallon, usgal,
+    quart, pint, fluidounce, floz, tablespoon, tbsp, teaspoon, tsp, teu,
+    feu, hoppus, hft, hoppuston, htn, tmcft, hogshead, hhd, stuck, barrel,
+    bbl, rundlet, tierces, tun, knots, Knots, kts, Gal, gacc, eotvos,
+    Eotvos, gram, Gram, gm, kg, dalton, Dalton, Da, da, amu, tonne, Tonne,
+    solarmass, jupitermass, earthmass, moonmass, carat, ct, hyl, slug, TME,
+    poundmass, lb, grain, hundredweight, cwt, pennyweight, dwt, troyounce,
+    troypound, shortton, longton, newton, Newton, N, dyne, Dyne, pond, kp,
+    gramforce, kgf, poundal, poundforce, lbf, sthene, Sthene, joule, Joule,
+    J, watt, Watt, electronvolt, electronVolt, ElectronVolt, eV, keV, MeV,
+    erg, Erg, rydberg, Rydberg, Hartree, foe, jansky, Jansky, solarfluxunit,
+    sfu, solarluminosity, kcal, Calorie, Cal, calorie, Btu, BTU, therm,
+    thermie, tnt, hpi, hpm, hp, poncelet, volt, Volt, V, coulomb, Coulomb,
+    ohm, Ohm, ampere, Ampere, amp, Amp, farad, Farad, tesla, Tesla, henry,
+    Henry, weber, Weber, Wb, siemens, Siemens, esu, statwatt, statW,
+    statcoulomb, statC, statvolt, statV, statohm, statOhm, statmho,
+    statsiemens, statS, stathenry, statH, statfarad, statF, statdaraf,
+    statD, statweber, statWb, stattesla, statT, abwatt, abW, abcoulomb, abC,
+    abvolt, abV, abohm, abOhm, abmho, abhenry, abH, abfarad, abF, gilbert,
+    Gb, Gilbert, oersted, Oe, Oersted, maxwell, Mx, Maxwell, gauss, Gauss,
+    franklin, Fr, Franklin, buckingham, Buckingham, debye, Debye, unitmho,
+    kelvin, Kelvin, K, celsius, Celsius, centigrade, Celcius, celcius,
+    fahrenheit, Fahrenheit, rankine, Rankine, delisle, Delisle, reaumur,
+    Reaumur, romer, Romer, pascal, Pascal, Pa, barP, barye, Barye, Ba,
+    atmosphere, atm, torr, Torr, mmHg, meterseawater, metreseawater, msw,
+    inHg, lbsqin, lbsi, lbsqft, lbsf, psf, atmospheretechnical, pieze,
+    Pieze, candela, lumen, lux, stilb, Stilb, phot, Phot, lambert, Lambert,
+    nit, einstein, Einstein, rayleigh, Rayleigh, magnitude, nox, bril,
+    lumerg, talbot, Talbot, becquerel, Becquerel, Bq, gray, Gray, sievert,
+    Sievert, katal, Katal, enzymeunit, roentgen, Roentgen,
+    roentgenequivalentman, rem, raddose, curie, Curie, rutherford,
+    Rutherford, bel, Bel, dB, decibel, Decibel, neper, Neper, rayl, Rayl,
+    poise, Poise, stokes, Stokes, basicmodule, spat, sverdrup, Sverdrup,
+    poiseuille, Poiseuille, tex, numbermetric, denier, morgan, Morgan,
+    nucleotideunit, dobsonunit, tonneC, tonneCOtwo, tonneCOtwoeq, nibble,
+    nybble, bit, byte, baud, flop, kloc, percent, permille, ppm, ppb, mps,
+    mpss, Nm, bps, Bps, Wh, Ah, molar
+  }
+  { \__physunits_publish:nn {N} {#1} }
+\clist_map_inline:nn
+  {
+    pThinSpace, pMediumSpace, pThickSpace, pFullSpace, quetta, ronna, yotta,
+    zetta, exa, peta, tera, giga, hebdo, Hebdo, mega, kilo, hecto, deci,
+    deka, deca, centi, milli, micro, nano, pico, femto, atto, zepto, yocto,
+    ronto, quecto, myria, kmps, kmph, ftps, ftpss, miph, rpm, lbft, lbin
+  }
+  { \__physunits_publish:nn {D} {#1} }
+%    \end{macrocode}
+% \textsf{unicode-math} defines its own \cs{Angstrom} symbol at the start of
+% the document, replacing the unit. If physunits defined \cs{Angstrom}, it is
+% restored at the end of \cs{begin}\{document\}, after \textsf{unicode-math}.
+%    \begin{macrocode}
+\AddToHook{begindocument/end}
+  {
+    \clist_if_in:NnT \g__physunits_published_clist {Angstrom}
+      { \cs_gset_protected:Npn \Angstrom { \physunits@u@Angstrom } }
+  }
+\bool_gset_true:N \g__physunits_loaded_bool
+\ExplSyntaxOff
+%    \end{macrocode}
 %    \begin{macrocode}
 %</package>
 %    \end{macrocode}

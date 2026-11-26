@@ -102,7 +102,8 @@ with his permission)
 - Added the disable-astro-mass-radii option, which leaves \solarmass,
 \jupitermass, \earthmass, \moonmass, \solarradius, \jupiterradius,
 \earthradius and \moonradius undefined for documents that define their own
-- Added combination units \Wh and \Ah (watt hour and ampere hour) and
+- Added combination units \Wh and \Ah (watt hour and ampere hour, with Wh
+and Ah options for W·h or Wh, and A·h or Ah) and
 \molar (mol/L or mol L^-1, following combine-slash and the liter option),
 each with an optional prefix
 - Added \bohr and \Bohr, \rydberg and \Rydberg, \hartree and \Hartree
@@ -117,6 +118,10 @@ prefixes
 - Added a Climate and carbon section with \tonneC, \tonneCOtwo and
 \tonneCOtwoeq (with a tonneCOtwoeq option for the e or -eq suffix); the
 prefix applies to the tonne (GtC, MtCO2e)
+- Added the disable option, which leaves any listed commands undefined (e.g.
+disable={solarmass, ly}), and the skip-defined option, which leaves commands
+that already exist when physunits is loaded unchanged. Commands built from a
+disabled command still work
 - Added the astro-units-roman option, which sets the letter of the
 astronomical masses, radii and solar luminosity in roman (as MNRAS requires)
 ### Changed
@@ -143,6 +148,10 @@ XeLaTeX and LuaLaTeX
 - Fixed \Angstrom under XeLaTeX and LuaLaTeX, where unicode-math replaced it
 with its own symbol, and the placement of the ring on the angstrom symbol
 - disable-astro-mass-radii also leaves \solarluminosity undefined
+- Units are defined under internal names and refer to each other by those
+names; the public commands are defined at the end of the package. A clash
+with an existing command now gives an error that suggests disable or
+skip-defined. disable-astro-mass-radii is a shortcut for disable
 - The user manual no longer shows the implementation; the change history and
 index are still included
 - Package options in the documentation are grouped by unit type, in the same
