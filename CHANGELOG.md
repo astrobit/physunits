@@ -88,7 +88,7 @@ and length units, among others), combine-slash for the combination units,
 and degree-space
 - Added named spacing macros (\pThinSpace, \pMediumSpace, \pThickSpace,
 \pFullSpace)
-- Added mho units, using the font's mho glyph when amssymb or unicode-math is
+- Added mho units (\mhounit and others), using the font's mho glyph when amssymb or unicode-math is
 loaded and a rotated Omega otherwise, with a small gap after a prefix
 - Added a table of contents, a section on where to obtain the package, a
 license section, an AI usage statement, and attribution for the shear code
@@ -122,6 +122,12 @@ prefix applies to the tonne (GtC, MtCO2e)
 disable={solarmass, ly}), and the skip-defined option, which leaves commands
 that already exist when physunits is loaded unchanged. Commands built from a
 disabled command still work
+- Added \cupunit (with a cup option: c., C., or cup) and \KLOC (synonym of
+\kloc), and \loc and \LOC (line of code), whose prefix can be any text, e.g.
+\loc[K] for KLOC or \loc[\mega] for MLOC
+- Added \masssolar, \massjupiter, \massearth, \massmoon, \radiussolar,
+\radiusjupiter, \radiusearth, \radiusmoon and \luminositysolar as
+synonyms of the astronomical units; disable-astro-mass-radii covers them too
 - Added the astro-units-roman option, which sets the letter of the
 astronomical masses, radii and solar luminosity in roman (as MNRAS requires)
 ### Changed
@@ -143,6 +149,8 @@ SI, cgs and semi-SI, and imperial, US customary and historical units
 - \sqin, \sqft, \sqyd, \sqmi, \cuin, \cuft, \cuyd and \cumi take an
 optional separator argument
 - \Nm takes an optional prefix for the newton
+- All combination units take an optional separator argument (the space
+before the unit), as their last argument
 - Fixed liter=ell, \ohm, \statohm and \abohm, which printed nothing under
 XeLaTeX and LuaLaTeX
 - Fixed \Angstrom under XeLaTeX and LuaLaTeX, where unicode-math replaced it

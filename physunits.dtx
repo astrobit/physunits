@@ -74,7 +74,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{2592}
+% \CheckSum{2671}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -257,7 +257,8 @@
 % \item[\texttt{disable-astro-mass-radii}] Boolean, default \texttt{false}. When
 %   true, \cs{solarmass}, \cs{jupitermass}, \cs{earthmass}, \cs{moonmass},
 %   \cs{solarradius}, \cs{jupiterradius}, \cs{earthradius}, \cs{moonradius}
-%   and \cs{solarluminosity} are not defined, so documents that define their own macros with these names
+%   and \cs{solarluminosity}, and their synonyms (\cs{masssolar},
+%   \cs{radiussolar}, \cs{luminositysolar} and so on), are not defined, so documents that define their own macros with these names
 %   keep working. It is a shortcut for listing these commands in the
 %   \texttt{disable} option (Section~\ref{sec:compat}), and like that option it
 %   only works when the package is loaded.
@@ -276,6 +277,7 @@
 % \item[\texttt{pint}] Values: \texttt{p} ($\mathrm{p}$), \texttt{pt} ($\mathrm{pt}$). Default \texttt{pt}; bare key \texttt{pt}. Affects \cs{pint}.
 % \item[\texttt{fluid-ounce}] Values: \texttt{fl-oz} ($\mathrm{fl\nobreakspace oz}$), \texttt{fl.-oz} ($\mathrm{fl.\nobreakspace oz}$), \texttt{oz.-fl} ($\mathrm{oz.\nobreakspace fl}$). Default \texttt{fl-oz}; bare key \texttt{fl-oz}. Affects \cs{fluidounce}.
 % \item[\texttt{tablespoon}] Values: \texttt{tbsp} ($\mathrm{tbsp.}$), \texttt{Tbsp} ($\mathrm{Tbsp.}$), \texttt{Tb} ($\mathrm{Tb.}$), \texttt{T} ($\mathrm{T.}$). Default \texttt{tbsp}; bare key \texttt{tbsp}. Affects \cs{tablespoon}.
+% \item[\texttt{cup}] Values: \texttt{c} ($\mathrm{c.}$), \texttt{C} ($\mathrm{C.}$), \texttt{cup} ($\mathrm{cup}$). Default \texttt{c}; bare key \texttt{c}. Affects \cs{cupunit}.
 % \item[\texttt{cuin}] Values: \texttt{cuin}, \texttt{in3}. Default \texttt{cuin}; bare key \texttt{cuin}. Selects the form of \cs{cuin}.
 % \item[\texttt{cuft}] Values: \texttt{cuft}, \texttt{ft3}. Default \texttt{cuft}; bare key \texttt{cuft}. Selects the form of \cs{cuft}.
 % \item[\texttt{cuyd}] Values: \texttt{cuyd}, \texttt{yd3}. Default \texttt{cuyd}; bare key \texttt{cuyd}. Selects the form of \cs{cuyd}.
@@ -504,14 +506,14 @@
 % \cs{parsec}\oarg{prefix}\oarg{exponent}\oarg{separator}: parsec, $\parsec[][][]$. Synonym: \cs{pc}.
 % \item \SpecialUsageIndex{\lightyear}\SpecialUsageIndex{\ly}\index{Length>lightyear=\cs{lightyear}|usage}\index{Length>ly=\cs{ly}|usage}
 % \cs{lightyear}\oarg{prefix}\oarg{exponent}\oarg{separator}: light-year, $\lightyear[][][]$. Synonym: \cs{ly}.
-% \item \SpecialUsageIndex{\solarradius}\index{Length>solarradius=\cs{solarradius}|usage}
-% \cs{solarradius}\oarg{exponent}\oarg{separator}: solar radius, $\solarradius[][]$.
-% \item \SpecialUsageIndex{\jupiterradius}\index{Length>jupiterradius=\cs{jupiterradius}|usage}
-% \cs{jupiterradius}\oarg{exponent}\oarg{separator}: Jupiter radius, $\jupiterradius[][]$.
-% \item \SpecialUsageIndex{\earthradius}\index{Length>earthradius=\cs{earthradius}|usage}
-% \cs{earthradius}\oarg{exponent}\oarg{separator}: Earth radius, $\earthradius[][]$.
-% \item \SpecialUsageIndex{\moonradius}\index{Length>moonradius=\cs{moonradius}|usage}
-% \cs{moonradius}\oarg{exponent}\oarg{separator}: Moon (lunar) radius, $\moonradius[][]$.
+% \item \SpecialUsageIndex{\solarradius}\index{Length>solarradius=\cs{solarradius}|usage}\SpecialUsageIndex{\radiussolar}\index{Length>radiussolar=\cs{radiussolar}|usage}
+% \cs{solarradius}\oarg{exponent}\oarg{separator}: solar radius, $\solarradius[][]$. Synonym: \cs{radiussolar}.
+% \item \SpecialUsageIndex{\jupiterradius}\index{Length>jupiterradius=\cs{jupiterradius}|usage}\SpecialUsageIndex{\radiusjupiter}\index{Length>radiusjupiter=\cs{radiusjupiter}|usage}
+% \cs{jupiterradius}\oarg{exponent}\oarg{separator}: Jupiter radius, $\jupiterradius[][]$. Synonym: \cs{radiusjupiter}.
+% \item \SpecialUsageIndex{\earthradius}\index{Length>earthradius=\cs{earthradius}|usage}\SpecialUsageIndex{\radiusearth}\index{Length>radiusearth=\cs{radiusearth}|usage}
+% \cs{earthradius}\oarg{exponent}\oarg{separator}: Earth radius, $\earthradius[][]$. Synonym: \cs{radiusearth}.
+% \item \SpecialUsageIndex{\moonradius}\index{Length>moonradius=\cs{moonradius}|usage}\SpecialUsageIndex{\radiusmoon}\index{Length>radiusmoon=\cs{radiusmoon}|usage}
+% \cs{moonradius}\oarg{exponent}\oarg{separator}: Moon (lunar) radius, $\moonradius[][]$. Synonym: \cs{radiusmoon}.
 % \item \SpecialUsageIndex{\nauticalmile}\SpecialUsageIndex{\nmile}\index{Length>nauticalmile=\cs{nauticalmile}|usage}\index{Length>nmile=\cs{nmile}|usage}
 % \cs{nauticalmile}\oarg{exponent}\oarg{separator}: nautical mile, $\nauticalmile[][]$. Synonym: \cs{nmile}.
 % \item \SpecialUsageIndex{\angstrom}\SpecialUsageIndex{\Angstrom}\index{Length>angstrom=\cs{angstrom}|usage}\index{Length>Angstrom=\cs{Angstrom}|usage}
@@ -625,6 +627,8 @@
 % \cs{tablespoon}\oarg{exponent}\oarg{separator}: tablespoon; symbol set by the \texttt{tablespoon} option, $\tablespoon[][]$. Synonym: \cs{tbsp}.
 % \item \SpecialUsageIndex{\teaspoon}\SpecialUsageIndex{\tsp}\index{Volume>teaspoon=\cs{teaspoon}|usage}\index{Volume>tsp=\cs{tsp}|usage}
 % \cs{teaspoon}\oarg{exponent}\oarg{separator}: teaspoon, $\teaspoon[][]$. Synonym: \cs{tsp}.
+% \item \SpecialUsageIndex{\cupunit}\index{Volume>cupunit=\cs{cupunit}|usage}
+% \cs{cupunit}\oarg{exponent}\oarg{separator}: cup; symbol set by the \texttt{cup} option, $\cupunit[][]$. Named \cs{cupunit} because \cs{cup} is the set-union symbol.
 % \item \SpecialUsageIndex{\teu}\index{Volume>teu=\cs{teu}|usage}
 % \cs{teu}\oarg{exponent}\oarg{separator}: twenty-foot equivalent unit; symbol set by the \texttt{teu} option, $\teu[][]$.
 % \item \SpecialUsageIndex{\feu}\index{Volume>feu=\cs{feu}|usage}
@@ -683,14 +687,14 @@
 % \cs{dalton}\oarg{prefix}\oarg{exponent}\oarg{separator}: dalton (atomic mass unit); symbol set by the \texttt{amu} option, $\dalton[][][]$. Synonyms: \cs{Dalton}, \cs{Da}, \cs{da}, \cs{amu}.
 % \item \SpecialUsageIndex{\tonne}\SpecialUsageIndex{\Tonne}\index{Mass>tonne=\cs{tonne}|usage}\index{Mass>Tonne=\cs{Tonne}|usage}
 % \cs{tonne}\oarg{prefix}\oarg{exponent}\oarg{separator}: tonne, $\tonne[][][]$. Synonym: \cs{Tonne}.
-% \item \SpecialUsageIndex{\solarmass}\index{Mass>solarmass=\cs{solarmass}|usage}
-% \cs{solarmass}\oarg{exponent}\oarg{separator}: solar mass, $\solarmass[][]$.
-% \item \SpecialUsageIndex{\jupitermass}\index{Mass>jupitermass=\cs{jupitermass}|usage}
-% \cs{jupitermass}\oarg{exponent}\oarg{separator}: Jupiter mass, $\jupitermass[][]$.
-% \item \SpecialUsageIndex{\earthmass}\index{Mass>earthmass=\cs{earthmass}|usage}
-% \cs{earthmass}\oarg{exponent}\oarg{separator}: Earth mass, $\earthmass[][]$.
-% \item \SpecialUsageIndex{\moonmass}\index{Mass>moonmass=\cs{moonmass}|usage}
-% \cs{moonmass}\oarg{exponent}\oarg{separator}: Moon (lunar) mass, $\moonmass[][]$.
+% \item \SpecialUsageIndex{\solarmass}\index{Mass>solarmass=\cs{solarmass}|usage}\SpecialUsageIndex{\masssolar}\index{Mass>masssolar=\cs{masssolar}|usage}
+% \cs{solarmass}\oarg{exponent}\oarg{separator}: solar mass, $\solarmass[][]$. Synonym: \cs{masssolar}.
+% \item \SpecialUsageIndex{\jupitermass}\index{Mass>jupitermass=\cs{jupitermass}|usage}\SpecialUsageIndex{\massjupiter}\index{Mass>massjupiter=\cs{massjupiter}|usage}
+% \cs{jupitermass}\oarg{exponent}\oarg{separator}: Jupiter mass, $\jupitermass[][]$. Synonym: \cs{massjupiter}.
+% \item \SpecialUsageIndex{\earthmass}\index{Mass>earthmass=\cs{earthmass}|usage}\SpecialUsageIndex{\massearth}\index{Mass>massearth=\cs{massearth}|usage}
+% \cs{earthmass}\oarg{exponent}\oarg{separator}: Earth mass, $\earthmass[][]$. Synonym: \cs{massearth}.
+% \item \SpecialUsageIndex{\moonmass}\index{Mass>moonmass=\cs{moonmass}|usage}\SpecialUsageIndex{\massmoon}\index{Mass>massmoon=\cs{massmoon}|usage}
+% \cs{moonmass}\oarg{exponent}\oarg{separator}: Moon (lunar) mass, $\moonmass[][]$. Synonym: \cs{massmoon}.
 % \item \SpecialUsageIndex{\carat}\SpecialUsageIndex{\ct}\index{Mass>carat=\cs{carat}|usage}\index{Mass>ct=\cs{ct}|usage}
 % \cs{carat}\oarg{exponent}\oarg{separator}: carat, $\carat[][]$. Synonym: \cs{ct}.
 % \end{itemize}
@@ -776,8 +780,8 @@
 % \cs{jansky}\oarg{prefix}\oarg{exponent}\oarg{separator}: jansky, $\jansky[][][]$. Synonym: \cs{Jansky}.
 % \item \SpecialUsageIndex{\solarfluxunit}\SpecialUsageIndex{\sfu}\index{Energy, power, and energy flux>solarfluxunit=\cs{solarfluxunit}|usage}\index{Energy, power, and energy flux>sfu=\cs{sfu}|usage}
 % \cs{solarfluxunit}\oarg{exponent}\oarg{separator}: solar flux unit, $\solarfluxunit[][]$. Synonym: \cs{sfu}.
-% \item \SpecialUsageIndex{\solarluminosity}\index{Energy, power, and energy flux>solarluminosity=\cs{solarluminosity}|usage}
-% \cs{solarluminosity}\oarg{exponent}\oarg{separator}: solar luminosity, $\solarluminosity[][]$. Not defined with the \texttt{disable-astro-mass-radii} option.
+% \item \SpecialUsageIndex{\solarluminosity}\index{Energy, power, and energy flux>solarluminosity=\cs{solarluminosity}|usage}\SpecialUsageIndex{\luminositysolar}\index{Energy, power, and energy flux>luminositysolar=\cs{luminositysolar}|usage}
+% \cs{solarluminosity}\oarg{exponent}\oarg{separator}: solar luminosity, $\solarluminosity[][]$. Synonym: \cs{luminositysolar}. Not defined with the \texttt{disable-astro-mass-radii} option.
 % \end{itemize}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{itemize}
@@ -883,8 +887,8 @@
 % \end{itemize}
 % \subsubsection{Imperial, US customary and historical units}
 % \begin{itemize}
-% \item \SpecialUsageIndex{\unitmho}\index{Electricity and magnetism>unitmho=\cs{unitmho}|usage}
-% \cs{unitmho}\oarg{prefix}\oarg{exponent}\oarg{separator}: mho (reciprocal ohm); named \cs{unitmho} because \cs{mho} is a math symbol, $\unitmho[][][]$.
+% \item \SpecialUsageIndex{\mhounit}\index{Electricity and magnetism>mhounit=\cs{mhounit}|usage}
+% \cs{mhounit}\oarg{prefix}\oarg{exponent}\oarg{separator}: mho (reciprocal ohm); named \cs{mhounit} because \cs{mho} is a math symbol, $\mhounit[][][]$.
 % \end{itemize}
 % \subsection{Temperature}
 % \subsubsection{SI units}
@@ -1100,8 +1104,10 @@
 % \cs{baud}\oarg{prefix}\oarg{exponent}\oarg{separator}: baud, $\baud[][][]$.
 % \item \SpecialUsageIndex{\flop}\index{Computing>flop=\cs{flop}|usage}
 % \cs{flop}\oarg{prefix}\oarg{exponent}\oarg{separator}: floating-point operation, $\flop[][][]$.
-% \item \SpecialUsageIndex{\kloc}\index{Computing>kloc=\cs{kloc}|usage}
-% \cs{kloc}\oarg{exponent}\oarg{separator}: thousand lines of code, $\kloc[][]$.
+% \item \SpecialUsageIndex{\loc}\SpecialUsageIndex{\LOC}\index{Computing>loc=\cs{loc}|usage}\index{Computing>LOC=\cs{LOC}|usage}
+% \cs{loc}\oarg{prefix}\oarg{exponent}\oarg{separator}: line of code, $\loc[][][]$. Synonym: \cs{LOC}. The prefix can be any text, since the usual multiples are written with a capital K: \verb|\loc[K]| gives $\loc[K][][]$ and \verb|\loc[\mega]| gives $\loc[\mega][][]$.
+% \item \SpecialUsageIndex{\kloc}\SpecialUsageIndex{\KLOC}\index{Computing>kloc=\cs{kloc}|usage}\index{Computing>KLOC=\cs{KLOC}|usage}
+% \cs{kloc}\oarg{exponent}\oarg{separator}: thousand lines of code, $\kloc[][]$. Synonym: \cs{KLOC}.
 % \end{itemize}
 % \subsection{Ratios}
 % These take \oarg{exponent}\oarg{separator}, like the other units without a prefix.
@@ -1116,40 +1122,40 @@
 % \cs{ppb}: parts per billion, $\ppb$.
 % \end{itemize}
 % \subsection{Combination units}\label{sec:combination}
-% These take no arguments, except that \cs{mps} and \cs{mpss} accept a \oarg{prefix} for the meter, \cs{Nm}, \cs{Wh} and \cs{Ah} for the newton, watt and ampere, \cs{molar} for the mole, and \cs{bps} and \cs{Bps} for the bit and byte. The per-unit forms follow the \texttt{combine-slash} option; the products (\cs{Nm}, \cs{lbft}, \cs{lbin}, and by default \cs{Wh} and \cs{Ah}) are written with a centered dot. \cs{Nm} is the newton meter; use \cs{numbermetric} for the metric yarn count.
+% Each takes an optional \meta{separator}, the space before the unit, as its last argument. \cs{mps}, \cs{mpss}, \cs{Nm}, \cs{Wh}, \cs{Ah}, \cs{molar}, \cs{bps} and \cs{Bps} also take a \oarg{prefix} first, for the meter, newton, watt, ampere, mole, bit or byte. The per-unit forms follow the \texttt{combine-slash} option; the products (\cs{Nm}, \cs{lbft}, \cs{lbin}, and by default \cs{Wh} and \cs{Ah}) are written with a centered dot. \cs{Nm} is the newton meter; use \cs{numbermetric} for the metric yarn count.
 % \begin{itemize}
 % \item \SpecialUsageIndex{\kmps}\index{Combination units>kmps=\cs{kmps}|usage}
-% \cs{kmps}: kilometer per second, $\kmps$.
+% \cs{kmps}\oarg{separator}: kilometer per second, $\kmps$.
 % \item \SpecialUsageIndex{\kmph}\index{Combination units>kmph=\cs{kmph}|usage}
-% \cs{kmph}: kilometer per hour, $\kmph$.
+% \cs{kmph}\oarg{separator}: kilometer per hour, $\kmph$.
 % \item \SpecialUsageIndex{\mps}\index{Combination units>mps=\cs{mps}|usage}
-% \cs{mps}\oarg{prefix}: meter per second, $\mps$.
+% \cs{mps}\oarg{prefix}\oarg{separator}: meter per second, $\mps$.
 % \item \SpecialUsageIndex{\ftps}\index{Combination units>ftps=\cs{ftps}|usage}
-% \cs{ftps}: foot per second, $\ftps$.
+% \cs{ftps}\oarg{separator}: foot per second, $\ftps$.
 % \item \SpecialUsageIndex{\ftpss}\index{Combination units>ftpss=\cs{ftpss}|usage}
-% \cs{ftpss}: foot per second squared, $\ftpss$.
+% \cs{ftpss}\oarg{separator}: foot per second squared, $\ftpss$.
 % \item \SpecialUsageIndex{\mpss}\index{Combination units>mpss=\cs{mpss}|usage}
-% \cs{mpss}\oarg{prefix}: meter per second squared, $\mpss$.
+% \cs{mpss}\oarg{prefix}\oarg{separator}: meter per second squared, $\mpss$.
 % \item \SpecialUsageIndex{\miph}\index{Combination units>miph=\cs{miph}|usage}
-% \cs{miph}: mile per hour, $\miph$.
+% \cs{miph}\oarg{separator}: mile per hour, $\miph$.
 % \item \SpecialUsageIndex{\rpm}\index{Combination units>rpm=\cs{rpm}|usage}
-% \cs{rpm}: revolution per minute, $\rpm$.
+% \cs{rpm}\oarg{separator}: revolution per minute, $\rpm$.
 % \item \SpecialUsageIndex{\Nm}\index{Combination units>Nm=\cs{Nm}|usage}
-% \cs{Nm}\oarg{prefix}: newton meter, $\Nm$.
+% \cs{Nm}\oarg{prefix}\oarg{separator}: newton meter, $\Nm$.
 % \item \SpecialUsageIndex{\lbft}\index{Combination units>lbft=\cs{lbft}|usage}
-% \cs{lbft}: pound-force foot, $\lbft$.
+% \cs{lbft}\oarg{separator}: pound-force foot, $\lbft$.
 % \item \SpecialUsageIndex{\lbin}\index{Combination units>lbin=\cs{lbin}|usage}
-% \cs{lbin}: pound-force inch, $\lbin$.
+% \cs{lbin}\oarg{separator}: pound-force inch, $\lbin$.
 % \item \SpecialUsageIndex{\bps}\index{Combination units>bps=\cs{bps}|usage}
-% \cs{bps}\oarg{prefix}: bit per second, $\bps$.
+% \cs{bps}\oarg{prefix}\oarg{separator}: bit per second, $\bps$.
 % \item \SpecialUsageIndex{\Bps}\index{Combination units>Bps=\cs{Bps}|usage}
-% \cs{Bps}\oarg{prefix}: byte per second, $\Bps$.
+% \cs{Bps}\oarg{prefix}\oarg{separator}: byte per second, $\Bps$.
 % \item \SpecialUsageIndex{\Wh}\index{Combination units>Wh=\cs{Wh}|usage}
-% \cs{Wh}\oarg{prefix}: watt hour, $\Wh$. Its form is set by the \texttt{Wh} option.
+% \cs{Wh}\oarg{prefix}\oarg{separator}: watt hour, $\Wh$. Its form is set by the \texttt{Wh} option.
 % \item \SpecialUsageIndex{\Ah}\index{Combination units>Ah=\cs{Ah}|usage}
-% \cs{Ah}\oarg{prefix}: ampere hour, $\Ah$. Its form is set by the \texttt{Ah} option.
+% \cs{Ah}\oarg{prefix}\oarg{separator}: ampere hour, $\Ah$. Its form is set by the \texttt{Ah} option.
 % \item \SpecialUsageIndex{\molar}\index{Combination units>molar=\cs{molar}|usage}
-% \cs{molar}\oarg{prefix}: molar (mole per liter), $\molar$. Uses the symbol set by the \texttt{liter} option.
+% \cs{molar}\oarg{prefix}\oarg{separator}: molar (mole per liter), $\molar$. Uses the symbol set by the \texttt{liter} option.
 % \end{itemize}
 % \section{Changes from v1.2}
 %
@@ -1160,6 +1166,10 @@
 %   v1.2 printed BTU, ``ton of TNT'' and amu.
 % \item \cs{Min} and \cs{h} no longer accept a prefix.
 % \item \cs{micro} is now always redefined to an upright $\mu$.
+% \item \cs{kmps}, \cs{kmph}, \cs{ftpss}, \cs{miph} and \cs{rpm} took no
+%   arguments in v1.2, and \cs{mps} and \cs{mpss} took only a prefix. They now
+%   also take an optional separator, so a \texttt{[} directly after them is
+%   read as an argument.
 % \end{itemize}
 %
 % \StopEventually{\PrintChangesHere\PrintIndex}
@@ -1373,8 +1383,8 @@
     Wh .code = {
         \str_case:nnF {#1}
         {
-            {cdot}{\DeclareDocumentCommand{\physunits@u@Wh}{O{}}{\ensuremath{\physunits@u@watt[##1]\cdot\physunits@u@hour[][]}}}
-            {Wh}{\DeclareDocumentCommand{\physunits@u@Wh}{O{}}{\physunits@unit{W\hour@unit}[##1]}}
+            {cdot}{\DeclareDocumentCommand{\physunits@u@Wh}{O{}O{\physunits@units@separator}}{\ensuremath{\physunits@u@watt[##1][][##2]\cdot\physunits@u@hour[][]}}}
+            {Wh}{\DeclareDocumentCommand{\physunits@u@Wh}{O{}O{\physunits@units@separator}}{\physunits@unit{W\hour@unit}[##1][][##2]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~Wh.~Option~values~are~cdot~or~Wh.}}
     },
@@ -1391,13 +1401,30 @@
     Ah .code = {
         \str_case:nnF {#1}
         {
-            {cdot}{\DeclareDocumentCommand{\physunits@u@Ah}{O{}}{\ensuremath{\physunits@u@ampere[##1]\cdot\physunits@u@hour[][]}}}
-            {Ah}{\DeclareDocumentCommand{\physunits@u@Ah}{O{}}{\physunits@unit{A\hour@unit}[##1]}}
+            {cdot}{\DeclareDocumentCommand{\physunits@u@Ah}{O{}O{\physunits@units@separator}}{\ensuremath{\physunits@u@ampere[##1][][##2]\cdot\physunits@u@hour[][]}}}
+            {Ah}{\DeclareDocumentCommand{\physunits@u@Ah}{O{}O{\physunits@units@separator}}{\physunits@unit{A\hour@unit}[##1][][##2]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~Ah.~Option~values~are~cdot~or~Ah.}}
     },
     Ah .default:n = {cdot},
     Ah .initial:n = {cdot},
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\cupunit@unit}
+% \changes{v1.3.0}{2026/11/24}{Added the \texttt{cup} option.}
+% Key \texttt{cup}.
+%    \begin{macrocode}
+    cup .code = {
+        \str_case:nnF {#1}
+        {
+            {c}{\DeclareRobustCommand{\cupunit@unit}{c.}}
+            {C}{\DeclareRobustCommand{\cupunit@unit}{C.}}
+            {cup}{\DeclareRobustCommand{\cupunit@unit}{cup}}
+        }
+        {\PackageWarning{physunits}{Unrecognized~option~for~cup.~Option~values~are~c,~C,~or~cup.}}
+    },
+    cup .default:n = {c},
+    cup .initial:n = {c},
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\liter@unit}
@@ -1955,7 +1982,9 @@
           {
             \clist_map_inline:nn
               { solarmass, jupitermass, earthmass, moonmass, solarradius,
-                jupiterradius, earthradius, moonradius, solarluminosity }
+                jupiterradius, earthradius, moonradius, solarluminosity,
+                masssolar, massjupiter, massearth, massmoon, radiussolar,
+                radiusjupiter, radiusearth, radiusmoon, luminositysolar }
               { \exp_args:NNe \clist_gput_right:Nn \g__physunits_disabled_clist { \tl_to_str:n {##1} } }
           }
     },
@@ -2376,36 +2405,44 @@
 \NewDocumentCommand\physunits@u@ly{O{}O{}O{\physunits@units@separator}}{\physunits@u@lightyear[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\solarradius}
+% \begin{macro}{\solarradius,\radiussolar}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{radiussolar}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{solarradius}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{solarradius}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{solarradius}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
 \NewDocumentCommand\physunits@u@solarradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\odot}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@radiussolar{O{}O{\physunits@units@separator}}{\physunits@u@solarradius[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\jupiterradius}
+% \begin{macro}{\jupiterradius,\radiusjupiter}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{radiusjupiter}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{jupiterradius}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{jupiterradius}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{jupiterradius}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
 \NewDocumentCommand\physunits@u@jupiterradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\mathrm{J}}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@radiusjupiter{O{}O{\physunits@units@separator}}{\physunits@u@jupiterradius[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\earthradius}
+% \begin{macro}{\earthradius,\radiusearth}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{radiusearth}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{earthradius}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{earthradius}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{earthradius}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
 \NewDocumentCommand\physunits@u@earthradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\oplus}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@radiusearth{O{}O{\physunits@units@separator}}{\physunits@u@earthradius[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\moonradius}
+% \begin{macro}{\moonradius,\radiusmoon}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{radiusmoon}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{moonradius}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{moonradius}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{moonradius}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
 \NewDocumentCommand\physunits@u@moonradius{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{R}_{\mathrm{L}}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@radiusmoon{O{}O{\physunits@units@separator}}{\physunits@u@moonradius[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\nauticalmile,\nmile}
@@ -2687,6 +2724,12 @@
 \NewDocumentCommand\physunits@u@tsp{O{}O{\physunits@units@separator}}{\physunits@u@teaspoon[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
+% \begin{macro}{\cupunit}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{cupunit}.}
+%    \begin{macrocode}
+\NewDocumentCommand\physunits@u@cupunit{O{}O{\physunits@units@separator}}{\physunits@unit{\cupunit@unit}[][#1][#2]}
+%    \end{macrocode}
+% \end{macro}
 % \begin{macro}{\teu}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{teu}.}
 %    \begin{macrocode}
@@ -2828,36 +2871,44 @@
 \NewDocumentCommand\physunits@u@Tonne{O{}O{}O{\physunits@units@separator}}{\physunits@u@tonne[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\solarmass}
+% \begin{macro}{\solarmass,\masssolar}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{masssolar}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{solarmass}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{solarmass}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{solarmass}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
 \NewDocumentCommand\physunits@u@solarmass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\odot}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@masssolar{O{}O{\physunits@units@separator}}{\physunits@u@solarmass[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\jupitermass}
+% \begin{macro}{\jupitermass,\massjupiter}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{massjupiter}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{jupitermass}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{jupitermass}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{jupitermass}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
 \NewDocumentCommand\physunits@u@jupitermass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\mathrm{J}}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@massjupiter{O{}O{\physunits@units@separator}}{\physunits@u@jupitermass[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\earthmass}
+% \begin{macro}{\earthmass,\massearth}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{massearth}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{earthmass}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{earthmass}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{earthmass}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
 \NewDocumentCommand\physunits@u@earthmass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\oplus}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@massearth{O{}O{\physunits@units@separator}}{\physunits@u@earthmass[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\moonmass}
+% \begin{macro}{\moonmass,\massmoon}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{massmoon}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{moonmass}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{moonmass}: not defined with the \texttt{disable-astro-mass-radii} option (now done by the publishing step).}
 % \changes{v1.3.0}{2026/11/24}{\cs{moonmass}: letter set in roman with the \texttt{astro-units-roman} option.}
 %    \begin{macrocode}
 \NewDocumentCommand\physunits@u@moonmass{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{M}_{\mathrm{L}}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@massmoon{O{}O{\physunits@units@separator}}{\physunits@u@moonmass[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\carat,\ct}
@@ -3090,10 +3141,12 @@
 \NewDocumentCommand\physunits@u@sfu{O{}O{\physunits@units@separator}}{\physunits@u@solarfluxunit[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\solarluminosity}
+% \begin{macro}{\solarluminosity,\luminositysolar}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{luminositysolar}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{solarluminosity}.}
 %    \begin{macrocode}
 \NewDocumentCommand\physunits@u@solarluminosity{O{}O{\physunits@units@separator}}{\physunits@variableUnit{\physunits@astro{L}_{\odot}}[][#1][#2]}
+\NewDocumentCommand\physunits@u@luminositysolar{O{}O{\physunits@units@separator}}{\physunits@u@solarluminosity[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
@@ -3435,10 +3488,10 @@
 %    \end{macrocode}
 % \end{macro}
 % \subsubsection{Imperial, US customary and historical units}
-% \begin{macro}{\unitmho}
-% \changes{v1.3.0}{2026/11/24}{Added \cs{unitmho}.}
+% \begin{macro}{\mhounit}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{mhounit}.}
 %    \begin{macrocode}
-\NewDocumentCommand\physunits@u@unitmho{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\physunits@mho}[\physunits@mhoprefix{#1}][#2][#3]}
+\NewDocumentCommand\physunits@u@mhounit{O{}O{}O{\physunits@units@separator}}{\physunits@unit{\physunits@mho}[\physunits@mhoprefix{#1}][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Temperature}
@@ -3940,10 +3993,19 @@
 \NewDocumentCommand\physunits@u@flop{O{}O{}O{\physunits@units@separator}}{\physunits@unit{flop}[#1][#2][#3]}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\kloc}
+% \begin{macro}{\loc,\LOC}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{loc} and \cs{LOC}.}
+%    \begin{macrocode}
+\NewDocumentCommand\physunits@u@loc{O{}O{}O{\physunits@units@separator}}{\physunits@unit{LOC}[#1][#2][#3]}
+\NewDocumentCommand\physunits@u@LOC{O{}O{}O{\physunits@units@separator}}{\physunits@u@loc[#1][#2][#3]}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\kloc,\KLOC}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{KLOC}.}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{kloc}.}
 %    \begin{macrocode}
 \NewDocumentCommand\physunits@u@kloc{O{}O{\physunits@units@separator}}{\physunits@unit{KLOC}[][#1][#2]}
+\NewDocumentCommand\physunits@u@KLOC{O{}O{\physunits@units@separator}}{\physunits@u@kloc[#1][#2]}
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Ratios}
@@ -3957,14 +4019,15 @@
 %    \end{macrocode}
 % \end{macro}
 % \subsection{Combination units}
+% \changes{v1.3.0}{2026/11/24}{All combination units take a separator argument, the space before the unit; the first part of the unit gets it.}
 % \begin{macro}{\kmps}
 % \changes{v1.3.0}{2026/11/24}{\cs{kmps}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\physunits@u@kmps}{%
+\NewDocumentCommand{\physunits@u@kmps}{O{\physunits@units@separator}}{%
   \if@combineSlash
-    \physunits@u@meter[\physunits@u@kilo]/\physunits@unit{s}[][][]%
+    \physunits@u@meter[\physunits@u@kilo][][#1]/\physunits@unit{s}[][][]%
   \else
-    \physunits@u@meter[\physunits@u@kilo]\physunits@u@second[][-1]%
+    \physunits@u@meter[\physunits@u@kilo][][#1]\physunits@u@second[][-1]%
   \fi
 }
 %    \end{macrocode}
@@ -3972,11 +4035,11 @@
 % \begin{macro}{\kmph}
 % \changes{v1.3.0}{2026/11/24}{\cs{kmph}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\physunits@u@kmph}{%
+\NewDocumentCommand{\physunits@u@kmph}{O{\physunits@units@separator}}{%
   \if@combineSlash
-    \physunits@u@meter[\physunits@u@kilo]/\physunits@unit{\hour@unit}[][][]%
+    \physunits@u@meter[\physunits@u@kilo][][#1]/\physunits@unit{\hour@unit}[][][]%
   \else
-    \physunits@u@meter[\physunits@u@kilo]\physunits@u@hour[-1]%
+    \physunits@u@meter[\physunits@u@kilo][][#1]\physunits@u@hour[-1]%
   \fi
 }
 %    \end{macrocode}
@@ -3984,11 +4047,11 @@
 % \begin{macro}{\mps}
 % \changes{v1.3.0}{2026/11/24}{\cs{mps}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\NewDocumentCommand{\physunits@u@mps}{O{}}{%
+\NewDocumentCommand{\physunits@u@mps}{O{}O{\physunits@units@separator}}{%
   \if@combineSlash
-    \physunits@u@meter[#1]/\physunits@unit{s}[][][]%
+    \physunits@u@meter[#1][][#2]/\physunits@unit{s}[][][]%
   \else
-    \physunits@u@meter[#1]\physunits@u@second[][-1]%
+    \physunits@u@meter[#1][][#2]\physunits@u@second[][-1]%
   \fi
 }
 %    \end{macrocode}
@@ -3996,11 +4059,11 @@
 % \begin{macro}{\ftps}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{ftps}.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\physunits@u@ftps}{%
+\NewDocumentCommand{\physunits@u@ftps}{O{\physunits@units@separator}}{%
   \if@combineSlash
-    \physunits@u@foot/\physunits@unit{s}[][][]%
+    \physunits@u@foot[][#1]/\physunits@unit{s}[][][]%
   \else
-    \physunits@u@foot\physunits@u@second[][-1]%
+    \physunits@u@foot[][#1]\physunits@u@second[][-1]%
   \fi
 }
 %    \end{macrocode}
@@ -4008,11 +4071,11 @@
 % \begin{macro}{\ftpss}
 % \changes{v1.3.0}{2026/11/24}{\cs{ftpss}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\physunits@u@ftpss}{%
+\NewDocumentCommand{\physunits@u@ftpss}{O{\physunits@units@separator}}{%
   \if@combineSlash
-    \physunits@u@foot/\physunits@unit{s}[][2][]%
+    \physunits@u@foot[][#1]/\physunits@unit{s}[][2][]%
   \else
-    \physunits@u@foot\physunits@u@second[][-2]%
+    \physunits@u@foot[][#1]\physunits@u@second[][-2]%
   \fi
 }
 %    \end{macrocode}
@@ -4020,11 +4083,11 @@
 % \begin{macro}{\mpss}
 % \changes{v1.3.0}{2026/11/24}{\cs{mpss}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\NewDocumentCommand{\physunits@u@mpss}{O{}}{%
+\NewDocumentCommand{\physunits@u@mpss}{O{}O{\physunits@units@separator}}{%
   \if@combineSlash
-    \physunits@u@meter[#1]/\physunits@unit{s}[][2][]%
+    \physunits@u@meter[#1][][#2]/\physunits@unit{s}[][2][]%
   \else
-    \physunits@u@meter[#1]\physunits@u@second[][-2]%
+    \physunits@u@meter[#1][][#2]\physunits@u@second[][-2]%
   \fi
 }
 %    \end{macrocode}
@@ -4032,11 +4095,11 @@
 % \begin{macro}{\miph}
 % \changes{v1.3.0}{2026/11/24}{\cs{miph}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\physunits@u@miph}{%
+\NewDocumentCommand{\physunits@u@miph}{O{\physunits@units@separator}}{%
   \if@combineSlash
-    \physunits@u@mile/\physunits@unit{\hour@unit}[][][]%
+    \physunits@u@mile[][#1]/\physunits@unit{\hour@unit}[][][]%
   \else
-    \physunits@u@mile\physunits@u@hour[-1]%
+    \physunits@u@mile[][#1]\physunits@u@hour[-1]%
   \fi
 }
 %    \end{macrocode}
@@ -4044,11 +4107,11 @@
 % \begin{macro}{\rpm}
 % \changes{v1.3.0}{2026/11/24}{\cs{rpm}: reimplemented. Combined form follows the \texttt{combine-slash} option.}
 %    \begin{macrocode}
-\DeclareRobustCommand{\physunits@u@rpm}{%
+\NewDocumentCommand{\physunits@u@rpm}{O{\physunits@units@separator}}{%
   \if@combineSlash
-    \physunits@unit{rev}/\physunits@unit{\minute@unit}[][][]%
+    \physunits@unit{rev}[][][#1]/\physunits@unit{\minute@unit}[][][]%
   \else
-    \physunits@unit{rev}\physunits@u@minute[-1]%
+    \physunits@unit{rev}[][][#1]\physunits@u@minute[-1]%
   \fi
 }
 %    \end{macrocode}
@@ -4057,8 +4120,8 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Nm}.}
 % \changes{v1.3.0}{2026/11/24}{\cs{Nm}: added a prefix argument for the newton.}
 %    \begin{macrocode}
-\NewDocumentCommand{\physunits@u@Nm}{O{}}{%
-    \ensuremath{\physunits@u@newton[#1]\cdot\physunits@u@meter[][][]}%
+\NewDocumentCommand{\physunits@u@Nm}{O{}O{\physunits@units@separator}}{%
+    \ensuremath{\physunits@u@newton[#1][][#2]\cdot\physunits@u@meter[][][]}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -4066,11 +4129,11 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{lbft} and \cs{lbin}.}
 % Pound-force foot and pound-force inch.
 %    \begin{macrocode}
-\DeclareRobustCommand{\physunits@u@lbft}{%
-    \ensuremath{\physunits@u@poundforce\cdot\physunits@u@foot[][]}%
+\NewDocumentCommand{\physunits@u@lbft}{O{\physunits@units@separator}}{%
+    \ensuremath{\physunits@u@poundforce[][#1]\cdot\physunits@u@foot[][]}%
 }
-\DeclareRobustCommand{\physunits@u@lbin}{%
-    \ensuremath{\physunits@u@poundforce\cdot\physunits@u@inch[][]}%
+\NewDocumentCommand{\physunits@u@lbin}{O{\physunits@units@separator}}{%
+    \ensuremath{\physunits@u@poundforce[][#1]\cdot\physunits@u@inch[][]}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -4079,18 +4142,18 @@
 % Bit per second and byte per second; the optional argument is the prefix of
 % the bit or byte.
 %    \begin{macrocode}
-\NewDocumentCommand{\physunits@u@bps}{O{}}{%
+\NewDocumentCommand{\physunits@u@bps}{O{}O{\physunits@units@separator}}{%
   \if@combineSlash
-    \physunits@u@bit[#1]/\physunits@unit{s}[][][]%
+    \physunits@u@bit[#1][][#2]/\physunits@unit{s}[][][]%
   \else
-    \physunits@u@bit[#1]\physunits@u@second[][-1]%
+    \physunits@u@bit[#1][][#2]\physunits@u@second[][-1]%
   \fi
 }
-\NewDocumentCommand{\physunits@u@Bps}{O{}}{%
+\NewDocumentCommand{\physunits@u@Bps}{O{}O{\physunits@units@separator}}{%
   \if@combineSlash
-    \physunits@u@byte[#1]/\physunits@unit{s}[][][]%
+    \physunits@u@byte[#1][][#2]/\physunits@unit{s}[][][]%
   \else
-    \physunits@u@byte[#1]\physunits@u@second[][-1]%
+    \physunits@u@byte[#1][][#2]\physunits@u@second[][-1]%
   \fi
 }
 %    \end{macrocode}
@@ -4102,11 +4165,11 @@
 % \changes{v1.3.0}{2026/11/24}{Added \cs{molar}.}
 % Mole per liter; the optional argument is the prefix of the mole.
 %    \begin{macrocode}
-\NewDocumentCommand{\physunits@u@molar}{O{}}{%
+\NewDocumentCommand{\physunits@u@molar}{O{}O{\physunits@units@separator}}{%
   \if@combineSlash
-    \physunits@u@mole[#1]/\physunits@unit{\liter@unit}[][][]%
+    \physunits@u@mole[#1][][#2]/\physunits@unit{\liter@unit}[][][]%
   \else
-    \physunits@u@mole[#1]\physunits@u@liter[][-1]%
+    \physunits@u@mole[#1][][#2]\physunits@u@liter[][-1]%
   \fi
 }
 %    \end{macrocode}
@@ -4186,7 +4249,7 @@
     statD, statweber, statWb, stattesla, statT, abwatt, abW, abcoulomb, abC,
     abvolt, abV, abohm, abOhm, abmho, abhenry, abH, abfarad, abF, gilbert,
     Gb, Gilbert, oersted, Oe, Oersted, maxwell, Mx, Maxwell, gauss, Gauss,
-    franklin, Fr, Franklin, buckingham, Buckingham, debye, Debye, unitmho,
+    franklin, Fr, Franklin, buckingham, Buckingham, debye, Debye, mhounit,
     kelvin, Kelvin, K, celsius, Celsius, centigrade, Celcius, celcius,
     fahrenheit, Fahrenheit, rankine, Rankine, delisle, Delisle, reaumur,
     Reaumur, romer, Romer, pascal, Pascal, Pa, barP, barye, Barye, Ba,
@@ -4202,7 +4265,8 @@
     poiseuille, Poiseuille, tex, numbermetric, denier, morgan, Morgan,
     nucleotideunit, dobsonunit, tonneC, tonneCOtwo, tonneCOtwoeq, nibble,
     nybble, bit, byte, baud, flop, kloc, percent, permille, ppm, ppb, mps,
-    mpss, Nm, bps, Bps, Wh, Ah, molar
+    mpss, Nm, bps, Bps, Wh, Ah, molar,
+    KLOC, loc, LOC, cupunit, masssolar, massjupiter, massearth, massmoon, radiussolar, radiusjupiter, radiusearth, radiusmoon, luminositysolar
   }
   { \__physunits_publish:nn {N} {#1} }
 \clist_map_inline:nn
