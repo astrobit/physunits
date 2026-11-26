@@ -92,6 +92,31 @@ loaded and a rotated Omega otherwise, with a small gap after a prefix
 license section, an AI usage statement, and attribution for the shear code
 used for the upright micro sign (from Bruno Le Floch, used under the LPPL
 with his permission)
+- Added title-case \Lambert, \Einstein, \Rayleigh and \Talbot
+- Added short forms \impgal, \usgal, \floz, \hft (hoppus foot), \htn
+(hoppus ton), \hhd and \bbl
+- Added combination units \lbft and \lbin (pound-force foot and inch), and
+\bps and \Bps (bit and byte per second, with an optional prefix)
+- Added the disable-astro-mass-radii option, which leaves \solarmass,
+\jupitermass, \earthmass, \moonmass, \solarradius, \jupiterradius,
+\earthradius and \moonradius undefined for documents that define their own
+- Added combination units \Wh and \Ah (watt hour and ampere hour) and
+\molar (mol/L or mol L^-1, following combine-slash and the liter option),
+each with an optional prefix
+- Added \bohr and \Bohr, \rydberg and \Rydberg, \hartree and \Hartree
+(with a hartree option for E_h or Ha), \solarluminosity, \magnitude,
+\raddose, \dobsonunit, and \enzymeunit (with an enzymeunit option for U or
+IU)
+- Added a Ratios section with \percent (with a percent option: symbol,
+percent, or per cent), \permille, \ppm and \ppb
+- Added \basepair (with a basepair option: bp, b, or mixed, which gives bp
+without a prefix and kb, Mb with one) and \nucleotideunit (nt), both with
+prefixes
+- Added a Climate and carbon section with \tonneC, \tonneCOtwo and
+\tonneCOtwoeq (with a tonneCOtwoeq option for the e or -eq suffix); the
+prefix applies to the tonne (GtC, MtCO2e)
+- Added the astro-units-roman option, which sets the letter of the
+astronomical masses, radii and solar luminosity in roman (as MNRAS requires)
 ### Changed
 - All unit macros reimplemented with \NewDocumentCommand; each takes
 optional prefix, exponent and separator arguments, in that order. Units that
@@ -103,11 +128,23 @@ loaded
 - \micro is always an upright mu: sheared math italic mu under pdfLaTeX,
 \upmu under XeLaTeX and LuaLaTeX
 - Default symbol for \tnt is now "ton TNT" (was "ton of TNT")
-- \units@separator is kept for backward compatibility but now gives the
-current unit space; redefining it no longer changes the spacing (use the
-unit-space option)
+- \units@separator works as in v1.2: redefining it changes the space before
+(and within) every unit. The unit-space option sets it; whichever is done
+last takes effect
 - Reorganized the documentation: units grouped by quantity, each split into
 SI, cgs and semi-SI, and imperial, US customary and historical units
+- \sqin, \sqft, \sqyd, \sqmi, \cuin, \cuft, \cuyd and \cumi take an
+optional separator argument
+- \Nm takes an optional prefix for the newton
+- Fixed liter=ell, \ohm, \statohm and \abohm, which printed nothing under
+XeLaTeX and LuaLaTeX
+- Fixed \Angstrom under XeLaTeX and LuaLaTeX, where unicode-math replaced it
+with its own symbol, and the placement of the ring on the angstrom symbol
+- disable-astro-mass-radii also leaves \solarluminosity undefined
+- The user manual no longer shows the implementation; the change history and
+index are still included
+- Package options in the documentation are grouped by unit type, in the same
+order as the units
 - Updated email address to txstate.edu
 - Updated the readmes: current description, dependencies, copyright and
 email, links to CTAN and GitHub, corrected build commands (run pdflatex or
