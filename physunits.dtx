@@ -583,7 +583,7 @@
 % \item \SpecialUsageIndex{\are}\index{Area>are=\cs{are}|usage}
 % \cs{are}\oarg{prefix}\oarg{exponent}\oarg{separator}: are, $\are[][][]$.
 % \item \SpecialUsageIndex{\decare}\SpecialUsageIndex{\dekare}\index{Area>decare=\cs{decare}|usage}\index{Area>dekare=\cs{dekare}|usage}
-% \cs{decare}\oarg{exponent}\oarg{separator}: decare, $\decare[][]$. Synonym: \cs{dekare}.
+% \cs{decare}\oarg{exponent}\oarg{separator}: decare, $\decare[][]$. The symbol is always daa, whatever the \texttt{deka} option. Synonym: \cs{dekare}.
 % \item \SpecialUsageIndex{\hectare}\SpecialUsageIndex{\Hectare}\index{Area>hectare=\cs{hectare}|usage}\index{Area>Hectare=\cs{Hectare}|usage}
 % \cs{hectare}\oarg{exponent}\oarg{separator}: \cs{are} with the hecto prefix, $\hectare[][]$. Synonym: \cs{Hectare}.
 % \end{itemize}
@@ -2633,6 +2633,9 @@
 % \end{macro}
 % \begin{macro}{\decare,\dekare}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{decare}, \cs{dekare}.}
+% \cs{decare} is deliberately not \verb|\are[\deca]|: the decare is written
+% daa in practice, so its symbol is fixed and does not follow the
+% \texttt{deka} option (which would give, for example, dka).
 %    \begin{macrocode}
 \NewDocumentCommand\physunits@u@decare{O{}O{\physunits@units@separator}}{\physunits@unit{daa}[][#1][#2]}
 \NewDocumentCommand\physunits@u@dekare{O{}O{\physunits@units@separator}}{\physunits@u@decare[#1][#2]}
