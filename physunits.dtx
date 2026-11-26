@@ -74,7 +74,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{2671}
+% \CheckSum{2695}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -323,8 +323,8 @@
 % \subsection{Combination units}
 % \begin{description}
 % \item[\texttt{combine-slash}] Boolean, default \texttt{false}. When true, the combination units (Section~\ref{sec:combination}) are written with a slash, e.g.\ km/s, instead of a negative exponent, km\,s$^{-1}$.
-% \item[\texttt{Wh}] Values: \texttt{cdot} ($\mathrm{W}\cdot\mathrm{h}$), \texttt{Wh} ($\mathrm{Wh}$). Default \texttt{cdot}; bare key \texttt{cdot}. Affects \cs{Wh}.
-% \item[\texttt{Ah}] Values: \texttt{cdot} ($\mathrm{A}\cdot\mathrm{h}$), \texttt{Ah} ($\mathrm{Ah}$). Default \texttt{cdot}; bare key \texttt{cdot}. Affects \cs{Ah}.
+% \item[\texttt{Wh}] Values: \texttt{cdot} ($\mathrm{W}\cdot\mathrm{h}$), \texttt{Wh} ($\mathrm{Wh}$). Default \texttt{cdot}; bare key \texttt{cdot}. Affects \cs{watthour} and its synonyms.
+% \item[\texttt{Ah}] Values: \texttt{cdot} ($\mathrm{A}\cdot\mathrm{h}$), \texttt{Ah} ($\mathrm{Ah}$). Default \texttt{cdot}; bare key \texttt{cdot}. Affects \cs{amperehour} and its synonyms.
 % \end{description}
 % \subsection{Compatibility}\label{sec:compat}
 % These options decide which commands physunits defines, so they only work
@@ -1122,7 +1122,7 @@
 % \cs{ppb}: parts per billion, $\ppb$.
 % \end{itemize}
 % \subsection{Combination units}\label{sec:combination}
-% Each takes an optional \meta{separator}, the space before the unit, as its last argument. \cs{mps}, \cs{mpss}, \cs{Nm}, \cs{Wh}, \cs{Ah}, \cs{molar}, \cs{bps} and \cs{Bps} also take a \oarg{prefix} first, for the meter, newton, watt, ampere, mole, bit or byte. The per-unit forms follow the \texttt{combine-slash} option; the products (\cs{Nm}, \cs{lbft}, \cs{lbin}, and by default \cs{Wh} and \cs{Ah}) are written with a centered dot. \cs{Nm} is the newton meter; use \cs{numbermetric} for the metric yarn count.
+% Each takes an optional \meta{separator}, the space before the unit, as its last argument. \cs{mps}, \cs{mpss}, \cs{Nm}, \cs{watthour}, \cs{amperehour}, \cs{molar}, \cs{bps} and \cs{Bps} also take a \oarg{prefix} first, for the meter, newton, watt, ampere, mole, bit or byte. The per-unit forms follow the \texttt{combine-slash} option; the products (\cs{Nm}, \cs{lbft}, \cs{lbin}, and by default \cs{watthour} and \cs{amperehour}) are written with a centered dot. \cs{Nm} is the newton meter; use \cs{numbermetric} for the metric yarn count.
 % \begin{itemize}
 % \item \SpecialUsageIndex{\kmps}\index{Combination units>kmps=\cs{kmps}|usage}
 % \cs{kmps}\oarg{separator}: kilometer per second, $\kmps$.
@@ -1150,10 +1150,10 @@
 % \cs{bps}\oarg{prefix}\oarg{separator}: bit per second, $\bps$.
 % \item \SpecialUsageIndex{\Bps}\index{Combination units>Bps=\cs{Bps}|usage}
 % \cs{Bps}\oarg{prefix}\oarg{separator}: byte per second, $\Bps$.
-% \item \SpecialUsageIndex{\Wh}\index{Combination units>Wh=\cs{Wh}|usage}
-% \cs{Wh}\oarg{prefix}\oarg{separator}: watt hour, $\Wh$. Its form is set by the \texttt{Wh} option.
-% \item \SpecialUsageIndex{\Ah}\index{Combination units>Ah=\cs{Ah}|usage}
-% \cs{Ah}\oarg{prefix}\oarg{separator}: ampere hour, $\Ah$. Its form is set by the \texttt{Ah} option.
+% \item \SpecialUsageIndex{\watthour}\index{Combination units>watthour=\cs{watthour}|usage}\SpecialUsageIndex{\Watthour}\index{Combination units>Watthour=\cs{Watthour}|usage}\SpecialUsageIndex{\WattHour}\index{Combination units>WattHour=\cs{WattHour}|usage}\SpecialUsageIndex{\Wh}\index{Combination units>Wh=\cs{Wh}|usage}
+% \cs{watthour}\oarg{prefix}\oarg{separator}: watt hour, $\watthour$. Its form is set by the \texttt{Wh} option. Synonyms: \cs{Watthour}, \cs{WattHour}, \cs{Wh}.
+% \item \SpecialUsageIndex{\amperehour}\index{Combination units>amperehour=\cs{amperehour}|usage}\SpecialUsageIndex{\Amperehour}\index{Combination units>Amperehour=\cs{Amperehour}|usage}\SpecialUsageIndex{\AmpereHour}\index{Combination units>AmpereHour=\cs{AmpereHour}|usage}\SpecialUsageIndex{\Ah}\index{Combination units>Ah=\cs{Ah}|usage}
+% \cs{amperehour}\oarg{prefix}\oarg{separator}: ampere hour, $\amperehour$. Its form is set by the \texttt{Ah} option. Synonyms: \cs{Amperehour}, \cs{AmpereHour}, \cs{Ah}.
 % \item \SpecialUsageIndex{\molar}\index{Combination units>molar=\cs{molar}|usage}
 % \cs{molar}\oarg{prefix}\oarg{separator}: molar (mole per liter), $\molar$. Uses the symbol set by the \texttt{liter} option.
 % \end{itemize}
@@ -1374,7 +1374,7 @@
     tonneCOtwoeq .initial:n = {e},
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\Wh}
+% \begin{macro}{\watthour}
 % \changes{v1.3.0}{2026/11/24}{Added the \texttt{Wh} option.}
 % Key \texttt{Wh}: \texttt{cdot} writes the watt hour as a product with a
 % centered dot; \texttt{Wh} writes it as one symbol. The optional argument
@@ -1383,8 +1383,8 @@
     Wh .code = {
         \str_case:nnF {#1}
         {
-            {cdot}{\DeclareDocumentCommand{\physunits@u@Wh}{O{}O{\physunits@units@separator}}{\ensuremath{\physunits@u@watt[##1][][##2]\cdot\physunits@u@hour[][]}}}
-            {Wh}{\DeclareDocumentCommand{\physunits@u@Wh}{O{}O{\physunits@units@separator}}{\physunits@unit{W\hour@unit}[##1][][##2]}}
+            {cdot}{\DeclareDocumentCommand{\physunits@u@watthour}{O{}O{\physunits@units@separator}}{\ensuremath{\physunits@u@watt[##1][][##2]\cdot\physunits@u@hour[][]}}}
+            {Wh}{\DeclareDocumentCommand{\physunits@u@watthour}{O{}O{\physunits@units@separator}}{\physunits@unit{W\hour@unit}[##1][][##2]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~Wh.~Option~values~are~cdot~or~Wh.}}
     },
@@ -1392,7 +1392,7 @@
     Wh .initial:n = {cdot},
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\Ah}
+% \begin{macro}{\amperehour}
 % \changes{v1.3.0}{2026/11/24}{Added the \texttt{Ah} option.}
 % Key \texttt{Ah}: \texttt{cdot} writes the ampere hour as a product with a
 % centered dot; \texttt{Ah} writes it as one symbol. The optional argument
@@ -1401,8 +1401,8 @@
     Ah .code = {
         \str_case:nnF {#1}
         {
-            {cdot}{\DeclareDocumentCommand{\physunits@u@Ah}{O{}O{\physunits@units@separator}}{\ensuremath{\physunits@u@ampere[##1][][##2]\cdot\physunits@u@hour[][]}}}
-            {Ah}{\DeclareDocumentCommand{\physunits@u@Ah}{O{}O{\physunits@units@separator}}{\physunits@unit{A\hour@unit}[##1][][##2]}}
+            {cdot}{\DeclareDocumentCommand{\physunits@u@amperehour}{O{}O{\physunits@units@separator}}{\ensuremath{\physunits@u@ampere[##1][][##2]\cdot\physunits@u@hour[][]}}}
+            {Ah}{\DeclareDocumentCommand{\physunits@u@amperehour}{O{}O{\physunits@units@separator}}{\physunits@unit{A\hour@unit}[##1][][##2]}}
         }
         {\PackageWarning{physunits}{Unrecognized~option~for~Ah.~Option~values~are~cdot~or~Ah.}}
     },
@@ -4159,8 +4159,19 @@
 %    \end{macrocode}
 % \end{macro}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{Wh} and \cs{Ah}.}
-% \cs{Wh} and \cs{Ah} (watt hour and ampere hour) are defined by the
-% \texttt{Wh} and \texttt{Ah} options.
+% \begin{macro}{\Watthour,\WattHour,\Wh,\Amperehour,\AmpereHour,\Ah}
+% \changes{v1.3.0}{2026/11/24}{Added \cs{watthour}, \cs{Watthour}, \cs{WattHour}, \cs{amperehour}, \cs{Amperehour} and \cs{AmpereHour}; \cs{Wh} and \cs{Ah} are now their synonyms.}
+% \cs{watthour} and \cs{amperehour} are defined by the \texttt{Wh} and
+% \texttt{Ah} options; these are their synonyms.
+%    \begin{macrocode}
+\NewDocumentCommand\physunits@u@Watthour{O{}O{\physunits@units@separator}}{\physunits@u@watthour[#1][#2]}
+\NewDocumentCommand\physunits@u@WattHour{O{}O{\physunits@units@separator}}{\physunits@u@watthour[#1][#2]}
+\NewDocumentCommand\physunits@u@Wh{O{}O{\physunits@units@separator}}{\physunits@u@watthour[#1][#2]}
+\NewDocumentCommand\physunits@u@Amperehour{O{}O{\physunits@units@separator}}{\physunits@u@amperehour[#1][#2]}
+\NewDocumentCommand\physunits@u@AmpereHour{O{}O{\physunits@units@separator}}{\physunits@u@amperehour[#1][#2]}
+\NewDocumentCommand\physunits@u@Ah{O{}O{\physunits@units@separator}}{\physunits@u@amperehour[#1][#2]}
+%    \end{macrocode}
+% \end{macro}
 % \begin{macro}{\molar}
 % \changes{v1.3.0}{2026/11/24}{Added \cs{molar}.}
 % Mole per liter; the optional argument is the prefix of the mole.
@@ -4266,7 +4277,7 @@
     nucleotideunit, dobsonunit, tonneC, tonneCOtwo, tonneCOtwoeq, nibble,
     nybble, bit, byte, baud, flop, kloc, percent, permille, ppm, ppb, mps,
     mpss, Nm, bps, Bps, Wh, Ah, molar,
-    KLOC, loc, LOC, cupunit, masssolar, massjupiter, massearth, massmoon, radiussolar, radiusjupiter, radiusearth, radiusmoon, luminositysolar
+    KLOC, loc, LOC, cupunit, watthour, Watthour, WattHour, amperehour, Amperehour, AmpereHour, masssolar, massjupiter, massearth, massmoon, radiussolar, radiusjupiter, radiusearth, radiusmoon, luminositysolar
   }
   { \__physunits_publish:nn {N} {#1} }
 \clist_map_inline:nn

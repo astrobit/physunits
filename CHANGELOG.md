@@ -102,8 +102,9 @@ with his permission)
 - Added the disable-astro-mass-radii option, which leaves \solarmass,
 \jupitermass, \earthmass, \moonmass, \solarradius, \jupiterradius,
 \earthradius and \moonradius undefined for documents that define their own
-- Added combination units \Wh and \Ah (watt hour and ampere hour, with Wh
-and Ah options for W·h or Wh, and A·h or Ah) and
+- Added combination units \watthour and \amperehour (synonyms \Watthour,
+\WattHour, \Wh and \Amperehour, \AmpereHour, \Ah; with Wh and Ah options
+for W·h or Wh, and A·h or Ah) and
 \molar (mol/L or mol L^-1, following combine-slash and the liter option),
 each with an optional prefix
 - Added \bohr and \Bohr, \rydberg and \Rydberg, \hartree and \Hartree
